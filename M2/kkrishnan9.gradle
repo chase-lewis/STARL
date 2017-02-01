@@ -1,0 +1,43 @@
+// Set up default task
+defaultTasks  'jar'
+
+
+
+
+// Import prebuilt java libraries
+apply plugin: 'java'
+
+
+
+
+//Set up some variables (properties)
+version = '1.0'
+
+
+
+
+
+// Define the jar file
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'kkrishnan9 Gradle Build', 'Implementation-Version': version , 'Main-Class' : 'edu.gatech.oad.antlab.pkg1.AntLabMain', 'Class-Path': 'lib/resources.jar'
+    }
+    archiveName 'kkrishnan9.jar'
+    destinationDir = file(".")
+}
+
+
+
+
+dependencies {
+    compile files('lib/resources.jar')
+}
+
+
+
+
+
+//Set up a location of repositories so that any needed library dependencies can be downloaded
+repositories {
+    mavenCentral()
+}
