@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button tempReturn = (Button) findViewById(R.id.temp_return);
+        Button tempReturn = (Button) findViewById(R.id.main_temp_return);
         tempReturn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 finish();

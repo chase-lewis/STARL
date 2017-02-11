@@ -1,7 +1,6 @@
 package com.starlabs.h2o;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +13,14 @@ public class InitialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
 
-        Button goToLogin = (Button) findViewById(R.id.toLogin);
+        Button goToLogin = (Button) findViewById(R.id.initial_sign_in);
         goToLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 launchLogin();
             }
         });
 
-        Button goToRegister = (Button) findViewById(R.id.toRegister);
+        Button goToRegister = (Button) findViewById(R.id.initial_register);
         goToRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 launchRegister();
