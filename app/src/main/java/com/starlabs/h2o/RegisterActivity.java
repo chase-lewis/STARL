@@ -3,6 +3,7 @@ package com.starlabs.h2o;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -341,6 +342,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
 
             if (success) {
+                //FIXME: temp solution
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                //end of fixme
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
