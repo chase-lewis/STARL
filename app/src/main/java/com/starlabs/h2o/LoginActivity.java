@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -84,6 +85,15 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mProgressView = (ProgressBar) findViewById(R.id.login_progress);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams
+                    .FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color
+                    .colorPrimaryDark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color
+                    .colorPrimaryDark));
+        }
     }
 
     private boolean mayRequestContacts() {

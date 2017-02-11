@@ -1,9 +1,11 @@
 package com.starlabs.h2o;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class InitialActivity extends AppCompatActivity {
@@ -27,6 +29,14 @@ public class InitialActivity extends AppCompatActivity {
             }
         });
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams
+                    .FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color
+                    .colorPrimaryDark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color
+                    .colorPrimaryDark));
+        }
     }
 
     private void launchLogin() {

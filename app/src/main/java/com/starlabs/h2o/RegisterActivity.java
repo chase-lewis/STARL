@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +70,15 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         mProgressView = (ProgressBar) findViewById(R.id.register_progress);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams
+                    .FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color
+                    .colorPrimaryDark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color
+                    .colorPrimaryDark));
+        }
     }
 
     /**
