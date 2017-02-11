@@ -1,2 +1,0 @@
-# STARLabs39
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7bcd50c2e4b046aeb59ad4ad8c1a2166)](https://www.codacy.com/app/nareddyt/STARLabs39?utm_source=github.com&utm_medium=referral&utm_content=chase-lewis/STARLabs39&utm_campaign=badger)
