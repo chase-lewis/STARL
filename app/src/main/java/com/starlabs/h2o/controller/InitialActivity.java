@@ -1,4 +1,4 @@
-package com.starlabs.h2o;
+package com.starlabs.h2o.controller;
 
 import android.content.Intent;
 import android.os.Build;
@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import com.starlabs.h2o.R;
 
 public class InitialActivity extends AppCompatActivity {
 
