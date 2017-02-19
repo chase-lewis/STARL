@@ -2,11 +2,9 @@ package com.starlabs.h2o.controller;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -20,26 +18,18 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
-
-import java.util.HashMap;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-    private static HashMap<String, String> users = new HashMap<>();
-
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -52,15 +42,14 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //HARDCODED USER
-        users.put("user", "pass");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.login_username);
+        mUsernameView.setText("");
 
         mPasswordView = (EditText) findViewById(R.id.login_password);
+        mPasswordView.setText("");
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -99,33 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     .colorPrimaryDark));
         }
 
-//        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-//        User user = new User("test1", "pass");
-//        mDatabase.child("users").child(user.getUsername()).setValue(user);
     }
-
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mUsernameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -142,55 +105,77 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String username = mUsernameView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid username.
         if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
+            mUsernameView.setError("This field is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!isUsernameValid(username)) {
-            mUsernameView.setError(getString(R.string.non_existant_username));
+        } else if (!checkUsername(username)) {
+            mUsernameView.setError("This username is not valid");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!TextUtils.isEmpty(password) && !checkPassword(username, password)) {
-            mPasswordView.setError(getString(R.string.error_incorrect_password));
+        } else if (TextUtils.isEmpty(username)) {
+            mPasswordView.setError("This field is required");
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!checkPassword(password)) {
+            mPasswordView.setError("This password is not valid");
             focusView = mPasswordView;
             cancel = true;
         }
-
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            // Show a progress spinner and wait for 5 seconds for the user to be logged in.
+            // Happens in the background
             showProgress(true);
             mAuthTask = new UserLoginTask(username, password);
             mAuthTask.execute((Void) null);
+
+            // Firebase database authentication
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+            // Create a listener for all the children of users
+            mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot userRef : dataSnapshot.getChildren()) {
+                        // Found a user with a matching username
+                        if (userRef.getKey().equals(username)) {
+                            // Extract out the user object from firebase
+                            User user = userRef.getValue(User.class);
+
+                            if (user.getPassword().equals(password)) {
+                                // Password matches!
+                                // Call the async success method
+                                mAuthTask.onPostExecute(true);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Do nothing yet
+                }
+            });
         }
     }
 
-    private boolean isUsernameValid(String username) {
-        //TODO: Replace this with your own logic
-        return users.containsKey(username);
+    private boolean checkUsername(String username) {
+        return username.length() >= 4;
     }
 
-    private boolean checkPassword(String username, String password) {
-        if (users.get(username) != null) {
-            return users.get(username).equals(password);
-        }
-        return false;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
+    private boolean checkPassword(String password) {
         return password.length() >= 4;
     }
 
@@ -209,27 +194,25 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUsername;
         private final String mPassword;
 
         UserLoginTask(String email, String password) {
-            mEmail = email;
+            mUsername = email;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+            // Sleep for 5 seconds while attempting to login with firebase
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            // TODO: register the new account here.
-            return true;
+            // Login failed
+            return false;
         }
 
         @Override
@@ -238,12 +221,11 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                //FIXME: temp solution
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                //end of fixme
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                // Login failed due to invalid username or a network connection
+                mPasswordView.setError("The username and password combination was incorrect!");
                 mPasswordView.requestFocus();
             }
         }
