@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "272664952090-bbt67f9fblgtu7o3f7ekjuc0gpj21kv1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starlabs.h2o",
+            "certificate_hash": "D7ACF4621ACA19F8A18FE9CE152A5935081964F0"
+          }
+        },
+        {
           "client_id": "272664952090-05v3mo9cr773q63o7uogqvf119g6vdra.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272664952090-05v3mo9cr773q63o7uogqvf119g6vdra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
