@@ -25,44 +25,37 @@ import java.util.HashMap;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
+ * The login screen for username/password authentication
+ *
+ * @author tejun
  */
 public class LoginActivity extends AppCompatActivity {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
+    // Temporarily store user credentials here
     private static HashMap<String, String> users = new HashMap<>();
 
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "test:pass", "admin:root"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+    // Keep track of the login task to ensure we can cancel it if requested
     private UserLoginTask mAuthTask = null;
 
-    // UI references.
+    // UI references
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private ProgressBar mProgressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //HARDCODED USER
+        super.onCreate(savedInstanceState);
+
+        // Set the layout
+        setContentView(R.layout.activity_login);
+
+        // FIXME remove the hardcoded user credentials
         users.put("user", "pass");
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        // Set up the login form.
+        // Set up the login form
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.login_username);
 
+        // Set up the password form
         mPasswordView = (EditText) findViewById(R.id.login_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -75,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -83,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.login_cancel);
         cancelSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -91,44 +86,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the progress bar that shows logging in
+        // Note: This is hidden on startup
         mProgressView = (ProgressBar) findViewById(R.id.login_progress);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams
-                    .FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color
-                    .colorPrimaryDark));
-            getWindow().setNavigationBarColor(getResources().getColor(R.color
-                    .colorPrimaryDark));
-        }
     }
-
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mUsernameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
@@ -136,18 +101,18 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Reset errors.
+        // Reset errors
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
+        // Store values at the time of the login attempt
         String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid username.
+        // Check for valid fields
         if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
@@ -176,21 +141,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks if username is registered
+     */
     private boolean isUsernameValid(String username) {
-        //TODO: Replace this with your own logic
         return users.containsKey(username);
     }
 
+    /**
+     * Checks if the password matches for the user
+     */
     private boolean checkPassword(String username, String password) {
-        if (users.get(username) != null) {
-            return users.get(username).equals(password);
-        }
-        return false;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() >= 4;
+        return users.get(username) != null && users.get(username).equals(password);
     }
 
     /**
@@ -227,15 +189,6 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
             return true;
         }
 
@@ -245,9 +198,8 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                //FIXME: temp solution
+                // Call our start screen activity if the user logs in!
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                //end of fixme
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

@@ -8,13 +8,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+/**
+ * Initial screen that the user starts on.
+ *
+ * @author tejun
+ */
 public class InitialActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the layout
         setContentView(R.layout.activity_initial);
 
+        // Set up the login button
         Button goToLogin = (Button) findViewById(R.id.initial_sign_in);
         goToLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -22,28 +30,26 @@ public class InitialActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the register button
         Button goToRegister = (Button) findViewById(R.id.initial_register);
         goToRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 launchRegister();
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams
-                    .FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color
-                    .colorPrimaryDark));
-            getWindow().setNavigationBarColor(getResources().getColor(R.color
-                    .colorPrimaryDark));
-        }
     }
 
+    /**
+     * Launches the Login activity
+     */
     private void launchLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Launches the Register activity
+     */
     private void launchRegister() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
