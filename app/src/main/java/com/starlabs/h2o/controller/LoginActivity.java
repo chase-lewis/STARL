@@ -27,7 +27,9 @@ import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 
 /**
- * A login screen that offers login via email/password.
+ * The login screen for username/password authentication
+ *
+ * @author tejun
  */
 public class LoginActivity extends AppCompatActivity {
     /**
@@ -35,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private UserLoginTask mAuthTask = null;
 
-    // UI references.
+    // UI references
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private ProgressBar mProgressView;
@@ -43,11 +45,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the layout
         setContentView(R.layout.activity_login);
-        // Set up the login form.
+
+        // Set up the username form
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.login_username);
         mUsernameView.setText("");
 
+        // Set up the password form
         mPasswordView = (EditText) findViewById(R.id.login_password);
         mPasswordView.setText("");
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -61,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -69,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.login_cancel);
         cancelSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -77,22 +85,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the progress bar that shows logging in
+        // Note: This is hidden on startup
         mProgressView = (ProgressBar) findViewById(R.id.login_progress);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams
-                    .FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color
-                    .colorPrimaryDark));
-            getWindow().setNavigationBarColor(getResources().getColor(R.color
-                    .colorPrimaryDark));
-        }
-
     }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Reset errors.
+        // Reset errors
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid username.
+        // Check for valid fields
         if (TextUtils.isEmpty(username)) {
             mUsernameView.setError("This field is required");
             focusView = mUsernameView;
