@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 
@@ -80,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the register attempt.
-        String username = mUsernameView.getText().toString();
+        final String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
         String retypePassword = mPasswordRetypeView.getText().toString();
 
@@ -111,6 +116,28 @@ public class RegisterActivity extends AppCompatActivity {
             focusView = mUsernameView;
             cancel = true;
         }
+
+        //Check if username already exists
+        // Firebase database authentication
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // Create a listener for all the children of users
+//        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot userRef : dataSnapshot.getChildren()) {
+//                    // Found a user with a matching username
+//                    if (userRef.getKey().equals(username)) {
+//                        cancel = true;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Do nothing yet
+//            }
+//        });
 
 
         if (cancel) {
