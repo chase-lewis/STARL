@@ -24,4 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.user_profile_email);
         addressField = (EditText) findViewById(R.id.user_profile_address);
     }
+    
 }
+
+
