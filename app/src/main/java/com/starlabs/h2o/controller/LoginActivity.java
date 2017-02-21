@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    //uncommenting this causes multiple activities to generate!!!!
                     //attemptLogin();
                     return true;
                 }
