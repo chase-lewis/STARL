@@ -146,12 +146,12 @@ public class User implements Parcelable {
      */
     private User(Parcel in) {
         name = in.readString();
-        username = in.readString();;
-        password = in.readString();;
+        username = in.readString();
+        password = in.readString();
 
         //User Profile Stuff
-        address = in.readString();;
-        email = in.readString();;
+        address = in.readString();
+        email = in.readString();
     }
 
     //Required methods for Parcelable Interface
