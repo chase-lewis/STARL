@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.User;
 
 /**
  * The registration screen for username/password authentication
@@ -22,6 +23,7 @@ import com.starlabs.h2o.R;
  * @author tejun
  */
 public class RegisterActivity extends AppCompatActivity {
+    public static final String REG_INTENT = "USER_TEMP";
 
     // Keep track of the login task to ensure we can cancel it if requested
     private UserLoginTask mAuthTask = null;
@@ -176,7 +178,8 @@ public class RegisterActivity extends AppCompatActivity {
             if (success) {
                 //FIXME: temp solution
                 Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
-
+                User user = new User(mUsername, mPassword);
+                profileIntent.putExtra(REG_INTENT, user);
                 startActivity(profileIntent);
                 //end of fixme
                 finish();
