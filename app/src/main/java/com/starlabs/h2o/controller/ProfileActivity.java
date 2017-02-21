@@ -56,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button profileCancelButton = (Button) findViewById(R.id.profile_cancel_button);
         profileCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                onProfileCancelPressed(view);
+                onCancelPressed(view);
             }
         });
     }
@@ -81,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    protected void onProfileCancelPressed(View view) {
+    protected void onCancelPressed(View view) {
         Log.d("Edit", "Cancel User Profile");
         finish();
     }
