@@ -97,10 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
-        }
-
-        //Check if passwords match
-        if (!password.equals(retypePassword)){
+        }else if (!password.equals(retypePassword)){
+            //Check if passwords match
             mPasswordRetypeView.setError(getString(R.string.error_mismatching_password));
             focusView = mPasswordRetypeView;
             cancel = true;
