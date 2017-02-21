@@ -8,15 +8,22 @@ import android.os.Parcelable;
  */
 
 public class User implements Parcelable {
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     private String username;
     private String password;
     private String name;
-
-    //User Profile Stuff
     private String address;
     private String email;
-
-    // TODO add more user profile stuff here
+    private UserType userType;
 
     /**
      * Two parameter constructor for User object
@@ -24,25 +31,54 @@ public class User implements Parcelable {
      * @param username username of User
      * @param password password of User.
      */
-    public User(String username, String password) {
+    public User(String username, String password, UserType userType) {
         this.username = username;
         this.password = password;
         this.name = "";
         this.address = "";
         this.email = "";
+        this.userType = userType;
+    }
+
+
+    /**
+     * Default constructor for firebase
+     */
+    public User() {
+        // LEAVE THIS EMPTY FIREBASE NEEDS IT
     }
 
     /**
-     * Default constructor to create a dummy user
+     * constructor that takes in a parcel and reads data
+     *
+     * @param in parcel with user contents
      */
-    public User() {
-        username = "DUMMY";
-        password = "PASS";
-        name = "Georgia P Burdell";
-        address = "350 Ferst Drive, Atlanta, GA, 30332";
-        email = "gburdell3@gatech.edu";
+    private User(Parcel in) {
+        name = in.readString();
+        username = in.readString();
+        password = in.readString();
+        address = in.readString();
+        email = in.readString();
+        userType = UserType.valueOf(in.readString());
     }
 
+    /**
+     * Getter for User Type
+     *
+     * @return the UserType
+     */
+    public UserType getUserType() {
+        return userType;
+    }
+
+    /**
+     * Setter for User Type
+     *
+     * @param userType the User Type of User
+     */
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
 
     /**
      * Getter for Username
@@ -56,7 +92,7 @@ public class User implements Parcelable {
     /**
      * Setter for Username
      *
-     * @param  username username of User
+     * @param username username of User
      */
     public void setUsername(String username) {
 
@@ -81,7 +117,6 @@ public class User implements Parcelable {
         this.password = password;
     }
 
-
     /**
      * Getter for full name of User
      *
@@ -94,12 +129,11 @@ public class User implements Parcelable {
     /**
      * Setter for full name of user
      *
-     * @param name  full name of user
+     * @param name full name of user
      */
     public void setName(String name) {
         this.name = name;
     }
-
 
     /**
      * Getter for address of User
@@ -113,17 +147,19 @@ public class User implements Parcelable {
     /**
      * Setter for address of User
      *
-     * @param address  address of user
+     * @param address address of user
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
+
+    //Allows User to be parceable
+
     /**
      * Getter for email of user
      *
      * @return email of user
-     *
      */
     public String getEmail() {
         return email;
@@ -138,31 +174,11 @@ public class User implements Parcelable {
         this.email = email;
     }
 
-
-
-    //Allows User to be parceable
-
-    /**
-     * constructor that takes in a parcel and reads data
-     *
-     * @param in    parcel with user contents
-     */
-    private User(Parcel in) {
-        name = in.readString();
-        username = in.readString();
-        password = in.readString();
-
-        //User Profile Stuff
-        address = in.readString();
-        email = in.readString();
-    }
-
     //Required methods for Parcelable Interface
     @Override
     public int describeContents() {
         return 0;
     }
-
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -171,17 +187,7 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(address);
         dest.writeString(email);
+        dest.writeString(userType.toString());
     }
-
-    public static final Parcelable.Creator<User> CREATOR
-            = new Parcelable.Creator<User>() {
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
 }

@@ -2,13 +2,6 @@
     <string name="app_name">H2O</string>
     <string name="user_prompt">Choose a user</string>
 
-    <string-array name="user_arrays">
-        <item>User</item>
-        <item>Worker</item>
-        <item>Manager</item>
-        <item>Administrator</item>
-    </string-array>
-
     <!-- Strings related to initial activity-->
     <string name="goTo_login">Sign in</string>
     <string name="goTo_register">Register</string>

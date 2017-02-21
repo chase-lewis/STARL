@@ -89,7 +89,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/register_user_type"
-                android:entries="@array/user_arrays"
                 android:prompt="@string/user_prompt"/>
 
             <Space

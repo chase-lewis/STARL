@@ -16,10 +16,9 @@ import com.starlabs.h2o.model.User;
  */
 public class MainActivity extends AppCompatActivity {
 
+    public static final String PROF_UPDATE = "PROF_UPDATE";
     private final int CODE = 392;
     private User user;
-
-    public static final String PROF_UPDATE = "PROF_UPDATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

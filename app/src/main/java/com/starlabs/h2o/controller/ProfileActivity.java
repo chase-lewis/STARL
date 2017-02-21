@@ -2,8 +2,8 @@ package com.starlabs.h2o.controller;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -68,7 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
         user.setEmail(emailField.getText().toString());
         user.setAddress(addressField.getText().toString());
 
-        //TODO:Chase do thing here
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(user.getUsername()).setValue(user);
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {

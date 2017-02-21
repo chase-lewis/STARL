@@ -9,18 +9,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
+import com.starlabs.h2o.model.UserType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The registration screen for username/password authentication
@@ -38,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private EditText mPasswordRetypeView;
     private ProgressBar mProgressView;
+    private Spinner mUserTypeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the progress bar for registration
         mProgressView = (ProgressBar) findViewById(R.id.register_progress);
+
+        // Set up the user type spinner
+        mUserTypeView = (Spinner) findViewById(R.id.register_user_type);
+        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, UserType.values());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mUserTypeView.setAdapter(adapter);
     }
 
     /**
@@ -97,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
-        }else if (!password.equals(retypePassword)){
+        } else if (!password.equals(retypePassword)) {
             //Check if passwords match
             mPasswordRetypeView.setError(getString(R.string.error_mismatching_password));
             focusView = mPasswordRetypeView;
@@ -208,8 +222,10 @@ public class RegisterActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
+                UserType userType = (UserType) mUserTypeView.getSelectedItem();
+                User user = new User(mUsername, mPassword, userType);
+
                 Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
-                User user = new User(mUsername, mPassword);
                 profileIntent.putExtra(REG_INTENT, user);
                 profileIntent.putExtra(ProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
