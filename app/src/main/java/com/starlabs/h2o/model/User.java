@@ -36,7 +36,7 @@ public class User implements Parcelable {
     /**
      * Getter for Username
      *
-     * @return username username of User
+     * @return username of User
      */
     public String getUsername() {
         return username;
