@@ -1,5 +1,6 @@
 package com.starlabs.h2o.controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 
@@ -18,7 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText addressField;
 
 
-    private User _user;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +35,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Not Sure if we need to check if there is a parcelable object, since the user should be created by now
 //        if (getIntent().hasExtra(RegisterActivity.REG_INTENT)) {
-        _user = (User) getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
+        user = (User) getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
 //        } else {
 //
 //        }
 
-        nameField.setText(_user.getName());
-        emailField.setText(_user.getEmail());
-        addressField.setText(_user.getAddress());
+        nameField.setText(user.getName());
+        emailField.setText(user.getEmail());
+        addressField.setText(user.getAddress());
 
         Button profileDoneButton = (Button) findViewById(R.id.profile_done_button);
         profileDoneButton.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +62,15 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onProfileDonePressed(View view) {
         Log.d("Edit", "Add User Profile");
 
-        _user.setName(nameField.getText().toString());
-        _user.setEmail(emailField.getText().toString());
-        _user.setAddress(addressField.getText().toString());
+        user.setName(nameField.getText().toString());
+        user.setEmail(emailField.getText().toString());
+        user.setAddress(addressField.getText().toString());
 
-        //Chase do thing here
+        //TODO:Chase do thing here
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(user.getUsername()).setValue(user);
+        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+        finish();
     }
 
     protected void onProfileCancelPressed(View view) {
