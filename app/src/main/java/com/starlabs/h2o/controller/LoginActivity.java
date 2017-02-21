@@ -143,22 +143,22 @@ public class LoginActivity extends AppCompatActivity {
             // Firebase database authentication
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-            // Create a listener for all the children of users
-            mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            // Create a listener for specific username
+            mDatabase.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot userRef : dataSnapshot.getChildren()) {
+                    if (dataSnapshot.getValue() != null) {
                         // Found a user with a matching username
-                        if (userRef.getKey().equals(username)) {
-                            // Extract out the user object from firebase
-                            User user = userRef.getValue(User.class);
+                        // Extract out the user object from firebase
+                        User user = dataSnapshot.getValue(User.class);
 
-                            if (user.getPassword().equals(password)) {
-                                // Password matches!
-                                // Call the async success method
-                                mAuthTask.onPostExecute(true);
-                            }
+                        if (user.getPassword().equals(password)) {
+                            // Password matches!
+                            // Call the async success method
+                            mAuthTask.onPostExecute(true);
                         }
+                    } else {
+                        // Do nothing, let the timer handle the failure
                     }
                 }
 
