@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid user, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptRegister() {
@@ -79,9 +79,10 @@ public class RegisterActivity extends AppCompatActivity {
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        String email = mUsernameView.getText().toString();
+        // Store values at the time of the register attempt.
+        String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String retypePassword = mPasswordRetypeView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -93,28 +94,34 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        //Check if passwords match
+        if (!password.equals(retypePassword)){
+            mPasswordRetypeView.setError(getString(R.string.error_mismatching_password));
+            focusView = mPasswordRetypeView;
+            cancel = true;
+        }
+
+        // Check for a valid username.
+        if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
             cancel = true;
-        } else if (!isUsernameValid(email)) {
+        } else if (!isUsernameValid(username)) {
             mUsernameView.setError(getString(R.string.error_invalid_username));
             focusView = mUsernameView;
             cancel = true;
         }
 
-        // TODO check if passwords match
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
+            // There was an error; don't attempt registration and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(username, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -151,8 +158,8 @@ public class RegisterActivity extends AppCompatActivity {
         private final String mUsername;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mUsername = email;
+        UserLoginTask(String userName, String password) {
+            mUsername = userName;
             mPassword = password;
         }
 
