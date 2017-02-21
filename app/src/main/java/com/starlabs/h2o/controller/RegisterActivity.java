@@ -214,6 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
                 User user = new User(mUsername, mPassword);
                 profileIntent.putExtra(REG_INTENT, user);
+                profileIntent.putExtra(ProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
                 //end of fixme
                 finish();

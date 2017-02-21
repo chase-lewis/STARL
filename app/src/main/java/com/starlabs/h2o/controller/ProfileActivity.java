@@ -1,5 +1,6 @@
 package com.starlabs.h2o.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.starlabs.h2o.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    public static final String TO_MAIN = "TO_MAIN";
 
     private EditText nameField;
     private EditText emailField;
@@ -69,7 +71,13 @@ public class ProfileActivity extends AppCompatActivity {
         //TODO:Chase do thing here
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(user.getUsername()).setValue(user);
-        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+        if (getIntent().getBooleanExtra(TO_MAIN, false)) {
+            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+        } else {
+            Intent result = new Intent();
+            result.putExtra(MainActivity.PROF_UPDATE, user);
+            setResult(Activity.RESULT_OK, result);
+        }
         finish();
     }
 

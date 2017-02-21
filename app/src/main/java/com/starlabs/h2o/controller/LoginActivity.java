@@ -31,6 +31,8 @@ import com.starlabs.h2o.model.User;
  * @author tejun
  */
 public class LoginActivity extends AppCompatActivity {
+    public static final String LOG_INTENT = "USER_LOG";
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    //attemptLogin();
                     return true;
                 }
                 return false;
@@ -155,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user.getPassword().equals(password)) {
                             // Password matches!
                             // Call the async success method
+                            mAuthTask.setUser(user);
                             mAuthTask.onPostExecute(true);
                         }
                     } else {
@@ -195,10 +198,15 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mUsername;
         private final String mPassword;
+        private User mUser;
 
         UserLoginTask(String email, String password) {
             mUsername = email;
             mPassword = password;
+        }
+
+        protected void setUser(User user) {
+            this.mUser = user;
         }
 
         @Override
@@ -220,7 +228,11 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                finish();
+                Intent profileIntent = new Intent(LoginActivity.this, MainActivity.class);
+                profileIntent.putExtra(LOG_INTENT, mUser);
+                startActivity(profileIntent);
                 finish();
             } else {
                 // Login failed due to invalid username or a network connection

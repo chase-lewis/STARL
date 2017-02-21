@@ -29,4 +29,14 @@
         android:layout_marginTop="57dp"
         android:id="@+id/main_temp_return"
         android:textSize="14sp" />
+
+    <Button
+        android:text="Profile Edit!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/main_profile_edit"
+        android:textSize="14sp"
+        android:layout_below="@+id/main_temp_return"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
