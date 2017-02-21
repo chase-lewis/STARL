@@ -175,7 +175,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (success) {
                 //FIXME: temp solution
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
+
+                startActivity(profileIntent);
                 //end of fixme
                 finish();
             } else {

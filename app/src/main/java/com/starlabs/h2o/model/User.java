@@ -29,9 +29,17 @@ public class User implements Parcelable {
         this.password = password;
     }
 
+    /**
+     * Default constructor to create a dummy user
+     */
     public User() {
-        // Default constructor required for calls to firebase
+        username = "DUMMY";
+        password = "PASS";
+        name = "Georgia P Burdell";
+        address = "350 Ferst Drive, Atlanta, GA, 30332";
+        email = "gburdell3@gatech.edu";
     }
+
 
     /**
      * Getter for Username
@@ -55,7 +63,7 @@ public class User implements Parcelable {
     /**
      * Getter for Password
      *
-     * @return password  password of user
+     * @return password of user
      */
     public String getPassword() {
         return password;
@@ -64,7 +72,7 @@ public class User implements Parcelable {
     /**
      * Setter for Password
      *
-     * @param password passweord of User
+     * @param password password of User
      */
     public void setPassword(String password) {
         this.password = password;
@@ -74,7 +82,7 @@ public class User implements Parcelable {
     /**
      * Getter for full name of User
      *
-     * @return name full name of user
+     * @return full name of user
      */
     public String getName() {
         return name;
