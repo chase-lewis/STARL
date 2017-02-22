@@ -16,8 +16,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 import com.starlabs.h2o.model.UserType;
@@ -85,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
+     * Attempts to register the account specified by the login form.
      * If there are form errors (invalid user, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
@@ -100,11 +103,46 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Store values at the time of the register attempt.
         final String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String retypePassword = mPasswordRetypeView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+        final String retypePassword = mPasswordRetypeView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
+
+        // Check for a valid username.
+        if (TextUtils.isEmpty(username)) {
+            mUsernameView.setError(getString(R.string.error_field_required));
+            focusView = mUsernameView;
+            cancel = true;
+        } else if (!isUsernameValid(username)) {
+            mUsernameView.setError(getString(R.string.error_invalid_username));
+            focusView = mUsernameView;
+            cancel = true;
+        } else{
+            //Check if username already exists
+            // Firebase database authentication
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+            //Create new AsyncTask for user being registered
+            mAuthTask = new UserLoginTask(username, password);
+
+            // Create a listener for a specific username
+            mDatabase.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        // Found a user with a matching username
+                        //checkUserTask.onPostExecute(true);
+                        mAuthTask.setFoundUser(true);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Do nothing yet
+                }
+            });
+        }
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -118,38 +156,6 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check for a valid username.
-        if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
-            cancel = true;
-        } else if (!isUsernameValid(username)) {
-            mUsernameView.setError(getString(R.string.error_invalid_username));
-            focusView = mUsernameView;
-            cancel = true;
-        }
-
-        //Check if username already exists
-        // Firebase database authentication
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        // Create a listener for all the children of users
-//        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot userRef : dataSnapshot.getChildren()) {
-//                    // Found a user with a matching username
-//                    if (userRef.getKey().equals(username)) {
-//                        cancel = true;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Do nothing yet
-//            }
-//        });
 
 
         if (cancel) {
@@ -160,7 +166,6 @@ public class RegisterActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -196,16 +201,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         private final String mUsername;
         private final String mPassword;
+        private boolean foundUser;
 
         UserLoginTask(String userName, String password) {
             mUsername = userName;
             mPassword = password;
+            foundUser = false;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: register the new account here.
-
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -221,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (success && !foundUser) {
                 UserType userType = (UserType) mUserTypeView.getSelectedItem();
                 User user = new User(mUsername, mPassword, userType);
 
@@ -230,6 +235,9 @@ public class RegisterActivity extends AppCompatActivity {
                 profileIntent.putExtra(ProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
                 finish();
+            } else if(foundUser){
+                mUsernameView.setError(getString(R.string.error_username_exists));
+                mUsernameView.requestFocus();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -241,6 +249,11 @@ public class RegisterActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
+
+        public void setFoundUser(boolean foundUser) {
+            this.foundUser = foundUser;
+        }
     }
+
 }
 
