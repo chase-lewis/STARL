@@ -71,7 +71,9 @@ public class ProfileActivity extends AppCompatActivity {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(user.getUsername()).setValue(user);
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
-            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+            Intent toMain = new Intent(ProfileActivity.this, MainActivity.class);
+            toMain.putExtra(LoginActivity.LOG_INTENT, user);
+            startActivity(toMain);
         } else {
             Intent result = new Intent();
             result.putExtra(MainActivity.PROF_UPDATE, user);
