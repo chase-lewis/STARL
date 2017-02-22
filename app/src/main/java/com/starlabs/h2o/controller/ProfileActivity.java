@@ -14,15 +14,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 
+/**
+ * Activity to edit the user profile
+ *
+ * @author tejun
+ */
 public class ProfileActivity extends AppCompatActivity {
 
+    // Intent message ids
     public static final String TO_MAIN = "TO_MAIN";
 
+    // Field views
     private EditText nameField;
     private EditText emailField;
     private EditText addressField;
 
-
+    // User passed into this activity
     private User user;
 
     @Override
@@ -30,22 +37,20 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
+        // Set up the fields for the user profile
         nameField = (EditText) findViewById(R.id.user_profile_name_field);
         emailField = (EditText) findViewById(R.id.user_profile_email);
         addressField = (EditText) findViewById(R.id.user_profile_address);
 
-        //Not Sure if we need to check if there is a parcelable object, since the user should be created by now
-//        if (getIntent().hasExtra(RegisterActivity.REG_INTENT)) {
+        // Get the user from the intent message
         user = (User) getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
-//        } else {
-//
-//        }
 
+        // Set up the text pre-defined values
         nameField.setText(user.getName());
         emailField.setText(user.getEmail());
         addressField.setText(user.getAddress());
 
+        // Done button setup
         Button profileDoneButton = (Button) findViewById(R.id.profile_done_button);
         profileDoneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -53,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        // Cancle button setup
         Button profileCancelButton = (Button) findViewById(R.id.profile_cancel_button);
         profileCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -67,19 +73,22 @@ public class ProfileActivity extends AppCompatActivity {
      * @param view the parameter View
      */
     protected void onProfileDonePressed(View view) {
-        Log.d("Edit", "Add User Profile");
-
+        // Update the user model from the fields
         user.setName(nameField.getText().toString());
         user.setEmail(emailField.getText().toString());
         user.setAddress(addressField.getText().toString());
 
+        // Store the user in firebase, overwritting any values already there
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(user.getUsername()).setValue(user);
+
+        // Transition to the proper activity
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
             Intent toMain = new Intent(ProfileActivity.this, MainActivity.class);
             toMain.putExtra(LoginActivity.LOG_INTENT, user);
             startActivity(toMain);
         } else {
+            // TODO
             Intent result = new Intent();
             result.putExtra(MainActivity.PROF_UPDATE, user);
             setResult(Activity.RESULT_OK, result);
@@ -93,7 +102,6 @@ public class ProfileActivity extends AppCompatActivity {
      * @param view the parameter View
      */
     protected void onCancelPressed(View view) {
-        Log.d("Edit", "Cancel User Profile");
         finish();
     }
 

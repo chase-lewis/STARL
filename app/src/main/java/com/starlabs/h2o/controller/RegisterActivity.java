@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for valid fields
-        if (!TextUtils.isEmpty(username)) {
+        if (TextUtils.isEmpty(username)) {
             // Check if the username is empty
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
             mUsernameView.setError("The username must be at least 4 characters");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!TextUtils.isEmpty(password)) {
+        } else if (TextUtils.isEmpty(password)) {
             // Check if the password is not empty
             mPasswordView.setError("A password is required");
             focusView = mPasswordView;
