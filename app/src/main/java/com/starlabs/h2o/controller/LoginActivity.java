@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!isValidUsername(username)) {
+        } else if (!isUsernameValid(username)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be at least 4 characters");
             focusView = mUsernameView;
@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
             mPasswordView.setError("A password is required");
             focusView = mPasswordView;
             cancel = true;
-        } else if (!isValidPassword(password)) {
+        } else if (!isPasswordValid(password)) {
             // Check if the password is not valid
             mPasswordView.setError("The password must be at least 4 characters");
             focusView = mPasswordView;
@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner and wait for 2 seconds for the user to be logged in.
             // Happens in the background
             showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
+            mAuthTask = new UserLoginTask();
             mAuthTask.execute((Void) null);
 
             // Firebase database authentication
@@ -178,11 +178,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidUsername(String username) {
+
+    /**
+     * Checks if a username is valid
+     */
+    private boolean isUsernameValid(String username) {
         return username.length() >= 4;
     }
 
-    private boolean isValidPassword(String password) {
+    /**
+     * Checks if a password is valid
+     */
+    private boolean isPasswordValid(String password) {
         return password.length() >= 4;
     }
 
@@ -201,13 +208,10 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mUsername;
-        private final String mPassword;
         private User mUser;
 
-        UserLoginTask(String email, String password) {
-            mUsername = email;
-            mPassword = password;
+        UserLoginTask() {
+            // Do nothing
         }
 
         /**
