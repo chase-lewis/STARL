@@ -56,10 +56,8 @@ public class MainActivity extends AppCompatActivity {
      * @param data the data returned
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE) {
-            if (resultCode == RESULT_OK) {
+        if (requestCode == CODE && resultCode == RESULT_OK) {
                 user = (User) data.getParcelableExtra(PROF_UPDATE);
-            }
         }
     }
 }

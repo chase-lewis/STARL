@@ -25,11 +25,6 @@ import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 import com.starlabs.h2o.model.UserType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * The registration screen for username/password authentication
