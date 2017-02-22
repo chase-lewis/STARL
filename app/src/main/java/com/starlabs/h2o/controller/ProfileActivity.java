@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +12,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
+import com.starlabs.h2o.model.UserType;
+import com.starlabs.h2o.model.Worker;
 
 /**
  * Activity to edit the user profile
@@ -21,9 +22,10 @@ import com.starlabs.h2o.model.User;
  */
 public class ProfileActivity extends AppCompatActivity {
 
+
     // Intent message ids
     public static final String TO_MAIN = "TO_MAIN";
-
+    public static final String PROF_UPDATE = "PROF UPDATE";
     // Field views
     private EditText nameField;
     private EditText emailField;
@@ -43,7 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
         addressField = (EditText) findViewById(R.id.user_profile_address);
 
         // Get the user from the intent message
-        user = (User) getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
+        user = getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
+        if (user.getUserType() == UserType.WORKER) {
+            user = (Worker) user;
+        }
 
         // Set up the text pre-defined values
         nameField.setText(user.getName());
@@ -58,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Cancle button setup
+        // Cancel button setup
         Button profileCancelButton = (Button) findViewById(R.id.profile_cancel_button);
         profileCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -78,19 +83,19 @@ public class ProfileActivity extends AppCompatActivity {
         user.setEmail(emailField.getText().toString());
         user.setAddress(addressField.getText().toString());
 
-        // Store the user in firebase, overwritting any values already there
+        // Store the user in firebase, overwriting any values already there
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(user.getUsername()).setValue(user);
 
         // Transition to the proper activity
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
             Intent toMain = new Intent(ProfileActivity.this, MainActivity.class);
-            toMain.putExtra(LoginActivity.LOG_INTENT, user);
+            toMain.putExtra(MainActivity.USER_TO_MAIN, user);
             startActivity(toMain);
         } else {
             // TODO
             Intent result = new Intent();
-            result.putExtra(MainActivity.PROF_UPDATE, user);
+            result.putExtra(PROF_UPDATE, user);
             setResult(Activity.RESULT_OK, result);
         }
         finish();

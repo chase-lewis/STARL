@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 import com.starlabs.h2o.model.UserType;
+import com.starlabs.h2o.model.Worker;
 
 
 /**
@@ -230,6 +231,9 @@ public class RegisterActivity extends AppCompatActivity {
                 // Create the new user from the fields
                 UserType userType = (UserType) mUserTypeView.getSelectedItem();
                 User user = new User(mUsername, mPassword, userType);
+                if (userType == UserType.WORKER) {
+                    user = new Worker(mUsername, mPassword, userType);
+                }
 
                 // Transition to the Profile activity
                 Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
