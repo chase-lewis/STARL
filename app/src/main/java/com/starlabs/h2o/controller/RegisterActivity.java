@@ -236,7 +236,7 @@ public class RegisterActivity extends AppCompatActivity {
                 profileIntent.putExtra(ProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
                 finish();
-            } else if (foundUser){
+            } else if (foundUser) {
                 // Username is already taken
                 mUsernameView.setError("This username is already taken");
                 mUsernameView.requestFocus();
