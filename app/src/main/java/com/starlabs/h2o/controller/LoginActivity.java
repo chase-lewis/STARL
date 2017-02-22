@@ -114,20 +114,24 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for valid fields
-        if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError("This field is required");
+        if (!TextUtils.isEmpty(username)) {
+            // Check if the username is empty
+            mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!checkUsername(username)) {
-            mUsernameView.setError("This username is not valid");
+        } else if (!isValidUsername(username)) {
+            // Check if the username is not valid
+            mUsernameView.setError("The username must be at least 4 characters");
             focusView = mUsernameView;
             cancel = true;
-        } else if (TextUtils.isEmpty(username)) {
-            mPasswordView.setError("This field is required");
+        } else if (!TextUtils.isEmpty(password)) {
+            // Check if the password is not empty
+            mPasswordView.setError("A password is required");
             focusView = mPasswordView;
             cancel = true;
-        } else if (!checkPassword(password)) {
-            mPasswordView.setError("This password is not valid");
+        } else if (!isValidPassword(password)) {
+            // Check if the password is not valid
+            mPasswordView.setError("The password must be at least 4 characters");
             focusView = mPasswordView;
             cancel = true;
         }
@@ -137,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner and wait for 5 seconds for the user to be logged in.
+            // Show a progress spinner and wait for 2 seconds for the user to be logged in.
             // Happens in the background
             showProgress(true);
             mAuthTask = new UserLoginTask(username, password);
@@ -174,11 +178,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkUsername(String username) {
+    private boolean isValidUsername(String username) {
         return username.length() >= 4;
     }
 
-    private boolean checkPassword(String password) {
+    private boolean isValidPassword(String password) {
         return password.length() >= 4;
     }
 
@@ -206,15 +210,20 @@ public class LoginActivity extends AppCompatActivity {
             mPassword = password;
         }
 
-        protected void setUser(User user) {
+        /**
+         * Sets the user
+         *
+         * @param user the user
+         */
+        void setUser(User user) {
             this.mUser = user;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // Sleep for 5 seconds while attempting to login with firebase
+            // Sleep for 2 seconds while attempting to login with firebase
             try {
-                Thread.sleep(5000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
@@ -229,8 +238,7 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                finish();
+                // Transition to the main activity with the retrieved user
                 Intent profileIntent = new Intent(LoginActivity.this, MainActivity.class);
                 profileIntent.putExtra(LOG_INTENT, mUser);
                 startActivity(profileIntent);
