@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.Person;
 import com.starlabs.h2o.model.User;
 import com.starlabs.h2o.model.UserType;
 import com.starlabs.h2o.model.Worker;
@@ -19,18 +20,13 @@ import com.starlabs.h2o.model.Worker;
 public class MainActivity extends AppCompatActivity {
     public static final String USER_TO_MAIN = "USER_TO_MAIN";
     private final int CODE = 392;
-    private User user;
+    private Person user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         user = getIntent().getParcelableExtra(USER_TO_MAIN);
-        if (user.getUserType() == UserType.WORKER) {
-            Worker temp = (Worker) user;
-            System.out.println(user instanceof Worker);
-            temp.createReport();
-        }
 
         // Set the layout
         setContentView(R.layout.activity_main);
@@ -64,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE && resultCode == RESULT_OK) {
             user = data.getParcelableExtra(ProfileActivity.PROF_UPDATE);
-            if (user.getUserType() == UserType.WORKER) {
-                System.out.println(user instanceof Worker);
-            }
         }
     }
 }

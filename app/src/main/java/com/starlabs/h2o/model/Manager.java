@@ -7,26 +7,26 @@ import android.os.Parcelable;
  * Created by chase on 2/22/17.
  */
 
-public class Worker extends User {
-    public static final Parcelable.Creator<Worker> CREATOR
-            = new Parcelable.Creator<Worker>() {
-        public Worker createFromParcel(Parcel in) {
-            return new Worker(in);
+public class Manager extends Worker {
+    public static final Parcelable.Creator<Manager> CREATOR
+            = new Parcelable.Creator<Manager>() {
+        public Manager createFromParcel(Parcel in) {
+            return new Manager(in);
         }
 
-        public Worker[] newArray(int size) {
-            return new Worker[size];
+        public Manager[] newArray(int size) {
+            return new Manager[size];
         }
     };
 
     /**
-     * Two parameter constructor for Worker object
+     * Two parameter constructor for Manager object
      *
-     * @param username username of Worker
-     * @param password password of Worker
-     * @param userType the type of Worker
+     * @param username username of Manager
+     * @param password password of Manager
+     * @param userType the type of Manager
      */
-    public Worker(String username, String password, UserType userType) {
+    public Manager(String username, String password, UserType userType) {
         super(username, password, userType);
     }
 
@@ -34,16 +34,16 @@ public class Worker extends User {
     /**
      * Default constructor for firebase
      */
-    public Worker() {
+    public Manager() {
         //required for firebase;
     }
 
     /**
      * constructor that takes in a parcel and reads data
      *
-     * @param in parcel with Worker contents
+     * @param in parcel with Manager contents
      */
-    private Worker(Parcel in) {
+    private Manager(Parcel in) {
         setName(in.readString());
         setUsername(in.readString());
         setPassword(in.readString());

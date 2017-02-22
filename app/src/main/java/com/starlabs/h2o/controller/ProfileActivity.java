@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.Person;
 import com.starlabs.h2o.model.User;
 import com.starlabs.h2o.model.UserType;
 import com.starlabs.h2o.model.Worker;
@@ -32,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText addressField;
 
     // User passed into this activity
-    private User user;
+    private Person user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Get the user from the intent message
         user = getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
-        if (user.getUserType() == UserType.WORKER) {
-            user = (Worker) user;
-        }
 
         // Set up the text pre-defined values
         nameField.setText(user.getName());

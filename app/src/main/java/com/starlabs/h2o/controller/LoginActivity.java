@@ -23,7 +23,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.Administrator;
+import com.starlabs.h2o.model.Manager;
+import com.starlabs.h2o.model.Person;
 import com.starlabs.h2o.model.User;
+import com.starlabs.h2o.model.UserType;
+import com.starlabs.h2o.model.Worker;
 
 /**
  * The login screen for username/password authentication
@@ -156,7 +161,14 @@ public class LoginActivity extends AppCompatActivity {
                     if (dataSnapshot.getValue() != null) {
                         // Found a user with a matching username
                         // Extract out the user object from firebase
-                        User user = dataSnapshot.getValue(User.class);
+                        Person user = dataSnapshot.getValue(User.class);
+                        if (user.getUserType() == UserType.WORKER) {
+                            user = dataSnapshot.getValue(Worker.class);
+                        } else if (user.getUserType() == UserType.MANAGER) {
+                            user = dataSnapshot.getValue(Manager.class);
+                        } else if (user.getUserType() == UserType.ADMINISTRATOR) {
+                            user = dataSnapshot.getValue(Administrator.class);
+                        }
 
                         if (user.getPassword().equals(password)) {
                             // Password matches!
@@ -205,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private User mUser;
+        private Person mUser;
 
         UserLoginTask() {
             // Do nothing
@@ -216,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
          *
          * @param user the user
          */
-        void setUser(User user) {
+        void setUser(Person user) {
             this.mUser = user;
         }
 

@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by tejun on 2/19/2017.
  */
 
-public class User implements Parcelable {
+public class User extends Person {
     public static final Parcelable.Creator<User> CREATOR
             = new Parcelable.Creator<User>() {
         public User createFromParcel(Parcel in) {
@@ -18,26 +18,16 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-    private String username;
-    private String password;
-    private String name;
-    private String address;
-    private String email;
-    private UserType userType;
 
     /**
      * Two parameter constructor for User object
      *
      * @param username username of User
-     * @param password password of User.
+     * @param password password of User
+     * @param userType the type of User
      */
     public User(String username, String password, UserType userType) {
-        this.username = username;
-        this.password = password;
-        this.name = "";
-        this.address = "";
-        this.email = "";
-        this.userType = userType;
+        super(username, password, userType);
     }
 
 
@@ -51,127 +41,15 @@ public class User implements Parcelable {
     /**
      * constructor that takes in a parcel and reads data
      *
-     * @param in parcel with user contents
+     * @param in parcel with User contents
      */
     private User(Parcel in) {
-        name = in.readString();
-        username = in.readString();
-        password = in.readString();
-        address = in.readString();
-        email = in.readString();
-        userType = UserType.valueOf(in.readString());
-    }
-
-    /**
-     * Getter for User Type
-     *
-     * @return the UserType
-     */
-    public UserType getUserType() {
-        return userType;
-    }
-
-    /**
-     * Setter for User Type
-     *
-     * @param userType the User Type of User
-     */
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
-    /**
-     * Getter for Username
-     *
-     * @return username of User
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Setter for Username
-     *
-     * @param username username of User
-     */
-    public void setUsername(String username) {
-
-        this.username = username;
-    }
-
-    /**
-     * Getter for Password
-     *
-     * @return password of user
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Setter for Password
-     *
-     * @param password password of User
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Getter for full name of User
-     *
-     * @return full name of user
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Setter for full name of user
-     *
-     * @param name full name of user
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Getter for address of User
-     *
-     * @return address of user
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * Setter for address of User
-     *
-     * @param address address of user
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-
-    //Allows User to be parceable
-
-    /**
-     * Getter for email of user
-     *
-     * @return email of user
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Setter for email of user
-     *
-     * @param email email of user
-     */
-    public void setEmail(String email) {
-        this.email = email;
+        setName(in.readString());
+        setUsername(in.readString());
+        setPassword(in.readString());
+        setAddress(in.readString());
+        setEmail(in.readString());
+        setUserType(UserType.valueOf(in.readString()));
     }
 
     //Required methods for Parcelable Interface
@@ -182,12 +60,12 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(username);
-        dest.writeString(password);
-        dest.writeString(address);
-        dest.writeString(email);
-        dest.writeString(userType.toString());
+        dest.writeString(getName());
+        dest.writeString(getUsername());
+        dest.writeString(getPassword());
+        dest.writeString(getAddress());
+        dest.writeString(getEmail());
+        dest.writeString(getUserType().toString());
     }
 
 }
