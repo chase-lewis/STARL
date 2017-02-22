@@ -61,6 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to exit the activity to main.
+     * @param view the parameter View
+     */
     protected void onProfileDonePressed(View view) {
         Log.d("Edit", "Add User Profile");
 
@@ -82,6 +86,10 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Method to exit the activity back to caller.
+     * @param view the parameter View
+     */
     protected void onCancelPressed(View view) {
         Log.d("Edit", "Cancel User Profile");
         finish();
