@@ -25,6 +25,7 @@ import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.User;
 import com.starlabs.h2o.model.UserType;
 
+
 /**
  * The registration screen for username/password authentication
  *

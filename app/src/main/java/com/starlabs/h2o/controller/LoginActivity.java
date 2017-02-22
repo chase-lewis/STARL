@@ -165,8 +165,6 @@ public class LoginActivity extends AppCompatActivity {
                             mAuthTask.setUser(user);
                             mAuthTask.onPostExecute(true);
                         }
-                    } else {
-                        // Do nothing, let the timer handle the failure
                     }
                 }
 
