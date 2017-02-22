@@ -104,21 +104,38 @@ public class RegisterActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid username.
-        if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
+        // Check for valid fields
+        if (!TextUtils.isEmpty(username)) {
+            // Check if the username is empty
+            mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
         } else if (!isUsernameValid(username)) {
-            mUsernameView.setError(getString(R.string.error_invalid_username));
+            // Check if the username is not valid
+            mUsernameView.setError("The username must be at least 4 characters");
             focusView = mUsernameView;
             cancel = true;
-        } else{
-            //Check if username already exists
+        } else if (!TextUtils.isEmpty(password)) {
+            // Check if the password is not empty
+            mPasswordView.setError("A password is required");
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordValid(password)) {
+            // Check if the password is not valid
+            mPasswordView.setError("The password must be at least 4 characters");
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!password.equals(retypePassword)) {
+            // Check if retype password does not match
+            mPasswordRetypeView.setError("Passwords do not match");
+            focusView = mPasswordRetypeView;
+            cancel = true;
+        } else {
+            // Check if username already exists
             // Firebase database authentication
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-            //Create new AsyncTask for user being registered
+            // Create new AsyncTask for user being registered
             mAuthTask = new UserLoginTask(username, password);
 
             // Create a listener for a specific username
@@ -127,8 +144,10 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         // Found a user with a matching username
-                        //checkUserTask.onPostExecute(true);
                         mAuthTask.setFoundUser(true);
+                    } else {
+                        // No user found
+                        mAuthTask.setFoundUser(false);
                     }
                 }
 
@@ -138,20 +157,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         }
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        } else if (!password.equals(retypePassword)) {
-            //Check if passwords match
-            mPasswordRetypeView.setError(getString(R.string.error_mismatching_password));
-            focusView = mPasswordRetypeView;
-            cancel = true;
-        }
-
-
 
         if (cancel) {
             // There was an error; don't attempt registration and focus the first
@@ -222,20 +227,20 @@ public class RegisterActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success && !foundUser) {
+                // Create the new user from the fields
                 UserType userType = (UserType) mUserTypeView.getSelectedItem();
                 User user = new User(mUsername, mPassword, userType);
 
+                // Transition to the Profile activity
                 Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
                 profileIntent.putExtra(REG_INTENT, user);
                 profileIntent.putExtra(ProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
                 finish();
-            } else if(foundUser){
-                mUsernameView.setError(getString(R.string.error_username_exists));
+            } else if (foundUser) {
+                // Username is already taken
+                mUsernameView.setError("This username is already taken");
                 mUsernameView.requestFocus();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
             }
         }
 
@@ -245,7 +250,12 @@ public class RegisterActivity extends AppCompatActivity {
             showProgress(false);
         }
 
-        public void setFoundUser(boolean foundUser) {
+        /**
+         * Setter for the found user boolean
+         *
+         * @param foundUser whether the username already exists
+         */
+        void setFoundUser(boolean foundUser) {
             this.foundUser = foundUser;
         }
     }

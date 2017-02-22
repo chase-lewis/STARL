@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
      * Method called when startActivityForResult returns
      *
      * @param requestCode the code indicating the original caller
-     * @param resultCode the code indicating whether the return was successful
-     * @param data the data returned
+     * @param resultCode  the code indicating whether the return was successful
+     * @param data        the data returned
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE && resultCode == RESULT_OK) {

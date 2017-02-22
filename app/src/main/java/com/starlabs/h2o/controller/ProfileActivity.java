@@ -63,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     /**
      * Method to exit the activity to main.
+     *
      * @param view the parameter View
      */
     protected void onProfileDonePressed(View view) {
@@ -88,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     /**
      * Method to exit the activity back to caller.
+     *
      * @param view the parameter View
      */
     protected void onCancelPressed(View view) {
