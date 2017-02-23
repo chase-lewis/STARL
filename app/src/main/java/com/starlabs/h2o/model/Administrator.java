@@ -51,20 +51,4 @@ public class Administrator extends Person {
         setEmail(in.readString());
         setUserType(UserType.valueOf(in.readString()));
     }
-
-    //Required methods for Parcelable Interface
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getName());
-        dest.writeString(getUsername());
-        dest.writeString(getPassword());
-        dest.writeString(getAddress());
-        dest.writeString(getEmail());
-        dest.writeString(getUserType().toString());
-    }
 }

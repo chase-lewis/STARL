@@ -8,16 +8,6 @@ import android.os.Parcelable;
  */
 
 public abstract class Person implements Parcelable {
-//    public static final Parcelable.Creator<Person> CREATOR
-//            = new Parcelable.Creator<Person>() {
-//        public Person createFromParcel(Parcel in) {
-//            return new Person(in);
-//        }
-//
-//        public Person[] newArray(int size) {
-//            return new Person[size];
-//        }
-//    };
     private String username;
     private String password;
     private String name;
