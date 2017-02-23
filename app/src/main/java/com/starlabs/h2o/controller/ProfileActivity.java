@@ -12,9 +12,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.Person;
-import com.starlabs.h2o.model.User;
-import com.starlabs.h2o.model.UserType;
-import com.starlabs.h2o.model.Worker;
 
 /**
  * Activity to edit the user profile
@@ -22,7 +19,6 @@ import com.starlabs.h2o.model.Worker;
  * @author tejun
  */
 public class ProfileActivity extends AppCompatActivity {
-
 
     // Intent message ids
     public static final String TO_MAIN = "TO_MAIN";

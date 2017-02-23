@@ -8,9 +8,6 @@ import android.widget.Button;
 
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.Person;
-import com.starlabs.h2o.model.User;
-import com.starlabs.h2o.model.UserType;
-import com.starlabs.h2o.model.Worker;
 
 /**
  * Main screen a user sees after logging in
