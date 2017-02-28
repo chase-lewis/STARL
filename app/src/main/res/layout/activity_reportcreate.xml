@@ -57,24 +57,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/reportReportName"
-        android:layout_weight="0.06"
+        android:layout_weight="0.12"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
     <TextView
-        android:text="Location"
+        android:text="Latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView6" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/reportLocationLat" />
+
     <TextView
-    android:text="[Location]"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/reportLocation"
-    android:layout_weight="0.06"
-    android:textColor="@android:color/black"
-    android:textSize="18sp" />
+        android:text="Longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/reportLocationLong"
+        android:layout_weight="0.08" />
 
     <TextView
         android:text="Water Type"

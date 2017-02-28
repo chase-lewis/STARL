@@ -36,7 +36,8 @@ public class ReportCreateActivity extends AppCompatActivity {
     // Field views
     private TextView reportDateText;
     private TextView reportNumText;
-    private TextView reportLocText;
+    private EditText reportLocTextLat;
+    private EditText reportLocTextLong;
     private TextView reportReporterName;
     private Spinner waterType;
     private Spinner waterCond;
@@ -60,7 +61,8 @@ public class ReportCreateActivity extends AppCompatActivity {
         // Set up the fields for the user profile
         reportDateText = (TextView) findViewById(R.id.reportDate);
         reportNumText = (TextView) findViewById(R.id.reportNum);
-        reportLocText = (TextView) findViewById(R.id.reportLocation);
+        reportLocTextLat = (EditText) findViewById(R.id.reportLocationLat);
+        reportLocTextLong = (EditText) findViewById(R.id.reportLocationLong);
         reportReporterName = (TextView) findViewById(R.id.reportReportName);
         waterType = (Spinner) findViewById(R.id.WaterTypeSpin);
         waterCond = (Spinner) findViewById(R.id.WaterCondSpin);
@@ -89,7 +91,8 @@ public class ReportCreateActivity extends AppCompatActivity {
             reportNumText.setText(report.getReportNumber());
 
             //TODO: Teju and Chase fix this with location
-            reportLocText.setText(report.getLocation().toString());
+            reportLocTextLat.setText(Double.toString(report.getLocation().getLatitude()));
+            reportLocTextLong.setText(Double.toString(report.getLocation().getLongitude()));
 
             waterType.setSelection(report.getType().ordinal());
             waterCond.setSelection(report.getCondition().ordinal());
@@ -102,7 +105,6 @@ public class ReportCreateActivity extends AppCompatActivity {
 
             //TODO: Teju and Chase fix this with location
             //erase this line and make it update with GPS
-            reportLocText.setText("TEJU AND CHASE ISLAND");
         }
 
 
