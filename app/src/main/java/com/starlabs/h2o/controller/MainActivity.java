@@ -16,6 +16,8 @@ import com.starlabs.h2o.model.Person;
  */
 public class MainActivity extends AppCompatActivity {
     public static final String USER_TO_MAIN = "USER_TO_MAIN";
+    public static final String MAIN_TO_REPORT_USER = "USER";
+    public static final String MAIN_TO_REPORT_REPORT = "REPORT";
     private final int CODE = 392;
     private Person user;
 

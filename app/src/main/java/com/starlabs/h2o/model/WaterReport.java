@@ -17,6 +17,9 @@ public class WaterReport {
     private WaterType type;
     private WaterCondition condition;
 
+    //Keeps Track of Report Number
+    private static int numberReports = 0;
+
     public WaterReport(Time time, int reportNumber, String reporterName, Location location, WaterType type, WaterCondition condition) {
         creationTime = time;
         this.reportNumber = reportNumber;
@@ -24,7 +27,18 @@ public class WaterReport {
         this.location = location;
         this.type = type;
         this.condition = condition;
+        numberReports += 1;
     }
+
+    /**
+     * Gets the creation time
+     *
+     * @return The time the report was created
+     */
+    public int getNumberReports() {
+        return numberReports;
+    }
+
 
     /**
      * Gets the creation time
