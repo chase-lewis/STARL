@@ -15,6 +15,7 @@ public class WaterReport {
     private WaterCondition condition;
 
     //Keeps Track of Report Number
+    //TODO: Replace with firebase report count (static var not kept between runs)
     private static int numberReports = 0;
 
     public WaterReport(String time, int reportNumber, String reporterName, Location location, WaterType type, WaterCondition condition) {
@@ -27,12 +28,23 @@ public class WaterReport {
         numberReports += 1;
     }
 
+    public WaterReport() {
+        //no arg constructor for firebase
+        //FIXME: get rid of this once firebase is working
+        numberReports++;
+    }
+
+    @Override
+    public String toString() {
+        return reportNumber + ": " + reporterName;
+    }
+
     /**
      * Gets the creation time
      *
      * @return The time the report was created
      */
-    public int getNumberReports() {
+    public static int getNumberReports() {
         return numberReports;
     }
 

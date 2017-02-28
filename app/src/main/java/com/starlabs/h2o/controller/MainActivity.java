@@ -16,8 +16,6 @@ import com.starlabs.h2o.model.Person;
  */
 public class MainActivity extends AppCompatActivity {
     public static final String USER_TO_MAIN = "USER_TO_MAIN";
-    public static final String MAIN_TO_REPORT_USER = "USER";
-    public static final String MAIN_TO_REPORT_REPORT = "REPORT";
     private final int CODE = 392;
     private Person user;
 
@@ -44,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
                 profileIntent.putExtra(RegisterActivity.REG_INTENT, user);
                 startActivityForResult(profileIntent, CODE);
+            }
+        });
+
+        Button waterReportEdit = (Button) findViewById(R.id.water_report_create);
+        waterReportEdit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent profileIntent = new Intent(MainActivity.this, ReportCreateActivity.class);
+                profileIntent.putExtra(ReportCreateActivity.TO_REPORT_USER, user);
+                startActivity(profileIntent);
             }
         });
 

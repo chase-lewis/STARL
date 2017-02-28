@@ -30,8 +30,8 @@ import com.starlabs.h2o.model.WaterType;
 public class ReportCreateActivity extends AppCompatActivity {
 
     // Intent message ids
-    public static final String TO_MAIN = "TO_MAIN";
-    public static final String PROF_UPDATE = "PROF UPDATE";
+    public static final String TO_REPORT_USER = "TO_WATER_REPORT";
+    public static final String WATER_REPORT_TO_REPORT = "WRTR";
 
     // Field views
     private TextView reportDateText;
@@ -55,16 +55,18 @@ public class ReportCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportcreate);
 
+        report = new WaterReport();
+
         // Set up the fields for the user profile
-        reportDateText = (TextView) findViewById(R.id.reportDate);;
-        reportNumText = (TextView) findViewById(R.id.reportNum);;
-        reportLocText = (TextView) findViewById(R.id.reportLocation);;
-        reportReporterName = (TextView) findViewById(R.id.reportReportName);;
-        waterType = (Spinner) findViewById(R.id.WaterTypeSpin);;
-        waterCond = (Spinner) findViewById(R.id.WaterCondSpin);;
+        reportDateText = (TextView) findViewById(R.id.reportDate);
+        reportNumText = (TextView) findViewById(R.id.reportNum);
+        reportLocText = (TextView) findViewById(R.id.reportLocation);
+        reportReporterName = (TextView) findViewById(R.id.reportReportName);
+        waterType = (Spinner) findViewById(R.id.WaterTypeSpin);
+        waterCond = (Spinner) findViewById(R.id.WaterCondSpin);
 
         // Get the user from the intent message
-        user = getIntent().getParcelableExtra(MainActivity.MAIN_TO_REPORT_USER);
+        user = getIntent().getParcelableExtra(TO_REPORT_USER);
 
         // Set up the text pre-defined values
         reportReporterName.setText(user.getName());
@@ -79,7 +81,7 @@ public class ReportCreateActivity extends AppCompatActivity {
         waterCond.setAdapter(condAdapter);
 
         //TODO: Someone remember to send a parcel from main class when editing
-        if (getIntent().hasExtra(MainActivity.MAIN_TO_REPORT_REPORT)) {
+        if (getIntent().hasExtra(WATER_REPORT_TO_REPORT)) {
 
             editing = true;
 
@@ -96,7 +98,7 @@ public class ReportCreateActivity extends AppCompatActivity {
             editing = false;
 
             reportDateText.setText(new Date( ).toString());
-            reportNumText.setText(report.getNumberReports());
+            reportNumText.setText("" + WaterReport.getNumberReports());
 
             //TODO: Teju and Chase fix this with location
             //erase this line and make it update with GPS
@@ -148,6 +150,9 @@ public class ReportCreateActivity extends AppCompatActivity {
 //            result.putExtra(PROF_UPDATE, user);
 //            setResult(Activity.RESULT_OK, result);
 //        }
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("waterReports").child(report.toString()).setValue(report);
+
         finish();
     }
 
