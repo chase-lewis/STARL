@@ -15,7 +15,7 @@
         android:layout_weight="0.08" />
 
     <TextView
-        android:text="Date & Time:"
+        android:text="Date and Time:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
