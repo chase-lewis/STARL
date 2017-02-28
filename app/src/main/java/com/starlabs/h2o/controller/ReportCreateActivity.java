@@ -5,16 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.Person;
+import com.starlabs.h2o.model.WaterCondition;
 import com.starlabs.h2o.model.WaterReport;
+import com.starlabs.h2o.model.WaterType;
+
 
 /**
  * Activity to create Water Report
@@ -30,8 +36,8 @@ public class ReportCreateActivity extends AppCompatActivity {
     // Field views
     private TextView reportDateText;
     private TextView reportNumText;
-    private TextView reportLocField;
-    private TextView reportReporterNmae;
+    private TextView reportLocText;
+    private TextView reportReporterName;
     private Spinner waterType;
     private Spinner waterCond;
 
@@ -52,8 +58,8 @@ public class ReportCreateActivity extends AppCompatActivity {
         // Set up the fields for the user profile
         reportDateText = (TextView) findViewById(R.id.reportDate);;
         reportNumText = (TextView) findViewById(R.id.reportNum);;
-        reportLocField = (TextView) findViewById(R.id.reportLocation);;
-        reportReporterNmae = (TextView) findViewById(R.id.reportReportName);;
+        reportLocText = (TextView) findViewById(R.id.reportLocation);;
+        reportReporterName = (TextView) findViewById(R.id.reportReportName);;
         waterType = (Spinner) findViewById(R.id.WaterTypeSpin);;
         waterCond = (Spinner) findViewById(R.id.WaterCondSpin);;
 
@@ -61,12 +67,40 @@ public class ReportCreateActivity extends AppCompatActivity {
         user = getIntent().getParcelableExtra(MainActivity.MAIN_TO_REPORT_USER);
 
         // Set up the text pre-defined values
-        reportReporterNmae.setText(user.getName());
+        reportReporterName.setText(user.getName());
 
+
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, WaterType.values());
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        waterType.setAdapter(typeAdapter);
+
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, WaterCondition.values());
+        condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        waterCond.setAdapter(condAdapter);
+
+        //TODO: Someone remember to send a parcel from main class when editing
         if (getIntent().hasExtra(MainActivity.MAIN_TO_REPORT_REPORT)) {
+
             editing = true;
+
+            reportDateText.setText(report.getCreationTime());
+            reportNumText.setText(report.getReportNumber());
+
+            //TODO: Teju and Chase fix this with location
+            reportLocText.setText(report.getLocation().toString());
+
+            waterType.setSelection(report.getType().ordinal());
+            waterCond.setSelection(report.getCondition().ordinal());
+
         } else {
             editing = false;
+
+            reportDateText.setText(new Date( ).toString());
+            reportNumText.setText(report.getNumberReports());
+
+            //TODO: Teju and Chase fix this with location
+            //erase this line and make it update with GPS
+            reportLocText.setText("TEJU AND CHASE ISLAND");
         }
 
 
@@ -93,6 +127,7 @@ public class ReportCreateActivity extends AppCompatActivity {
      * @param view the parameter View
      */
     protected void onReportCreatePressed(View view) {
+//        TODO: Teju and Chase Firebase Stuff
 //        // Update the user model from the fields
 //        user.setName(nameField.getText().toString());
 //        user.setEmail(emailField.getText().toString());
@@ -113,7 +148,7 @@ public class ReportCreateActivity extends AppCompatActivity {
 //            result.putExtra(PROF_UPDATE, user);
 //            setResult(Activity.RESULT_OK, result);
 //        }
-//        finish();
+        finish();
     }
 
     /**

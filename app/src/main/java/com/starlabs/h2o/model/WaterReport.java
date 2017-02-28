@@ -2,15 +2,12 @@ package com.starlabs.h2o.model;
 
 import android.location.Location;
 
-import java.sql.Time;
-import java.util.Date;
-
 /**
  * Created by chase on 2/22/17.
  */
 
 public class WaterReport {
-    private Time creationTime;
+    private String creationTime;
     private int reportNumber;
     private String reporterName;
     private Location location;
@@ -20,7 +17,7 @@ public class WaterReport {
     //Keeps Track of Report Number
     private static int numberReports = 0;
 
-    public WaterReport(Time time, int reportNumber, String reporterName, Location location, WaterType type, WaterCondition condition) {
+    public WaterReport(String time, int reportNumber, String reporterName, Location location, WaterType type, WaterCondition condition) {
         creationTime = time;
         this.reportNumber = reportNumber;
         this.reporterName = reporterName;
@@ -45,7 +42,7 @@ public class WaterReport {
      *
      * @return The time the report was created
      */
-    public Time getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
@@ -54,7 +51,7 @@ public class WaterReport {
      *
      * @param creationTime The time the report was created
      */
-    public void setCreationTime(Time creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 
