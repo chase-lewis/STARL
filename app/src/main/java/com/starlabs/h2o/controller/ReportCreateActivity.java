@@ -153,6 +153,36 @@ public class ReportCreateActivity extends AppCompatActivity {
         report.setType((WaterType) waterTypeSpinner.getSelectedItem());
         report.setCondition((WaterCondition) waterCondSpinner.getSelectedItem());
         // TODO set the location
+        double latitude;
+        double longitude;
+
+        reportLocLatEditText.setError(null);
+        reportLocLongEditText.setError(null);
+
+        try {
+            latitude = Double.parseDouble(reportLocLatEditText.getText().toString());
+        } catch (NumberFormatException e) {
+            reportLocLatEditText.setError("Must pass in a valid number");
+            return;
+        }
+
+        try {
+            longitude = Double.parseDouble(reportLocLongEditText.getText().toString());
+        } catch (NumberFormatException e) {
+            reportLocLongEditText.setError("Must pass in a valid number");
+            return;
+        }
+
+        if (latitude < -90 || latitude > 90) {
+            reportLocLatEditText.setError("Latitude must be between -90 and 90");
+            return;
+        } else if (longitude < -180 || longitude > 180) {
+            reportLocLongEditText.setError("Longitude must be between -180 and 180");
+            return;
+        } else {
+            report.getLocation().setLatitude(latitude);
+            report.getLocation().setLongitude(longitude);
+        }
 
         // Store data in firebase
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
