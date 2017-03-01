@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.Person;
+import com.starlabs.h2o.model.user.Person;
 
 /**
  * Main screen a user sees after logging in

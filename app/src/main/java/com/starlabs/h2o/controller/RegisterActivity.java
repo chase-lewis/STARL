@@ -22,12 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.Administrator;
-import com.starlabs.h2o.model.Manager;
-import com.starlabs.h2o.model.Person;
-import com.starlabs.h2o.model.User;
-import com.starlabs.h2o.model.UserType;
-import com.starlabs.h2o.model.Worker;
+import com.starlabs.h2o.model.user.Administrator;
+import com.starlabs.h2o.model.user.Manager;
+import com.starlabs.h2o.model.user.Person;
+import com.starlabs.h2o.model.user.User;
+import com.starlabs.h2o.model.user.UserType;
+import com.starlabs.h2o.model.user.Worker;
 
 
 /**

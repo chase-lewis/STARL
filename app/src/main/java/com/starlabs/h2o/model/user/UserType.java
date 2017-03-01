@@ -1,4 +1,4 @@
-package com.starlabs.h2o.model;
+package com.starlabs.h2o.model.user;
 
 import java.io.Serializable;
 

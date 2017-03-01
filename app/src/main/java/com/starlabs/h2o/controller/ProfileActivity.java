@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.Person;
+import com.starlabs.h2o.model.user.Person;
 
 /**
  * Activity to edit the user profile

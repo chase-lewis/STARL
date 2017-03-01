@@ -1,7 +1,6 @@
 package com.starlabs.h2o.controller;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,15 +10,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.Date;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.Person;
 import com.starlabs.h2o.model.WaterCondition;
 import com.starlabs.h2o.model.WaterReport;
 import com.starlabs.h2o.model.WaterType;
+import com.starlabs.h2o.model.user.Person;
+
+import java.util.Date;
 
 
 /**
@@ -36,11 +38,11 @@ public class ReportCreateActivity extends AppCompatActivity {
     // Field views
     private TextView reportDateText;
     private TextView reportNumText;
-    private EditText reportLocTextLat;
-    private EditText reportLocTextLong;
+    private EditText reportLocLatEditText;
+    private EditText reportLocLongEditText;
     private TextView reportReporterName;
-    private Spinner waterType;
-    private Spinner waterCond;
+    private Spinner waterTypeSpinner;
+    private Spinner waterCondSpinner;
 
     // User passed into this activity
     private Person user;
@@ -48,65 +50,79 @@ public class ReportCreateActivity extends AppCompatActivity {
     // Report potentially being passed in
     private WaterReport report;
 
-    // Flag telling if this water report is being edited
-    private boolean editing;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportcreate);
 
-        report = new WaterReport();
-
         // Set up the fields for the user profile
         reportDateText = (TextView) findViewById(R.id.reportDate);
         reportNumText = (TextView) findViewById(R.id.reportNum);
-        reportLocTextLat = (EditText) findViewById(R.id.reportLocationLat);
-        reportLocTextLong = (EditText) findViewById(R.id.reportLocationLong);
+        reportLocLatEditText = (EditText) findViewById(R.id.reportLocationLat);
+        reportLocLongEditText = (EditText) findViewById(R.id.reportLocationLong);
         reportReporterName = (TextView) findViewById(R.id.reportReportName);
-        waterType = (Spinner) findViewById(R.id.WaterTypeSpin);
-        waterCond = (Spinner) findViewById(R.id.WaterCondSpin);
+        waterTypeSpinner = (Spinner) findViewById(R.id.WaterTypeSpin);
+        waterCondSpinner = (Spinner) findViewById(R.id.WaterCondSpin);
 
         // Get the user from the intent message
         user = getIntent().getParcelableExtra(TO_REPORT_USER);
 
-        // Set up the text pre-defined values
-        reportReporterName.setText(user.getName());
-
-
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, WaterType.values());
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterType.values());
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterType.setAdapter(typeAdapter);
+        waterTypeSpinner.setAdapter(typeAdapter);
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, WaterCondition.values());
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterCond.setAdapter(condAdapter);
+        waterCondSpinner.setAdapter(condAdapter);
 
-        //TODO: Someone remember to send a parcel from main class when editing
+        // TODO: Someone remember to send a parcel from main class when editing
         if (getIntent().hasExtra(WATER_REPORT_TO_REPORT)) {
+            // TODO get the report from the intent
 
-            editing = true;
-
-            reportDateText.setText(report.getCreationTime());
-            reportNumText.setText(report.getReportNumber());
-
-            //TODO: Teju and Chase fix this with location
-            reportLocTextLat.setText(Double.toString(report.getLocation().getLatitude()));
-            reportLocTextLong.setText(Double.toString(report.getLocation().getLongitude()));
-
-            waterType.setSelection(report.getType().ordinal());
-            waterCond.setSelection(report.getCondition().ordinal());
+            // Change all the values that need to be updated now
+            report.setCreationDate(new Date());
+            report.setReporterName(user.getName());
+            // TODO set the new location
 
         } else {
-            editing = false;
+            // Create a new report
+            report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
-            reportDateText.setText(new Date( ).toString());
-            reportNumText.setText("" + WaterReport.getNumberReports());
+            // Firebase database for getting the number of reports
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-            //TODO: Teju and Chase fix this with location
-            //erase this line and make it update with GPS
+            // Create a listener for specific username
+            mDatabase.child("waterReports").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    int numReports = 0;
+                    for (DataSnapshot ignored : dataSnapshot.getChildren()) {
+                        numReports++;
+                    }
+
+                    // Set the report number
+                    report.setReportNumber(numReports + 1);
+                    reportNumText.setText(Integer.toString(report.getReportNumber()));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Do nothing
+                }
+            });
+
+            // TODO: Teju and Chase fix this with location
+            // erase this line and make it update with GPS
         }
 
+        // Set all the text views
+        reportReporterName.setText(user.getName());
+        reportDateText.setText(report.getCreationDate().toString());
+        reportNumText.setText(Integer.toString(report.getReportNumber()));
+        reportLocLatEditText.setText(Double.toString(report.getLocation().getLatitude()));
+        reportLocLongEditText.setText(Double.toString(report.getLocation().getLongitude()));
+        waterTypeSpinner.setSelection(report.getType().ordinal());
+        waterCondSpinner.setSelection(report.getCondition().ordinal());
 
         // Create button setup
         Button reportCreateButton = (Button) findViewById(R.id.reportCreateButton);
@@ -131,29 +147,16 @@ public class ReportCreateActivity extends AppCompatActivity {
      * @param view the parameter View
      */
     protected void onReportCreatePressed(View view) {
-//        TODO: Teju and Chase Firebase Stuff
-//        // Update the user model from the fields
-//        user.setName(nameField.getText().toString());
-//        user.setEmail(emailField.getText().toString());
-//        user.setAddress(addressField.getText().toString());
-//
-//        // Store the user in firebase, overwriting any values already there
-//        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("users").child(user.getUsername()).setValue(user);
-//
-//        // Transition to the proper activity
-//        if (getIntent().getBooleanExtra(TO_MAIN, false)) {
-//            Intent toMain = new Intent(ProfileActivity.this, MainActivity.class);
-//            toMain.putExtra(MainActivity.USER_TO_MAIN, user);
-//            startActivity(toMain);
-//        } else {
-//            // TODO
-//            Intent result = new Intent();
-//            result.putExtra(PROF_UPDATE, user);
-//            setResult(Activity.RESULT_OK, result);
-//        }
+        // TODO verify that the values in the fields are correct
+
+        // Update the values in the model from the UI
+        report.setType((WaterType) waterTypeSpinner.getSelectedItem());
+        report.setCondition((WaterCondition) waterCondSpinner.getSelectedItem());
+        // TODO set the location
+
+        // Store data in firebase
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("waterReports").child(report.toString()).setValue(report);
+        mDatabase.child("waterReports").child("" + report.getReportNumber()).setValue(report);
 
         finish();
     }

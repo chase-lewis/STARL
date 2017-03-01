@@ -2,36 +2,34 @@ package com.starlabs.h2o.model;
 
 import android.location.Location;
 
+import java.util.Date;
+import java.util.Random;
+
 /**
- * Created by chase on 2/22/17.
+ * POJO for a Water Report
+ *
+ * @author chase, tejun
  */
 
 public class WaterReport {
-    private String creationTime;
-    private int reportNumber;
     private String reporterName;
+    private Date creationDate;
+    private int reportNumber;
     private Location location;
     private WaterType type;
     private WaterCondition condition;
 
-    //Keeps Track of Report Number
-    //TODO: Replace with firebase report count (static var not kept between runs)
-    private static int numberReports = 0;
-
-    public WaterReport(String time, int reportNumber, String reporterName, Location location, WaterType type, WaterCondition condition) {
-        creationTime = time;
-        this.reportNumber = reportNumber;
+    public WaterReport(String reporterName, Location location, WaterType type, WaterCondition condition) {
         this.reporterName = reporterName;
         this.location = location;
         this.type = type;
         this.condition = condition;
-        numberReports += 1;
+        this.creationDate = new Date();
+        this.reportNumber = new Random().nextInt();
     }
 
     public WaterReport() {
-        //no arg constructor for firebase
-        //FIXME: get rid of this once firebase is working
-        numberReports++;
+        // Don't remove this firebase needs a no-arg constructor!
     }
 
     @Override
@@ -44,18 +42,8 @@ public class WaterReport {
      *
      * @return The time the report was created
      */
-    public static int getNumberReports() {
-        return numberReports;
-    }
-
-
-    /**
-     * Gets the creation time
-     *
-     * @return The time the report was created
-     */
-    public String getCreationTime() {
-        return creationTime;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
     /**
@@ -63,8 +51,8 @@ public class WaterReport {
      *
      * @param creationTime The time the report was created
      */
-    public void setCreationTime(String creationTime) {
-        this.creationTime = creationTime;
+    public void setCreationDate(Date creationTime) {
+        this.creationDate = creationTime;
     }
 
     /**
