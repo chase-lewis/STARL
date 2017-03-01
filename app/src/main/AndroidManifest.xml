@@ -22,8 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.MainActivity" />
-        <activity android:name=".controller.ProfileActivity"></activity>
-        <activity android:name=".controller.ReportCreateActivity"></activity>
+        <activity android:name=".controller.ProfileActivity" />
+        <activity android:name=".controller.ReportCreateActivity" />
+        <activity android:name=".controller.ViewReportsActivity"></activity>
     </application>
 
 </manifest>
