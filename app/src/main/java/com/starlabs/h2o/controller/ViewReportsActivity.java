@@ -16,6 +16,11 @@ import com.starlabs.h2o.model.WaterReport;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to view water reports in a recycler view
+ *
+ * @author Rishi
+ */
 public class ViewReportsActivity extends AppCompatActivity {
     private RecyclerView mRecycler;
     private RVAdapter adapter;

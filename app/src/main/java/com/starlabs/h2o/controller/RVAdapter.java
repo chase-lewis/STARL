@@ -12,7 +12,9 @@ import com.starlabs.h2o.model.WaterReport;
 import java.util.List;
 
 /**
- * Created by Rishi on 3/1/2017.
+ * Class for representing water reports in views
+ *
+ * @author Rishi
  */
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CustomViewHolder>{
