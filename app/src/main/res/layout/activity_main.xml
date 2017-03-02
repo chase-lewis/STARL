@@ -30,17 +30,6 @@
         android:layout_below="@+id/main_temp_text"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="TEMP: Welcome to the app!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_temp_text"
-        android:fontFamily="sans-serif"
-        android:textSize="24sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="168dp" />
-
     <Button
         android:text="Create Report"
         android:layout_width="wrap_content"
@@ -49,4 +38,23 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="26dp"
         android:id="@+id/water_report_create" />
+    <Button
+        android:text="View Reports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/water_report_create"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:id="@+id/water_reports_view" />
+
+    <TextView
+        android:text="TEMP: Welcome to the app!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_temp_text"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:layout_marginTop="106dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

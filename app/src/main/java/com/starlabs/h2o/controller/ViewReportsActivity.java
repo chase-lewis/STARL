@@ -44,7 +44,7 @@ public class ViewReportsActivity extends AppCompatActivity {
             }
         });
 
-        //adapter = new RVAdapter(waterReports);
+        adapter = new RVAdapter(waterReports);
         mRecycler.setAdapter(adapter);
 
     }

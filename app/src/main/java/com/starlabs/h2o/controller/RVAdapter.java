@@ -23,15 +23,26 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CustomViewHolder>{
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-
+        TextView reporterName;
+        TextView reportNumber;
+        TextView reportDate;
+        TextView waterLocation;
+        TextView waterType;
+        TextView waterCondition;
         public CustomViewHolder(View view) {
             super(view);
+            reporterName = (TextView) view.findViewById(R.id.reporter_name);
+            reportNumber = (TextView) view.findViewById(R.id.report_title);
+            reportDate = (TextView) view.findViewById(R.id.report_date);
+            waterLocation = (TextView) view.findViewById(R.id.water_location);
+            waterType = (TextView) view.findViewById(R.id.water_type);
+            waterCondition = (TextView) view.findViewById(R.id.water_condition);
         }
     }
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_view_reports, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.waterreport_list_row, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
@@ -40,6 +51,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CustomViewHolder>{
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         WaterReport waterReport = waterReports.get(position);
 
+        holder.reporterName.setText("Reported by " + waterReport.getReporterName());
+        holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
+        holder.reportDate.setText(waterReport.getCreationDate().toString());
+        holder.waterLocation.setText("Latitude: " + waterReport.getLocation().getLatitude()
+                + " Longitude: " + waterReport.getLocation().getLongitude());
+        holder.waterType.setText(waterReport.getType().toString());
+        holder.waterCondition.setText(waterReport.getCondition().toString());
     }
 
     @Override
