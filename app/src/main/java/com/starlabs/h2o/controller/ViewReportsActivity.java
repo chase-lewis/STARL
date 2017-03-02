@@ -38,6 +38,9 @@ public class ViewReportsActivity extends AppCompatActivity {
                 for (DataSnapshot report : dataSnapshot.getChildren()) {
                     waterReports.add(report.getValue(WaterReport.class));
                 }
+
+                adapter = new RVAdapter(waterReports);
+                mRecycler.setAdapter(adapter);
             }
 
             @Override
@@ -45,9 +48,5 @@ public class ViewReportsActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-
-        adapter = new RVAdapter(waterReports);
-        mRecycler.setAdapter(adapter);
-
     }
 }
