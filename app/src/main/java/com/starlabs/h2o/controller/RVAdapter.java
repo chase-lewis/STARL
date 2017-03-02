@@ -54,8 +54,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CustomViewHolder>{
         holder.reporterName.setText("Reported by " + waterReport.getReporterName());
         holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
         holder.reportDate.setText(waterReport.getCreationDate().toString());
-        holder.waterLocation.setText("Latitude: " + waterReport.getLocation().getLatitude()
-                + " Longitude: " + waterReport.getLocation().getLongitude());
+        holder.waterLocation.setText("Latitude: " + waterReport.getLatitude()
+                + " Longitude: " + waterReport.getLongitude());
         holder.waterType.setText(waterReport.getType().toString());
         holder.waterCondition.setText(waterReport.getCondition().toString());
     }

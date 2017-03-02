@@ -119,8 +119,8 @@ public class ReportCreateActivity extends AppCompatActivity {
         reportReporterName.setText(user.getName());
         reportDateText.setText(report.getCreationDate().toString());
         reportNumText.setText(Integer.toString(report.getReportNumber()));
-        reportLocLatEditText.setText(Double.toString(report.getLocation().getLatitude()));
-        reportLocLongEditText.setText(Double.toString(report.getLocation().getLongitude()));
+        reportLocLatEditText.setText(Double.toString(report.getLatitude()));
+        reportLocLongEditText.setText(Double.toString(report.getLongitude()));
         waterTypeSpinner.setSelection(report.getType().ordinal());
         waterCondSpinner.setSelection(report.getCondition().ordinal());
 
@@ -180,8 +180,8 @@ public class ReportCreateActivity extends AppCompatActivity {
             reportLocLongEditText.setError("Longitude must be between -180 and 180");
             return;
         } else {
-            report.getLocation().setLatitude(latitude);
-            report.getLocation().setLongitude(longitude);
+            report.setLatitude(latitude);
+            report.setLongitude(longitude);
         }
 
         // Store data in firebase

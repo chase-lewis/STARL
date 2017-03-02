@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         waterReportsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent reportsIntent = new Intent(MainActivity.this,ViewReportsActivity.class);
+                Intent reportsIntent = new Intent(MainActivity.this, ViewReportsActivity.class);
                 startActivity(reportsIntent);
             }
         });

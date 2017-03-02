@@ -15,13 +15,15 @@ public class WaterReport {
     private String reporterName;
     private Date creationDate;
     private int reportNumber;
-    private Location location;
+    private double latitude;
+    private double longitude;
     private WaterType type;
     private WaterCondition condition;
 
     public WaterReport(String reporterName, Location location, WaterType type, WaterCondition condition) {
         this.reporterName = reporterName;
-        this.location = location;
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
         this.type = type;
         this.condition = condition;
         this.creationDate = new Date();
@@ -92,12 +94,39 @@ public class WaterReport {
     }
 
     /**
-     * Getter for the location
+     * Getter for the latitude
      *
-     * @return The location the report was created
+     * @return The latitude the report was created
      */
-    public Location getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * Getter for the longitude
+     *
+     * @return The longitude the report was created
+     */
+    public double getLongitude() {
+        return latitude;
+    }
+
+    /**
+     * Setter for the latitude
+     *
+     * @param latitude The latitude to be set (-90 to 90)
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    /**
+     * Setter for the longitude
+     *
+     * @param longitude The longitude to be set (-90 to 90)
+     */
+    public void setLongitude(double longitude) {
+        this.latitude = longitude;
     }
 
     /**
@@ -106,7 +135,8 @@ public class WaterReport {
      * @param location The location the report was created
      */
     public void setLocation(Location location) {
-        this.location = location;
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
     }
 
     /**

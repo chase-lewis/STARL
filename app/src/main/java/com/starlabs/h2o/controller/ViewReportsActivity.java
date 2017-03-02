@@ -13,12 +13,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.WaterReport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewReportsActivity extends AppCompatActivity {
     private RecyclerView mRecycler;
     private RVAdapter adapter;
-    private List<WaterReport> waterReports;
+    private List<WaterReport> waterReports = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
