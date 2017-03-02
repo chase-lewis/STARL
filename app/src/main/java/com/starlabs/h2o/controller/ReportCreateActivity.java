@@ -89,20 +89,18 @@ public class ReportCreateActivity extends AppCompatActivity {
             report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
             // Firebase database for getting the number of reports
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
             // Create a listener for specific username
-            mDatabase.child("waterReports").addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child("waterReportId").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    int numReports = 0;
-                    for (DataSnapshot ignored : dataSnapshot.getChildren()) {
-                        numReports++;
-                    }
+                    int numReports = dataSnapshot.getValue(Integer.class);
 
                     // Set the report number
                     report.setReportNumber(numReports + 1);
                     reportNumText.setText(Integer.toString(report.getReportNumber()));
+                    mDatabase.child("waterReportId").setValue(numReports + 1);
                 }
 
                 @Override
