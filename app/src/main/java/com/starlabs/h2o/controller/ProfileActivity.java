@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.user.Person;
+import com.starlabs.h2o.model.user.User;
 
 /**
  * Activity to edit the user profile
@@ -29,7 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText addressField;
 
     // User passed into this activity
-    private Person user;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,8 @@ public class ProfileActivity extends AppCompatActivity {
         nameField.setText(user.getName());
         emailField.setText(user.getEmail());
         addressField.setText(user.getAddress());
+
+        nameField.requestFocus();
 
         // Done button setup
         Button profileDoneButton = (Button) findViewById(R.id.profile_done_button);

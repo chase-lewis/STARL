@@ -22,12 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.user.Administrator;
-import com.starlabs.h2o.model.user.Manager;
-import com.starlabs.h2o.model.user.Person;
 import com.starlabs.h2o.model.user.User;
 import com.starlabs.h2o.model.user.UserType;
-import com.starlabs.h2o.model.user.Worker;
 
 
 /**
@@ -227,22 +223,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            Person user;
+            User user;
             mAuthTask = null;
             showProgress(false);
 
             if (success && !foundUser) {
                 // Create the new user from the fields
                 UserType userType = (UserType) mUserTypeView.getSelectedItem();
-                if (userType == UserType.WORKER) {
-                    user = new Worker(mUsername, mPassword, userType);
-                } else if (userType == UserType.MANAGER) {
-                    user = new Manager(mUsername, mPassword, userType);
-                } else if (userType == UserType.ADMINISTRATOR) {
-                    user = new Administrator(mUsername, mPassword, userType);
-                } else {
-                    user = new User(mUsername, mPassword, userType);
-                }
+                user = new User(mUsername, mPassword, userType);
 
                 // Transition to the Profile activity
                 Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.user.Person;
+import com.starlabs.h2o.model.user.User;
 
 /**
  * Main screen a user sees after logging in
@@ -17,7 +17,7 @@ import com.starlabs.h2o.model.user.Person;
 public class MainActivity extends AppCompatActivity {
     public static final String USER_TO_MAIN = "USER_TO_MAIN";
     private final int CODE = 392;
-    private Person user;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

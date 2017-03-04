@@ -19,7 +19,7 @@ import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.WaterCondition;
 import com.starlabs.h2o.model.WaterReport;
 import com.starlabs.h2o.model.WaterType;
-import com.starlabs.h2o.model.user.Person;
+import com.starlabs.h2o.model.user.User;
 
 import java.util.Date;
 
@@ -45,7 +45,7 @@ public class ReportCreateActivity extends AppCompatActivity {
     private Spinner waterCondSpinner;
 
     // User passed into this activity
-    private Person user;
+    private User user;
 
     // Report potentially being passed in
     private WaterReport report;
