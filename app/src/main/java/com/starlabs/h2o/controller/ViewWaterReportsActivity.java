@@ -21,9 +21,9 @@ import java.util.List;
  *
  * @author Rishi
  */
-public class ViewReportsActivity extends AppCompatActivity {
+public class ViewWaterReportsActivity extends AppCompatActivity {
     private RecyclerView mRecycler;
-    private RVAdapter adapter;
+    private ViewWaterReportsAdapter adapter;
     private List<WaterReport> waterReports = new ArrayList<>();
 
     @Override
@@ -44,7 +44,7 @@ public class ViewReportsActivity extends AppCompatActivity {
                     waterReports.add(report.getValue(WaterReport.class));
                 }
 
-                adapter = new RVAdapter(waterReports);
+                adapter = new ViewWaterReportsAdapter(waterReports);
                 mRecycler.setAdapter(adapter);
             }
 

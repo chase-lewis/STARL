@@ -31,7 +31,7 @@ import com.starlabs.h2o.model.user.UserType;
  *
  * @author tejun
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterUserActivity extends AppCompatActivity {
     public static final String REG_INTENT = "USER_TEMP";
 
     // Keep track of the login task to ensure we can cancel it if requested
@@ -233,9 +233,9 @@ public class RegisterActivity extends AppCompatActivity {
                 user = new User(mUsername, mPassword, userType);
 
                 // Transition to the Profile activity
-                Intent profileIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
+                Intent profileIntent = new Intent(RegisterUserActivity.this, ViewUserProfileActivity.class);
                 profileIntent.putExtra(REG_INTENT, user);
-                profileIntent.putExtra(ProfileActivity.TO_MAIN, true);
+                profileIntent.putExtra(ViewUserProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
                 finish();
             } else if (foundUser) {

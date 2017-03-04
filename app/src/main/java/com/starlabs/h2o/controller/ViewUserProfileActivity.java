@@ -18,7 +18,7 @@ import com.starlabs.h2o.model.user.User;
  *
  * @author tejun
  */
-public class ProfileActivity extends AppCompatActivity {
+public class ViewUserProfileActivity extends AppCompatActivity {
 
     // Intent message ids
     public static final String TO_MAIN = "TO_MAIN";
@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         addressField = (EditText) findViewById(R.id.user_profile_address);
 
         // Get the user from the intent message
-        user = getIntent().getParcelableExtra(RegisterActivity.REG_INTENT);
+        user = getIntent().getParcelableExtra(RegisterUserActivity.REG_INTENT);
 
         // Set up the text pre-defined values
         nameField.setText(user.getName());
@@ -85,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Transition to the proper activity
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
-            Intent toMain = new Intent(ProfileActivity.this, MainActivity.class);
+            Intent toMain = new Intent(ViewUserProfileActivity.this, MainActivity.class);
             toMain.putExtra(MainActivity.USER_TO_MAIN, user);
             startActivity(toMain);
         } else {

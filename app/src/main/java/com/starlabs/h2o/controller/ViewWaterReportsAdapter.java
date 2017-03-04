@@ -17,10 +17,10 @@ import java.util.List;
  * @author Rishi
  */
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CustomViewHolder>{
+public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder>{
     private List<WaterReport> waterReports;
 
-    public RVAdapter(List<WaterReport> waterReports){
+    public ViewWaterReportsAdapter(List<WaterReport> waterReports){
         this.waterReports = waterReports;
     }
 

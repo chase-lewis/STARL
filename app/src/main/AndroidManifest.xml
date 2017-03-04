@@ -9,10 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".controller.LoginActivity"
+            android:name=".controller.LoginUserActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".controller.RegisterActivity"
+            android:name=".controller.RegisterUserActivity"
             android:label="@string/title_activity_register" />
         <activity android:name=".controller.InitialActivity">
             <intent-filter>
@@ -22,9 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.MainActivity" />
-        <activity android:name=".controller.ProfileActivity" />
-        <activity android:name=".controller.ReportCreateActivity" />
-        <activity android:name=".controller.ViewReportsActivity"></activity>
+        <activity android:name=".controller.ViewUserProfileActivity" />
+        <activity android:name=".controller.CreateWaterReportActivity" />
+        <activity android:name=".controller.ViewWaterReportsActivity"></activity>
     </application>
 
 </manifest>

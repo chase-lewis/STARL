@@ -30,7 +30,7 @@ import com.starlabs.h2o.model.user.User;
  *
  * @author tejun
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginUserActivity extends AppCompatActivity {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -240,7 +240,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 // Transition to the main activity with the retrieved user
-                Intent profileIntent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent profileIntent = new Intent(LoginUserActivity.this, MainActivity.class);
                 profileIntent.putExtra(MainActivity.USER_TO_MAIN, mUser);
                 startActivity(profileIntent);
                 finish();

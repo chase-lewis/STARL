@@ -44,7 +44,7 @@ public class InitialActivity extends AppCompatActivity {
      * Launches the Login activity
      */
     private void launchLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, LoginUserActivity.class);
         startActivity(intent);
     }
 
@@ -52,7 +52,7 @@ public class InitialActivity extends AppCompatActivity {
      * Launches the Register activity
      */
     private void launchRegister() {
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, RegisterUserActivity.class);
         startActivity(intent);
     }
 }

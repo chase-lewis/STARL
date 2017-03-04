@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         Button profileEdit = (Button) findViewById(R.id.main_profile_edit);
         profileEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                profileIntent.putExtra(RegisterActivity.REG_INTENT, user);
+                Intent profileIntent = new Intent(MainActivity.this, ViewUserProfileActivity.class);
+                profileIntent.putExtra(RegisterUserActivity.REG_INTENT, user);
                 startActivityForResult(profileIntent, CODE);
             }
         });
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         Button waterReportEdit = (Button) findViewById(R.id.water_report_create);
         waterReportEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent profileIntent = new Intent(MainActivity.this, ReportCreateActivity.class);
-                profileIntent.putExtra(ReportCreateActivity.TO_REPORT_USER, user);
+                Intent profileIntent = new Intent(MainActivity.this, CreateWaterReportActivity.class);
+                profileIntent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
                 startActivity(profileIntent);
             }
         });
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         waterReportsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent reportsIntent = new Intent(MainActivity.this, ViewReportsActivity.class);
+                Intent reportsIntent = new Intent(MainActivity.this, ViewWaterReportsActivity.class);
                 startActivity(reportsIntent);
             }
         });
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE && resultCode == RESULT_OK) {
-            user = data.getParcelableExtra(ProfileActivity.PROF_UPDATE);
+            user = data.getParcelableExtra(ViewUserProfileActivity.PROF_UPDATE);
         }
     }
 }

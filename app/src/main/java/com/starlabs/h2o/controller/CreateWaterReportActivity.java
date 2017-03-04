@@ -29,7 +29,7 @@ import java.util.Date;
  *
  * @author Kavin Krishnan
  */
-public class ReportCreateActivity extends AppCompatActivity {
+public class CreateWaterReportActivity extends AppCompatActivity {
 
     // Intent message ids
     public static final String TO_REPORT_USER = "TO_WATER_REPORT";
