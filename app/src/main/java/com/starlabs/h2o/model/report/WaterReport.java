@@ -117,7 +117,7 @@ public class WaterReport {
      * @return The longitude the report was created
      */
     public double getLongitude() {
-        return latitude;
+        return longitude;
     }
 
     /**
@@ -126,7 +126,7 @@ public class WaterReport {
      * @param longitude The longitude to be set (-90 to 90)
      */
     public void setLongitude(double longitude) {
-        this.latitude = longitude;
+        this.longitude = longitude;
     }
 
     /**

@@ -1,7 +1,12 @@
 package com.starlabs.h2o.controller;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,8 +25,6 @@ import com.starlabs.h2o.model.report.WaterCondition;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
-
-import java.util.Date;
 
 
 /**
@@ -78,12 +81,7 @@ public class CreateWaterReportActivity extends AppCompatActivity {
         // TODO: Someone remember to send a parcel from main class when editing
         if (getIntent().hasExtra(WATER_REPORT_TO_REPORT)) {
             // TODO get the report from the intent
-
-            // Change all the values that need to be updated now
-            report.setCreationDate(new Date());
-            report.setReporterName(user.getName());
-            // TODO set the new location
-
+            // TODO do we need to change any values? I don't think so, just let the user update them
         } else {
             // Create a new report
             report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
@@ -109,8 +107,20 @@ public class CreateWaterReportActivity extends AppCompatActivity {
                 }
             });
 
-            // TODO: Teju and Chase fix this with location
-            // erase this line and make it update with GPS
+            // Set up the location of the report
+            // Check if we have location access permission first. Note we are using Network Location, not GPS
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+                String locationProvider = LocationManager.NETWORK_PROVIDER;
+
+                // Get rough location very synchronously
+                Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+                // Set the location in the pojo
+                report.setLatitude(lastKnownLocation.getLatitude());
+                report.setLongitude(lastKnownLocation.getLongitude());
+            }
+
         }
 
         // Set all the text views
@@ -145,12 +155,11 @@ public class CreateWaterReportActivity extends AppCompatActivity {
      * @param view the parameter View
      */
     protected void onReportCreatePressed(View view) {
-        // TODO verify that the values in the fields are correct
-
         // Update the values in the model from the UI
         report.setType((WaterType) waterTypeSpinner.getSelectedItem());
         report.setCondition((WaterCondition) waterCondSpinner.getSelectedItem());
-        // TODO set the location
+
+        // Verify the location data is valid
         double latitude;
         double longitude;
 
