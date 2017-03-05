@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.WaterReport;
+import com.starlabs.h2o.model.report.WaterReport;
 
 import java.util.List;
 
@@ -17,29 +17,11 @@ import java.util.List;
  * @author Rishi
  */
 
-public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder>{
+public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
     private List<WaterReport> waterReports;
 
-    public ViewWaterReportsAdapter(List<WaterReport> waterReports){
+    public ViewWaterReportsAdapter(List<WaterReport> waterReports) {
         this.waterReports = waterReports;
-    }
-
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView reporterName;
-        TextView reportNumber;
-        TextView reportDate;
-        TextView waterLocation;
-        TextView waterType;
-        TextView waterCondition;
-        public CustomViewHolder(View view) {
-            super(view);
-            reporterName = (TextView) view.findViewById(R.id.reporter_name);
-            reportNumber = (TextView) view.findViewById(R.id.report_title);
-            reportDate = (TextView) view.findViewById(R.id.report_date);
-            waterLocation = (TextView) view.findViewById(R.id.water_location);
-            waterType = (TextView) view.findViewById(R.id.water_type);
-            waterCondition = (TextView) view.findViewById(R.id.water_condition);
-        }
     }
 
     @Override
@@ -65,5 +47,24 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
     @Override
     public int getItemCount() {
         return waterReports.size();
+    }
+
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
+        TextView reporterName;
+        TextView reportNumber;
+        TextView reportDate;
+        TextView waterLocation;
+        TextView waterType;
+        TextView waterCondition;
+
+        public CustomViewHolder(View view) {
+            super(view);
+            reporterName = (TextView) view.findViewById(R.id.reporter_name);
+            reportNumber = (TextView) view.findViewById(R.id.report_title);
+            reportDate = (TextView) view.findViewById(R.id.report_date);
+            waterLocation = (TextView) view.findViewById(R.id.water_location);
+            waterType = (TextView) view.findViewById(R.id.water_type);
+            waterCondition = (TextView) view.findViewById(R.id.water_condition);
+        }
     }
 }

@@ -16,9 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.model.WaterCondition;
-import com.starlabs.h2o.model.WaterReport;
-import com.starlabs.h2o.model.WaterType;
+import com.starlabs.h2o.model.report.WaterCondition;
+import com.starlabs.h2o.model.report.WaterReport;
+import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
 
 import java.util.Date;

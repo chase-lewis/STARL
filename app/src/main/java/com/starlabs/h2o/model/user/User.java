@@ -8,13 +8,6 @@ import android.os.Parcelable;
  */
 
 public class User implements Parcelable {
-    private String username;
-    private String password;
-    private String name;
-    private String address;
-    private String email;
-    private UserType userType;
-
     public static final Parcelable.Creator<User> CREATOR
             = new Parcelable.Creator<User>() {
         public User createFromParcel(Parcel in) {
@@ -25,6 +18,12 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+    private String username;
+    private String password;
+    private String name;
+    private String address;
+    private String email;
+    private UserType userType;
 
     /**
      * Two parameter constructor for User object

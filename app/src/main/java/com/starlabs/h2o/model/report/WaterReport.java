@@ -1,4 +1,4 @@
-package com.starlabs.h2o.model;
+package com.starlabs.h2o.model.report;
 
 import android.location.Location;
 
@@ -103,21 +103,21 @@ public class WaterReport {
     }
 
     /**
-     * Getter for the longitude
-     *
-     * @return The longitude the report was created
-     */
-    public double getLongitude() {
-        return latitude;
-    }
-
-    /**
      * Setter for the latitude
      *
      * @param latitude The latitude to be set (-90 to 90)
      */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    /**
+     * Getter for the longitude
+     *
+     * @return The longitude the report was created
+     */
+    public double getLongitude() {
+        return latitude;
     }
 
     /**
