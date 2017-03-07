@@ -29,4 +29,5 @@
     <string name="repeat_password">Retype password</string>
     <string name="action_register">Register</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="title_activity_water_report_map">Map</string>
 </resources>
