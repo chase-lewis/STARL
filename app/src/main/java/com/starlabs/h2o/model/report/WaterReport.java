@@ -36,7 +36,7 @@ public class WaterReport {
 
     @Override
     public String toString() {
-        return reportNumber + ": " + reporterName;
+        return "Report " + reportNumber + ": Created " + creationDate.toString();
     }
 
     /**

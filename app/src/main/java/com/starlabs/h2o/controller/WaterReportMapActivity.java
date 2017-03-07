@@ -9,7 +9,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.report.WaterReport;
 
 public class WaterReportMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -42,6 +48,27 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("waterReports").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int numReports = 0;
+                for (DataSnapshot report : dataSnapshot.getChildren()) {
+                    WaterReport tempReport = report.getValue(WaterReport.class);
+                    double latitude = tempReport.getLatitude();
+                    double longitude = tempReport.getLongitude();
+                    LatLng markLocation = new LatLng(latitude, longitude);
+                    mMap.addMarker(new MarkerOptions().position(markLocation).title(tempReport.toString()));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing
+            }
+        });
     }
 }
