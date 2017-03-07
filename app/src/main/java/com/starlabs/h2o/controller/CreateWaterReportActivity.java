@@ -116,9 +116,11 @@ public class CreateWaterReportActivity extends AppCompatActivity {
                 // Get rough location very synchronously
                 Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
 
-                // Set the location in the pojo
-                report.setLatitude(lastKnownLocation.getLatitude());
-                report.setLongitude(lastKnownLocation.getLongitude());
+                if (lastKnownLocation != null) {
+                    // Set the location in the pojo
+                    report.setLatitude(lastKnownLocation.getLatitude());
+                    report.setLongitude(lastKnownLocation.getLongitude());
+                }
             }
 
         }
