@@ -54,7 +54,16 @@
         android:id="@+id/main_temp_text"
         android:fontFamily="sans-serif"
         android:textSize="24sp"
-        android:layout_marginTop="106dp"
+        android:layout_marginTop="32dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/water_map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/water_reports_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:text="MAP!" />
 </RelativeLayout>
