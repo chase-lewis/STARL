@@ -16,14 +16,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
 import com.starlabs.h2o.model.user.UserType;
+
+import java.util.function.Consumer;
 
 
 /**
@@ -131,31 +130,18 @@ public class RegisterUserActivity extends AppCompatActivity {
             focusView = mPasswordRetypeView;
             cancel = true;
         } else {
-            // Check if username already exists
-            // Firebase database authentication
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
             // Create new AsyncTask for user being registered
             mAuthTask = new UserLoginTask(username, password);
 
-            // Create a listener for a specific username
-            mDatabase.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+            // Check if username already exists in our content provider
+            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            Consumer<User> onUserFound = new Consumer<User>() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        // Found a user with a matching username
-                        mAuthTask.setFoundUser(true);
-                    } else {
-                        // No user found
-                        mAuthTask.setFoundUser(false);
-                    }
+                public void accept(User user) {
+                    mAuthTask.setFoundUser(true);
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Do nothing yet
-                }
-            });
+            };
+            contentProvider.getSingleUser(onUserFound, username);
         }
 
         if (cancel) {

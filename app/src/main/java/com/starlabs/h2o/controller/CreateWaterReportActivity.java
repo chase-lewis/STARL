@@ -15,16 +15,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterCondition;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
+
+import java.util.function.Consumer;
 
 
 /**
@@ -86,32 +85,26 @@ public class CreateWaterReportActivity extends AppCompatActivity {
             // Create a new report
             report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
-            // Firebase database for getting the number of reports
-            final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-            // Create a listener for specific username
-            mDatabase.child("waterReportId").addListenerForSingleValueEvent(new ValueEventListener() {
+            // Get the correct id for the new report from the content provider
+            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    int numReports = dataSnapshot.getValue(Integer.class);
-
+                public void accept(Integer id) {
                     // Set the report number
-                    report.setReportNumber(numReports + 1);
+                    report.setReportNumber(id + 1);
                     reportNumText.setText(Integer.toString(report.getReportNumber()));
-                    mDatabase.child("waterReportId").setValue(numReports + 1);
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Do nothing
+                    // Incremement next id in the content provider
+                    contentProvider.setNextWaterReportId(id + 1);
                 }
-            });
+            };
+            contentProvider.getNextWaterReportId(onNextIdFound);
 
-            //Check if report's latLong is being generated due to Map Tap or user's location
-            if(getIntent().hasExtra("fromMapClick")){
-                report.setLatitude(getIntent().getDoubleExtra("latitude",0));
-                report.setLongitude(getIntent().getDoubleExtra("longitude",0));
-            }else{
+            // Check if report's latLong is being generated due to Map Tap or user's location
+            if (getIntent().hasExtra("fromMapClick")) {
+                report.setLatitude(getIntent().getDoubleExtra("latitude", 0));
+                report.setLongitude(getIntent().getDoubleExtra("longitude", 0));
+            } else {
                 // Set up the location of the report
                 // Check if we have location access permission first. Note we are using Network Location, not GPS
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -198,9 +191,9 @@ public class CreateWaterReportActivity extends AppCompatActivity {
             report.setLongitude(longitude);
         }
 
-        // Store data in firebase
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("waterReports").child("" + report.getReportNumber()).setValue(report);
+        // Store data
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        contentProvider.setWaterReport(report);
 
         finish();
     }

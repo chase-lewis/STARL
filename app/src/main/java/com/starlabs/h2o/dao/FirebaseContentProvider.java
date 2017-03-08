@@ -5,8 +5,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -25,7 +27,7 @@ class FirebaseContentProvider implements ContentProvider {
 
     @Override
     public void getAllUsers(Consumer<List<User>> callback) {
-
+        // TODO
     }
 
     @Override
@@ -53,6 +55,60 @@ class FirebaseContentProvider implements ContentProvider {
 
     @Override
     public void setUser(User user) {
+        mDatabase.child("users").child(user.getUsername()).setValue(user);
+    }
 
+    @Override
+    public void getAllWaterReports(Consumer<List<WaterReport>> callback) {
+        mDatabase.child("waterReports").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<WaterReport> waterReports = new ArrayList<WaterReport>();
+
+                for (DataSnapshot report : dataSnapshot.getChildren()) {
+                    waterReports.add(report.getValue(WaterReport.class));
+                }
+
+                callback.accept(waterReports);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing
+            }
+        });
+    }
+
+    @Override
+    public void getSingleWaterReport(Consumer<WaterReport> callback, int id) {
+        // TODO
+    }
+
+    @Override
+    public void setWaterReport(WaterReport waterReport) {
+        mDatabase.child("waterReports").child("" + waterReport.getReportNumber()).setValue(waterReport);
+    }
+
+    @Override
+    public void getNextWaterReportId(Consumer<Integer> callback) {
+        // Create a listener for the next report id
+        mDatabase.child("waterReportId").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int nextId = dataSnapshot.getValue(Integer.class);
+
+                callback.accept(nextId);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing
+            }
+        });
+    }
+
+    @Override
+    public void setNextWaterReportId(int nextWaterReportId) {
+        mDatabase.child("waterReportId").setValue(nextWaterReportId);
     }
 }

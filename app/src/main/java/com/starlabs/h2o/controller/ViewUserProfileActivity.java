@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
 
 /**
@@ -79,9 +79,9 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         user.setEmail(emailField.getText().toString());
         user.setAddress(addressField.getText().toString());
 
-        // Store the user in firebase, overwriting any values already there
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(user.getUsername()).setValue(user);
+        // Store the user in our content provider, overriding all previous data for that user
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        contentProvider.setUser(user);
 
         // Transition to the proper activity
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
@@ -89,7 +89,6 @@ public class ViewUserProfileActivity extends AppCompatActivity {
             toMain.putExtra(MainActivity.USER_TO_MAIN, user);
             startActivity(toMain);
         } else {
-            // TODO
             Intent result = new Intent();
             result.putExtra(PROF_UPDATE, user);
             setResult(Activity.RESULT_OK, result);

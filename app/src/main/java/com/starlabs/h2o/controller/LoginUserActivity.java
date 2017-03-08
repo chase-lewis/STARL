@@ -17,11 +17,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
@@ -145,19 +140,19 @@ public class LoginUserActivity extends AppCompatActivity {
             mAuthTask = new UserLoginTask();
             mAuthTask.execute((Void) null);
 
-            // Find a user with the given username
-            // Define a callback
-            Consumer<User> onUserFound = user -> {
-                if (user.getPassword().equals(password)) {
-                    // Password matches!
-                    // Call the async success method
-                    mAuthTask.setUser(user);
-                    mAuthTask.onPostExecute(true);
+            // Check if the user exists in the content provider
+            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            Consumer<User> onUserFound = new Consumer<User>() {
+                @Override
+                public void accept(User user) {
+                    if (user.getPassword().equals(password)) {
+                        // Password matches!
+                        // Call the async success method
+                        mAuthTask.setUser(user);
+                        mAuthTask.onPostExecute(true);
+                    }
                 }
             };
-
-            // Call the content provider function
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
             contentProvider.getSingleUser(onUserFound, username);
         }
     }
@@ -209,7 +204,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // Sleep for 2 seconds while attempting to login with firebase
+            // Sleep for 2 seconds while attempting to login with the content provider
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

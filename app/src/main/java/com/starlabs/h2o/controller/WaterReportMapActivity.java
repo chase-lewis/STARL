@@ -1,29 +1,28 @@
 package com.starlabs.h2o.controller;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 
+import java.util.List;
+import java.util.function.Consumer;
+
 public class WaterReportMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    public static final String TO_REPORT_USER = "TO_WATER_REPORT";
     private GoogleMap mMap;
     private User user;
-    public static final String TO_REPORT_USER = "TO_WATER_REPORT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,37 +56,29 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("waterReports").addListenerForSingleValueEvent(new ValueEventListener() {
+        // Get all the water reports from the content provider
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        Consumer<List<WaterReport>> onWaterReportsRecieved = new Consumer<List<WaterReport>>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int numReports = 0;
-                for (DataSnapshot report : dataSnapshot.getChildren()) {
-                    WaterReport tempReport = report.getValue(WaterReport.class);
-                    double latitude = tempReport.getLatitude();
-                    double longitude = tempReport.getLongitude();
+            public void accept(List<WaterReport> waterReports) {
+                for (WaterReport waterReport : waterReports) {
+                    double latitude = waterReport.getLatitude();
+                    double longitude = waterReport.getLongitude();
                     LatLng markLocation = new LatLng(latitude, longitude);
-                    mMap.addMarker(new MarkerOptions().position(markLocation).title(tempReport.toString()));
+                    mMap.addMarker(new MarkerOptions().position(markLocation).title(waterReport.toString()));
                 }
-
             }
+        };
+        contentProvider.getAllWaterReports(onWaterReportsRecieved);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Do nothing
-            }
-        });
-
-         /*
-        * Listens for a tap gesture on the map and then proceeds to the screen for report creation.
-        * */
+        // Listens for a tap gesture on the map and then proceeds to the screen for report creation.
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Intent intent = new Intent(WaterReportMapActivity.this,CreateWaterReportActivity.class);
-                intent.putExtra("latitude",latLng.latitude);
-                intent.putExtra("longitude",latLng.longitude);
-                intent.putExtra("fromMapClick","fromMapClick");
+                Intent intent = new Intent(WaterReportMapActivity.this, CreateWaterReportActivity.class);
+                intent.putExtra("latitude", latLng.latitude);
+                intent.putExtra("longitude", latLng.longitude);
+                intent.putExtra("fromMapClick", "fromMapClick");
                 intent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
                 startActivity(intent);
             }
