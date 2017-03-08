@@ -58,7 +58,7 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
 
         // Get all the water reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<WaterReport>> onWaterReportsRecieved = new Consumer<List<WaterReport>>() {
+        Consumer<List<WaterReport>> onWaterReportsReceived = new Consumer<List<WaterReport>>() {
             @Override
             public void accept(List<WaterReport> waterReports) {
                 for (WaterReport waterReport : waterReports) {
@@ -69,7 +69,7 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
                 }
             }
         };
-        contentProvider.getAllWaterReports(onWaterReportsRecieved);
+        contentProvider.getAllWaterReports(onWaterReportsReceived);
 
         // Listens for a tap gesture on the map and then proceeds to the screen for report creation.
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {

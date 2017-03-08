@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Created by tejun on 3/8/2017.
+ * Specific type of content provider that uses firebase
  */
 
 class FirebaseContentProvider implements ContentProvider {
@@ -27,12 +27,27 @@ class FirebaseContentProvider implements ContentProvider {
 
     @Override
     public void getAllUsers(Consumer<List<User>> callback) {
-        // TODO
+        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<User> users = new ArrayList<User>();
+
+                for (DataSnapshot user : dataSnapshot.getChildren()) {
+                    users.add(user.getValue(User.class));
+                }
+
+                callback.accept(users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing
+            }
+        });
     }
 
     @Override
     public void getSingleUser(Consumer<User> callback, String username) {
-        // Create a listener for specific username
         mDatabase.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -80,8 +95,25 @@ class FirebaseContentProvider implements ContentProvider {
     }
 
     @Override
-    public void getSingleWaterReport(Consumer<WaterReport> callback, int id) {
-        // TODO
+    public void getSingleWaterReport(Consumer<WaterReport> callback, int reportNumber) {
+        mDatabase.child("waterReports").child("" + reportNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    // Found a user with a matching username
+                    // Extract out the user object from firebase
+                    WaterReport waterReport = dataSnapshot.getValue(WaterReport.class);
+
+                    // Call the provided callback
+                    callback.accept(waterReport);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing yet
+            }
+        });
     }
 
     @Override
@@ -91,7 +123,6 @@ class FirebaseContentProvider implements ContentProvider {
 
     @Override
     public void getNextWaterReportId(Consumer<Integer> callback) {
-        // Create a listener for the next report id
         mDatabase.child("waterReportId").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -108,7 +139,7 @@ class FirebaseContentProvider implements ContentProvider {
     }
 
     @Override
-    public void setNextWaterReportId(int nextWaterReportId) {
-        mDatabase.child("waterReportId").setValue(nextWaterReportId);
+    public void setNextWaterReportId(int reportNumber) {
+        mDatabase.child("waterReportId").setValue(reportNumber);
     }
 }

@@ -35,13 +35,13 @@ public class ViewWaterReportsActivity extends AppCompatActivity {
 
         // Obtain list of Water Reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<WaterReport>> onWaterReportsRecieved = new Consumer<List<WaterReport>>() {
+        Consumer<List<WaterReport>> onWaterReportsReceived = new Consumer<List<WaterReport>>() {
             @Override
             public void accept(List<WaterReport> waterReports) {
                 adapter = new ViewWaterReportsAdapter(waterReports);
                 mRecycler.setAdapter(adapter);
             }
         };
-        contentProvider.getAllWaterReports(onWaterReportsRecieved);
+        contentProvider.getAllWaterReports(onWaterReportsReceived);
     }
 }

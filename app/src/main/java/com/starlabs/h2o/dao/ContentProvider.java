@@ -13,19 +13,61 @@ import java.util.function.Consumer;
  */
 
 public interface ContentProvider {
+    /**
+     * Gets all users. Calls the callback when all users have been received.
+     *
+     * @param callback Called with a list of users
+     */
     void getAllUsers(Consumer<List<User>> callback);
 
+    /**
+     * Gets a single user object from the username. Calls the callback when the user is received.
+     *
+     * @param callback Called with the user object
+     * @param username The username to look for
+     */
     void getSingleUser(Consumer<User> callback, String username);
 
+    /**
+     * Saves the user.
+     *
+     * @param user The user to save
+     */
     void setUser(User user);
 
+    /**
+     * Gets all water reports. Calls the callback when all water reports have been received.
+     *
+     * @param callback Called with a list of water reports
+     */
     void getAllWaterReports(Consumer<List<WaterReport>> callback);
 
-    void getSingleWaterReport(Consumer<WaterReport> callback, int id);
+    /**
+     * Gets a single water report object from the reportNumber. Calls the callback when the water report is received.
+     *
+     * @param callback Called with the water report object
+     * @param reportNumber The reportNumber to look for
+     */
+    void getSingleWaterReport(Consumer<WaterReport> callback, int reportNumber);
 
+    /**
+     * Saves the water report.
+     *
+     * @param waterReport The water report to save
+     */
     void setWaterReport(WaterReport waterReport);
 
+    /**
+     * Gets the id for the next water report. Calls the callback when this next id has been received.
+     *
+     * @param callback Called with the next integer report number
+     */
     void getNextWaterReportId(Consumer<Integer> callback);
 
-    void setNextWaterReportId(int id);
+    /**
+     * Sets the next reportNumber to the specified reportNumber
+     *
+     * @param reportNumber The reportNumber to save
+     */
+    void setNextWaterReportId(int reportNumber);
 }
