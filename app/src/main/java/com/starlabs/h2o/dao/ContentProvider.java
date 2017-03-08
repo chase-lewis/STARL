@@ -45,7 +45,7 @@ public interface ContentProvider {
     /**
      * Gets a single water report object from the reportNumber. Calls the callback when the water report is received.
      *
-     * @param callback Called with the water report object
+     * @param callback     Called with the water report object
      * @param reportNumber The reportNumber to look for
      */
     void getSingleWaterReport(Consumer<WaterReport> callback, int reportNumber);
