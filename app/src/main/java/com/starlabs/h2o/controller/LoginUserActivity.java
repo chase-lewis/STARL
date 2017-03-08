@@ -23,7 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
+
+import java.util.function.Consumer;
 
 /**
  * The login screen for username/password authentication
@@ -59,12 +63,7 @@ public class LoginUserActivity extends AppCompatActivity {
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    //uncommenting this causes multiple activities to generate!!!!
-                    //attemptLogin();
-                    return true;
-                }
-                return false;
+                return id == R.id.login || id == EditorInfo.IME_NULL;
             }
         });
 
@@ -146,32 +145,20 @@ public class LoginUserActivity extends AppCompatActivity {
             mAuthTask = new UserLoginTask();
             mAuthTask.execute((Void) null);
 
-            // Firebase database authentication
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-            // Create a listener for specific username
-            mDatabase.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        // Found a user with a matching username
-                        // Extract out the user object from firebase
-                        User user = dataSnapshot.getValue(User.class);
-
-                        if (user.getPassword().equals(password)) {
-                            // Password matches!
-                            // Call the async success method
-                            mAuthTask.setUser(user);
-                            mAuthTask.onPostExecute(true);
-                        }
-                    }
+            // Find a user with the given username
+            // Define a callback
+            Consumer<User> onUserFound = user -> {
+                if (user.getPassword().equals(password)) {
+                    // Password matches!
+                    // Call the async success method
+                    mAuthTask.setUser(user);
+                    mAuthTask.onPostExecute(true);
                 }
+            };
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Do nothing yet
-                }
-            });
+            // Call the content provider function
+            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            contentProvider.getSingleUser(onUserFound, username);
         }
     }
 
