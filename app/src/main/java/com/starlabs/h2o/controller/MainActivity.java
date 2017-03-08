@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mapIntent = new Intent(MainActivity.this, WaterReportMapActivity.class);
+                mapIntent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
                 startActivity(mapIntent);
             }
         });

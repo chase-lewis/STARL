@@ -107,22 +107,27 @@ public class CreateWaterReportActivity extends AppCompatActivity {
                 }
             });
 
-            // Set up the location of the report
-            // Check if we have location access permission first. Note we are using Network Location, not GPS
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-                String locationProvider = LocationManager.NETWORK_PROVIDER;
+            //Check if report's latLong is being generated due to Map Tap or user's location
+            if(getIntent().hasExtra("fromMapClick")){
+                report.setLatitude(getIntent().getDoubleExtra("latitude",0));
+                report.setLongitude(getIntent().getDoubleExtra("longitude",0));
+            }else{
+                // Set up the location of the report
+                // Check if we have location access permission first. Note we are using Network Location, not GPS
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+                    String locationProvider = LocationManager.NETWORK_PROVIDER;
 
-                // Get rough location very synchronously
-                Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+                    // Get rough location very synchronously
+                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
 
-                if (lastKnownLocation != null) {
-                    // Set the location in the pojo
-                    report.setLatitude(lastKnownLocation.getLatitude());
-                    report.setLongitude(lastKnownLocation.getLongitude());
+                    if (lastKnownLocation != null) {
+                        // Set the location in the pojo
+                        report.setLatitude(lastKnownLocation.getLatitude());
+                        report.setLongitude(lastKnownLocation.getLongitude());
+                    }
                 }
             }
-
         }
 
         // Set all the text views

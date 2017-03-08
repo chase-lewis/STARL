@@ -1,5 +1,6 @@
 package com.starlabs.h2o.controller;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -16,10 +17,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.model.report.WaterReport;
+import com.starlabs.h2o.model.user.User;
 
 public class WaterReportMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private User user;
+    public static final String TO_REPORT_USER = "TO_WATER_REPORT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,9 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        user = getIntent().getParcelableExtra(TO_REPORT_USER);
+
+
     }
 
 
@@ -68,6 +75,21 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Do nothing
+            }
+        });
+
+         /*
+        * Listens for a tap gesture on the map and then proceeds to the screen for report creation.
+        * */
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Intent intent = new Intent(WaterReportMapActivity.this,CreateWaterReportActivity.class);
+                intent.putExtra("latitude",latLng.latitude);
+                intent.putExtra("longitude",latLng.longitude);
+                intent.putExtra("fromMapClick","fromMapClick");
+                intent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
+                startActivity(intent);
             }
         });
     }
