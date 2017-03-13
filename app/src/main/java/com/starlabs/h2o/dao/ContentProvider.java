@@ -1,5 +1,6 @@
 package com.starlabs.h2o.dao;
 
+import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 
@@ -65,9 +66,46 @@ public interface ContentProvider {
     void getNextWaterReportId(Consumer<Integer> callback);
 
     /**
-     * Sets the next reportNumber to the specified reportNumber
+     * Sets the next reportNumber to the specified reportNumber for water reports
      *
      * @param reportNumber The reportNumber to save
      */
     void setNextWaterReportId(int reportNumber);
+
+    /**
+     * Gets all purity reports. Calls the callback when all purity reports have been received.
+     *
+     * @param callback Called with a list of purity reports
+     */
+    void getAllPurityReports(Consumer<List<PurityReport>> callback);
+
+
+    /**
+     * Gets a single purity report object from the reportNumber. Calls the callback when the purity report is received.
+     *
+     * @param callback     Called with the water report object
+     * @param reportNumber The reportNumber to look for
+     */
+    void getSinglePurityReport(Consumer<PurityReport> callback, int reportNumber);
+
+    /**
+     * Saves the purity report.
+     *
+     * @param purityReport The purity report to save
+     */
+    void setPurityReport(PurityReport purityReport);
+
+    /**
+     * Gets the id for the next purity report. Calls the callback when this next id has been received.
+     *
+     * @param callback Called with the next integer report number
+     */
+    void getNextPurityReportId(Consumer<Integer> callback);
+
+    /**
+     * Sets the next reportNumber to the specified reportNumber for purity reports
+     *
+     * @param reportNumber The reportNumber to save
+     */
+    void setNextPurityReportId(int reportNumber);
 }

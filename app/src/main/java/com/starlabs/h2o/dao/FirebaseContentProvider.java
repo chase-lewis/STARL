@@ -5,6 +5,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 
@@ -141,5 +142,75 @@ class FirebaseContentProvider implements ContentProvider {
     @Override
     public void setNextWaterReportId(int reportNumber) {
         mDatabase.child("waterReportId").setValue(reportNumber);
+    }
+
+    @Override
+    public void getAllPurityReports(Consumer<List<PurityReport>> callback) {
+        mDatabase.child("purityReports").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<PurityReport> purityReports = new ArrayList<PurityReport>();
+
+                for (DataSnapshot report : dataSnapshot.getChildren()) {
+                    purityReports.add(report.getValue(PurityReport.class));
+                }
+
+                callback.accept(purityReports);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing
+            }
+        });
+    }
+
+    @Override
+    public void getSinglePurityReport(Consumer<PurityReport> callback, int reportNumber) {
+        mDatabase.child("purityReports").child("" + reportNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    // Found a user with a matching username
+                    // Extract out the user object from firebase
+                    PurityReport purityReport = dataSnapshot.getValue(PurityReport.class);
+
+                    // Call the provided callback
+                    callback.accept(purityReport);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing yet
+            }
+        });
+    }
+
+    @Override
+    public void setPurityReport(PurityReport purityReport) {
+        mDatabase.child("purityReports").child("" + purityReport.getReportNumber()).setValue(purityReport);
+    }
+
+    @Override
+    public void getNextPurityReportId(Consumer<Integer> callback) {
+        mDatabase.child("purityReportId").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int nextId = dataSnapshot.getValue(Integer.class);
+
+                callback.accept(nextId);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing
+            }
+        });
+    }
+
+    @Override
+    public void setNextPurityReportId(int reportNumber) {
+        mDatabase.child("purityReportId").setValue(reportNumber);
     }
 }
