@@ -63,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button waterPurityReportsView = (Button) findViewById(R.id.water_purity_reports_view);
+        waterPurityReportsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent purityReportsIntent = new Intent(MainActivity.this, ViewPurityWaterReportsActivity.class);
+                startActivity(purityReportsIntent);
+            }
+        });
+
         Button waterReportMap = (Button) findViewById(R.id.water_map_view);
         waterReportMap.setOnClickListener(new View.OnClickListener() {
             @Override
