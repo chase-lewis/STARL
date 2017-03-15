@@ -11,7 +11,9 @@ import com.starlabs.h2o.controller.purity_report.ViewPurityReportsActivity;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportActivity;
 import com.starlabs.h2o.controller.water_report.ViewWaterReportsActivity;
 import com.starlabs.h2o.controller.water_report.WaterReportMapActivity;
+import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.user.User;
+import com.starlabs.h2o.model.user.UserType;
 
 /**
  * Main screen a user sees after logging in
@@ -67,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button purityReportCreate = (Button) findViewById(R.id.purity_report_create);
+        purityReportCreate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (user.getUserType() != UserType.USER) {
+                    Intent profileIntent = new Intent(MainActivity.this, CreatePurityReportActivity.class);
+                    profileIntent.putExtra(CreatePurityReportActivity.TO_REPORT_USER, user);
+                    startActivity(profileIntent);
+                }
+            }
+        });
+
         Button waterPurityReportsView = (Button) findViewById(R.id.water_purity_reports_view);
         waterPurityReportsView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +93,11 @@ public class MainActivity extends AppCompatActivity {
         waterReportMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mapIntent = new Intent(MainActivity.this, WaterReportMapActivity.class);
-                mapIntent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
-                startActivity(mapIntent);
+                if (user.getUserType() != UserType.USER && user.getUserType() != UserType.WORKER) {
+                    Intent mapIntent = new Intent(MainActivity.this, WaterReportMapActivity.class);
+                    mapIntent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
+                    startActivity(mapIntent);
+                }
             }
         });
     }

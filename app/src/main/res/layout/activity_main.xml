@@ -14,9 +14,9 @@
         android:text="Profile Edit!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:id="@+id/main_profile_edit"
         android:textSize="14sp"
+        android:layout_marginTop="12dp"
         android:layout_below="@+id/main_temp_return"
         android:layout_centerHorizontal="true" />
 
@@ -24,28 +24,28 @@
         android:text="Logout!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="12dp"
         android:id="@+id/main_temp_return"
         android:textSize="14sp"
         android:layout_below="@+id/main_temp_text"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Create Report"
+        android:text="Create Water Report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/water_report_create"
+        android:layout_marginTop="11dp"
         android:layout_below="@+id/main_profile_edit"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:id="@+id/water_report_create" />
+        android:layout_centerHorizontal="true" />
     <Button
-        android:text="View Reports"
+        android:text="View Water Reports"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:id="@+id/water_reports_view"
         android:layout_below="@+id/water_report_create"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:id="@+id/water_reports_view" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:text="TEMP: Welcome to the app!"
@@ -63,15 +63,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MAP!"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/main_profile_edit" />
+        android:layout_below="@+id/water_purity_reports_view"
+        android:layout_alignStart="@+id/main_temp_return"
+        android:layout_marginTop="13dp" />
+
+    <Button
+        android:id="@+id/purity_report_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Create Purity Report"
+        android:layout_below="@+id/water_reports_view"
+        android:layout_alignStart="@+id/water_report_create" />
 
     <Button
         android:id="@+id/water_purity_reports_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="14dp"
         android:text="View Purity Reports"
-        android:layout_below="@+id/water_reports_view"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/purity_report_create"
+        android:layout_alignStart="@+id/water_reports_view" />
 </RelativeLayout>

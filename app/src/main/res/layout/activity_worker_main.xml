@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_main_worker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -11,7 +11,7 @@
     tools:context="com.starlabs.h2o.controller.MainActivity">
 
     <Button
-        android:text="Create Report"
+        android:text="Create Water Report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main_profile_edit"
@@ -28,15 +28,6 @@
         android:textSize="24sp"
         android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/water_map_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MAP!"
-        android:layout_marginTop="45dp"
-        android:layout_below="@+id/water_report_create"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -58,4 +49,22 @@
         android:layout_alignBaseline="@+id/main_temp_return"
         android:layout_alignBottom="@+id/main_temp_return"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/water_map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MAP!"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/water_purity_reports_view"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/water_reports_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Water Reports"
+        android:layout_below="@+id/water_report_create"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>
