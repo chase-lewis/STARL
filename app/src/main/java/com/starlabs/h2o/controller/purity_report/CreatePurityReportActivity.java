@@ -1,13 +1,13 @@
-package com.starlabs.h2o.controller.water_report;
+package com.starlabs.h2o.controller.purity_report;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,44 +18,44 @@ import android.widget.TextView;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
+import com.starlabs.h2o.model.report.PurityCondition;
+import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterCondition;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
 
+import org.w3c.dom.Text;
+
 import java.util.function.Consumer;
 
-
-/**
- * Activity to create Water Report
- *
- * @author Kavin Krishnan
- */
-public class CreateWaterReportActivity extends AppCompatActivity {
+public class CreatePurityReportActivity extends AppCompatActivity {
 
     // Intent message ids
-    public static final String USER_TO_REPORT = "TO_WATER_REPORT";
-    public static final String WATER_REPORT_TO_REPORT = "WRTR";
+    public static final String USER_TO_REPORT = "TO_PURITY_REPORT";
+    public static final String PURITY_REPORT_TO_REPORT = "PRTR";
 
     // Field views
+    private TextView reportReporterName;
     private TextView reportDateText;
     private TextView reportNumText;
     private EditText reportLocLatEditText;
     private EditText reportLocLongEditText;
-    private TextView reportReporterName;
     private Spinner waterTypeSpinner;
     private Spinner waterCondSpinner;
+    private TextView virusPPMText;
+    private Text contPPMText;
 
     // User passed into this activity
     private User user;
 
     // Report potentially being passed in
-    private WaterReport report;
+    private PurityReport report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_water_report);
+        setContentView(R.layout.activity_create_purity_report);
 
         // Set up the fields for the user profile
         reportDateText = (TextView) findViewById(R.id.create_water_report_date);
@@ -78,12 +78,12 @@ public class CreateWaterReportActivity extends AppCompatActivity {
         waterCondSpinner.setAdapter(condAdapter);
 
         // TODO: Someone remember to send a parcel from main class when editing
-        if (getIntent().hasExtra(WATER_REPORT_TO_REPORT)) {
+        if (getIntent().hasExtra(PURITY_REPORT_TO_REPORT)) {
             // TODO get the report from the intent
             // TODO do we need to change any values? I don't think so, just let the user update them
         } else {
             // Create a new report
-            report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
+            report = new PurityReport(user.getName(), new Location("H20"), WaterType.BOTTLED, PurityCondition.SAFE, 0, 0);
 
             // Get the correct id for the new report from the content provider
             ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -206,7 +206,4 @@ public class CreateWaterReportActivity extends AppCompatActivity {
     protected void onCancelPressed(View view) {
         finish();
     }
-
 }
-
-

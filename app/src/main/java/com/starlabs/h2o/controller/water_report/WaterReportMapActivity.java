@@ -79,7 +79,7 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
                 intent.putExtra("latitude", latLng.latitude);
                 intent.putExtra("longitude", latLng.longitude);
                 intent.putExtra("fromMapClick", "fromMapClick");
-                intent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
+                intent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
                 startActivity(intent);
             }
         });

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.purity_report.CreatePurityReportActivity;
 import com.starlabs.h2o.controller.purity_report.ViewPurityReportsActivity;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportActivity;
 import com.starlabs.h2o.controller.water_report.ViewWaterReportsActivity;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         waterReportEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent profileIntent = new Intent(MainActivity.this, CreateWaterReportActivity.class);
-                profileIntent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
+                profileIntent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
                 startActivity(profileIntent);
             }
         });
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (user.getUserType() != UserType.USER) {
                     Intent profileIntent = new Intent(MainActivity.this, CreatePurityReportActivity.class);
-                    profileIntent.putExtra(CreatePurityReportActivity.TO_REPORT_USER, user);
+                    profileIntent.putExtra(CreatePurityReportActivity.USER_TO_REPORT, user);
                     startActivity(profileIntent);
                 }
             }
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (user.getUserType() != UserType.USER && user.getUserType() != UserType.WORKER) {
                     Intent mapIntent = new Intent(MainActivity.this, WaterReportMapActivity.class);
-                    mapIntent.putExtra(CreateWaterReportActivity.TO_REPORT_USER, user);
+                    mapIntent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
                     startActivity(mapIntent);
                 }
             }

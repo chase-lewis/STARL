@@ -51,7 +51,8 @@
         <activity
             android:name=".controller.water_report.WaterReportMapActivity"
             android:label="@string/title_activity_water_report_map" />
-        <activity android:name=".controller.purity_report.ViewPurityReportsActivity"></activity>
+        <activity android:name=".controller.purity_report.ViewPurityReportsActivity" />
+        <activity android:name=".controller.purity_report.CreatePurityReportActivity"></activity>
     </application>
 
 </manifest>
