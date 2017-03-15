@@ -21,7 +21,6 @@ import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterCondition;
-import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
 
@@ -42,9 +41,9 @@ public class CreatePurityReportActivity extends AppCompatActivity {
     private EditText reportLocLatEditText;
     private EditText reportLocLongEditText;
     private Spinner waterTypeSpinner;
-    private Spinner waterCondSpinner;
-    private TextView virusPPMText;
-    private Text contPPMText;
+    private Spinner purityCondSpinner;
+    private EditText virusPPMText;
+    private EditText contPPMText;
 
     // User passed into this activity
     private User user;
@@ -58,13 +57,15 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_purity_report);
 
         // Set up the fields for the user profile
-        reportDateText = (TextView) findViewById(R.id.create_water_report_date);
-        reportNumText = (TextView) findViewById(R.id.create_water_report_num);
-        reportLocLatEditText = (EditText) findViewById(R.id.create_water_report_lat);
-        reportLocLongEditText = (EditText) findViewById(R.id.create_water_report_long);
-        reportReporterName = (TextView) findViewById(R.id.create_water_report_username);
-        waterTypeSpinner = (Spinner) findViewById(R.id.create_water_report_spinner);
-        waterCondSpinner = (Spinner) findViewById(R.id.create_water_report_condition);
+        reportDateText = (TextView) findViewById(R.id.create_purity_report_date);
+        reportNumText = (TextView) findViewById(R.id.create_purity_report_num);
+        reportLocLatEditText = (EditText) findViewById(R.id.create_purity_report_lat);
+        reportLocLongEditText = (EditText) findViewById(R.id.create_purity_report_long);
+        reportReporterName = (TextView) findViewById(R.id.create_purity_report_username);
+        waterTypeSpinner = (Spinner) findViewById(R.id.create_purity_report_spinner);
+        purityCondSpinner = (Spinner) findViewById(R.id.create_purity_report_condition);
+        virusPPMText = (EditText) findViewById(R.id.create_purity_report_virus_ppm);
+        contPPMText = (EditText) findViewById(R.id.create_purity_report_cont_ppm);
 
         // Get the user from the intent message
         user = getIntent().getParcelableExtra(USER_TO_REPORT);
@@ -73,9 +74,9 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         waterTypeSpinner.setAdapter(typeAdapter);
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterCondition.values());
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, PurityCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterCondSpinner.setAdapter(condAdapter);
+        purityCondSpinner.setAdapter(condAdapter);
 
         // TODO: Someone remember to send a parcel from main class when editing
         if (getIntent().hasExtra(PURITY_REPORT_TO_REPORT)) {
@@ -95,10 +96,10 @@ public class CreatePurityReportActivity extends AppCompatActivity {
                     reportNumText.setText(Integer.toString(report.getReportNumber()));
 
                     // Increment next id in the content provider
-                    contentProvider.setNextWaterReportId(id + 1);
+                    contentProvider.setNextPurityReportId(id + 1);
                 }
             };
-            contentProvider.getNextWaterReportId(onNextIdFound);
+            contentProvider.getNextPurityReportId(onNextIdFound);
 
             // Check if report's latLong is being generated due to Map Tap or user's location
             if (getIntent().hasExtra("fromMapClick")) {
@@ -130,10 +131,12 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
         waterTypeSpinner.setSelection(report.getType().ordinal());
-        waterCondSpinner.setSelection(report.getCondition().ordinal());
+        purityCondSpinner.setSelection(report.getCondition().ordinal());
+        virusPPMText.setText(report.getVirusPPM() + "");
+        contPPMText.setText(report.getContPPM() + "");
 
         // Create button setup
-        Button reportCreateButton = (Button) findViewById(R.id.create_water_report_create);
+        Button reportCreateButton = (Button) findViewById(R.id.create_purity_report_create);
         reportCreateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onReportCreatePressed(view);
@@ -141,7 +144,7 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         });
 
         // Cancel button setup
-        Button reportCancelButton = (Button) findViewById(R.id.create_water_report_cancel);
+        Button reportCancelButton = (Button) findViewById(R.id.create_purity_report_cancel);
         reportCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onCancelPressed(view);
@@ -157,7 +160,9 @@ public class CreatePurityReportActivity extends AppCompatActivity {
     protected void onReportCreatePressed(View view) {
         // Update the values in the model from the UI
         report.setType((WaterType) waterTypeSpinner.getSelectedItem());
-        report.setCondition((WaterCondition) waterCondSpinner.getSelectedItem());
+        report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
+        report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
+        report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
 
         // Verify the location data is valid
         double latitude;
@@ -193,7 +198,7 @@ public class CreatePurityReportActivity extends AppCompatActivity {
 
         // Store data
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        contentProvider.setWaterReport(report);
+        contentProvider.setPurityReport(report);
 
         finish();
     }

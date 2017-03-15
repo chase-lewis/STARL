@@ -107,9 +107,29 @@
         android:layout_weight="0.11" />
 
     <TextView
+        android:text="Virus PPM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.18" />
+        android:inputType="number"
+        android:text=""
+        android:id="@+id/create_purity_report_virus_ppm" />
+
+    <TextView
+        android:text="Contaminant PPM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text=""
+        android:id="@+id/create_purity_report_cont_ppm"
+        android:layout_weight="0.08" />
 
     <Button
         android:text="Create"
