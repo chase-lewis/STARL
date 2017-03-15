@@ -37,7 +37,6 @@ public class CreatePurityReportActivity extends AppCompatActivity {
     private TextView reportNumText;
     private EditText reportLocLatEditText;
     private EditText reportLocLongEditText;
-    private Spinner waterTypeSpinner;
     private Spinner purityCondSpinner;
     private EditText virusPPMText;
     private EditText contPPMText;
@@ -59,17 +58,12 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         reportLocLatEditText = (EditText) findViewById(R.id.create_purity_report_lat);
         reportLocLongEditText = (EditText) findViewById(R.id.create_purity_report_long);
         reportReporterName = (TextView) findViewById(R.id.create_purity_report_username);
-        waterTypeSpinner = (Spinner) findViewById(R.id.create_purity_report_type);
         purityCondSpinner = (Spinner) findViewById(R.id.create_purity_report_condition);
         virusPPMText = (EditText) findViewById(R.id.create_purity_report_virus_ppm);
         contPPMText = (EditText) findViewById(R.id.create_purity_report_cont_ppm);
 
         // Get the user from the intent message
         user = getIntent().getParcelableExtra(USER_TO_REPORT);
-
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterType.values());
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterTypeSpinner.setAdapter(typeAdapter);
 
         ArrayAdapter<String> condAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, PurityCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,7 +75,7 @@ public class CreatePurityReportActivity extends AppCompatActivity {
             // TODO do we need to change any values? I don't think so, just let the user update them
         } else {
             // Create a new report
-            report = new PurityReport(user.getName(), new Location("H20"), WaterType.BOTTLED, PurityCondition.SAFE, 0, 0);
+            report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
 
             // Get the correct id for the new report from the content provider
             ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -127,7 +121,6 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         reportNumText.setText(Integer.toString(report.getReportNumber()));
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
-        waterTypeSpinner.setSelection(report.getType().ordinal());
         purityCondSpinner.setSelection(report.getCondition().ordinal());
         virusPPMText.setText(report.getVirusPPM() + "");
         contPPMText.setText(report.getContPPM() + "");
@@ -156,7 +149,6 @@ public class CreatePurityReportActivity extends AppCompatActivity {
      */
     protected void onReportCreatePressed(View view) {
         // Update the values in the model from the UI
-        report.setType((WaterType) waterTypeSpinner.getSelectedItem());
         report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
         report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
         report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));

@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.Random;
 
 /**
- * Created by Sungjae Hyun on 2017-03-08.
+ * Represents a Purity Report.
+ *
+ * @author Sungjae Hyun
  */
 
 public class PurityReport {
@@ -15,17 +17,15 @@ public class PurityReport {
     private int reportNumber;
     private double latitude;
     private double longitude;
-    private WaterType type;
     private PurityCondition condition;
     private int virusPPM;
     private int contPPM;
 
-    public PurityReport(String workerName, Location location, WaterType type, PurityCondition condition,
+    public PurityReport(String workerName, Location location, PurityCondition condition,
                         int virusPPM, int contPPM) {
         this.workerName = workerName;
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
-        this.type = type;
         this.condition = condition;
         this.creationDate = new Date();
         this.reportNumber = new Random().nextInt();
@@ -140,24 +140,6 @@ public class PurityReport {
     public void setLocation(Location location) {
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
-    }
-
-    /**
-     * Getter for the waterType
-     *
-     * @return The type of the water
-     */
-    public WaterType getType() {
-        return type;
-    }
-
-    /**
-     * Setter for the waterType
-     *
-     * @param type The type of the water
-     */
-    public void setType(WaterType type) {
-        this.type = type;
     }
 
     /**
