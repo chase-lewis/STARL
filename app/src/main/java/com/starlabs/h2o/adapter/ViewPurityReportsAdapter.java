@@ -38,10 +38,9 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
         holder.creationDate.setText(waterReport.getCreationDate().toString());
         holder.purityLocation.setText("Latitude: " + waterReport.getLatitude()
                 + " Longitude: " + waterReport.getLongitude());
-        holder.purityType.setText("Type: " + waterReport.getType().toString());
         holder.purityCondition.setText("Condition: " + waterReport.getCondition().toString());
-        holder.virusPPM.setText("virusPPM" + waterReport.getVirusPPM());
-        holder.virusPPM.setText("contPPM" + waterReport.getContPPM());
+        holder.virusPPM.setText("virusPPM: " + waterReport.getVirusPPM());
+        holder.virusPPM.setText("contPPM: " + waterReport.getContPPM());
     }
 
     @Override
@@ -54,7 +53,6 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
         TextView reportNumber;
         TextView creationDate;
         TextView purityLocation;
-        TextView purityType;
         TextView purityCondition;
         TextView virusPPM;
         TextView contPPM;
@@ -65,7 +63,6 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
             reportNumber = (TextView) view.findViewById(R.id.purity_report_title);
             creationDate = (TextView) view.findViewById(R.id.purity_report_date);
             purityLocation = (TextView) view.findViewById(R.id.purity_location);
-            purityType = (TextView) view.findViewById(R.id.purity_type);
             purityCondition = (TextView) view.findViewById(R.id.purity_condition);
             virusPPM = (TextView) view.findViewById(R.id.virus_PPM);
             contPPM = (TextView) view.findViewById(R.id.cont_PPM);

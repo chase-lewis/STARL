@@ -31,14 +31,8 @@
         android:layout_below="@+id/purity_report_title"
         android:layout_alignParentStart="true" />
     <TextView
-        android:id="@+id/purity_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/worker_name"
-        android:layout_alignParentStart="true" />
-    <TextView
         android:id="@+id/purity_condition"
-        android:layout_below="@id/purity_type"
+        android:layout_below="@id/worker_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
