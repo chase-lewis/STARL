@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black" />
     <TextView
-        android:id="@+id/creation_date"
+        android:id="@+id/purity_report_date"
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"

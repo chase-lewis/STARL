@@ -21,7 +21,7 @@ public class ViewPurityReportsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_purity_water_reports);
+        setContentView(R.layout.activity_view_purity_reports);
 
         mRecycler = (RecyclerView) findViewById(R.id.purity_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));

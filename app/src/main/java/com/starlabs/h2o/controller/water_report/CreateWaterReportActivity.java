@@ -63,7 +63,7 @@ public class CreateWaterReportActivity extends AppCompatActivity {
         reportLocLatEditText = (EditText) findViewById(R.id.create_water_report_lat);
         reportLocLongEditText = (EditText) findViewById(R.id.create_water_report_long);
         reportReporterName = (TextView) findViewById(R.id.create_water_report_username);
-        waterTypeSpinner = (Spinner) findViewById(R.id.create_water_report_spinner);
+        waterTypeSpinner = (Spinner) findViewById(R.id.create_water_report_type);
         waterCondSpinner = (Spinner) findViewById(R.id.create_water_report_condition);
 
         // Get the user from the intent message

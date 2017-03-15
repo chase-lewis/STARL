@@ -63,7 +63,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
             super(view);
             workerName = (TextView) view.findViewById(R.id.worker_name);
             reportNumber = (TextView) view.findViewById(R.id.purity_report_title);
-            creationDate = (TextView) view.findViewById(R.id.creation_date);
+            creationDate = (TextView) view.findViewById(R.id.purity_report_date);
             purityLocation = (TextView) view.findViewById(R.id.purity_location);
             purityType = (TextView) view.findViewById(R.id.purity_type);
             purityCondition = (TextView) view.findViewById(R.id.purity_condition);

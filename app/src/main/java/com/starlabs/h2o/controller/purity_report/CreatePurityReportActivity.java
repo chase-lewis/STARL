@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,11 +20,8 @@ import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
-import com.starlabs.h2o.model.report.WaterCondition;
 import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
-
-import org.w3c.dom.Text;
 
 import java.util.function.Consumer;
 
@@ -62,7 +59,7 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         reportLocLatEditText = (EditText) findViewById(R.id.create_purity_report_lat);
         reportLocLongEditText = (EditText) findViewById(R.id.create_purity_report_long);
         reportReporterName = (TextView) findViewById(R.id.create_purity_report_username);
-        waterTypeSpinner = (Spinner) findViewById(R.id.create_purity_report_spinner);
+        waterTypeSpinner = (Spinner) findViewById(R.id.create_purity_report_type);
         purityCondSpinner = (Spinner) findViewById(R.id.create_purity_report_condition);
         virusPPMText = (EditText) findViewById(R.id.create_purity_report_virus_ppm);
         contPPMText = (EditText) findViewById(R.id.create_purity_report_cont_ppm);

@@ -17,11 +17,11 @@ public class PurityReport {
     private double longitude;
     private WaterType type;
     private PurityCondition condition;
-    private double virusPPM;
-    private double contPPM;
+    private int virusPPM;
+    private int contPPM;
 
-    public PurityReport(String workerName, Location location, WaterType type, PurityCondition condition
-            , double virusPPM, double contPPM) {
+    public PurityReport(String workerName, Location location, WaterType type, PurityCondition condition,
+                        int virusPPM, int contPPM) {
         this.workerName = workerName;
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
@@ -183,7 +183,7 @@ public class PurityReport {
      *
      * @return The virus PPM the report was created
      */
-    public double getVirusPPM() {
+    public int getVirusPPM() {
         return virusPPM;
     }
 
@@ -192,7 +192,7 @@ public class PurityReport {
      *
      * @param virusPPM the virus PPM to be set
      */
-    public void setVirusPPM(double virusPPM) {
+    public void setVirusPPM(int virusPPM) {
         this.virusPPM = virusPPM;
     }
 
@@ -201,7 +201,7 @@ public class PurityReport {
      *
      * @return The longitude the report was created
      */
-    public double getContPPM() {
+    public int getContPPM() {
         return contPPM;
     }
 
@@ -210,7 +210,7 @@ public class PurityReport {
      *
      * @param contPPM the contaminant PPM to be set
      */
-    public void setContPPM(double contPPM) {
+    public void setContPPM(int contPPM) {
         this.contPPM = contPPM;
     }
 

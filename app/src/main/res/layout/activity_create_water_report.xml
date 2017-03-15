@@ -92,7 +92,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/create_water_report_spinner"
+        android:id="@+id/create_water_report_type"
         android:layout_weight="0.04" />
 
     <TextView

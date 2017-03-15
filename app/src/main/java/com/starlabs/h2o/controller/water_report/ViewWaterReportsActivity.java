@@ -30,7 +30,7 @@ public class ViewWaterReportsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reports);
 
-        mRecycler = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecycler = (RecyclerView) findViewById(R.id.water_report_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         // Obtain list of Water Reports from the content provider

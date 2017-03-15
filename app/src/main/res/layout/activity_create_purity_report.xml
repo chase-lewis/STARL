@@ -85,14 +85,14 @@
         android:layout_weight="0.08" />
 
     <TextView
-        android:text="Purity Type"
+        android:text="Water Type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/create_purity_report_spinner"
+        android:id="@+id/create_purity_report_type"
         android:layout_weight="0.04" />
 
     <TextView

@@ -12,7 +12,6 @@ import com.starlabs.h2o.controller.purity_report.ViewPurityReportsActivity;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportActivity;
 import com.starlabs.h2o.controller.water_report.ViewWaterReportsActivity;
 import com.starlabs.h2o.controller.water_report.WaterReportMapActivity;
-import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.user.User;
 import com.starlabs.h2o.model.user.UserType;
 
@@ -55,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         Button waterReportEdit = (Button) findViewById(R.id.water_report_create);
         waterReportEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent profileIntent = new Intent(MainActivity.this, CreateWaterReportActivity.class);
-                profileIntent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
-                startActivity(profileIntent);
+                Intent createWaterReportIntent = new Intent(MainActivity.this, CreateWaterReportActivity.class);
+                createWaterReportIntent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
+                startActivity(createWaterReportIntent);
             }
         });
 
@@ -74,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         purityReportCreate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (user.getUserType() != UserType.USER) {
-                    Intent profileIntent = new Intent(MainActivity.this, CreatePurityReportActivity.class);
-                    profileIntent.putExtra(CreatePurityReportActivity.USER_TO_REPORT, user);
-                    startActivity(profileIntent);
+                    Intent createPurityIntent = new Intent(MainActivity.this, CreatePurityReportActivity.class);
+                    createPurityIntent.putExtra(CreatePurityReportActivity.USER_TO_REPORT, user);
+                    startActivity(createPurityIntent);
                 }
             }
         });
@@ -94,11 +93,9 @@ public class MainActivity extends AppCompatActivity {
         waterReportMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user.getUserType() != UserType.USER && user.getUserType() != UserType.WORKER) {
-                    Intent mapIntent = new Intent(MainActivity.this, WaterReportMapActivity.class);
-                    mapIntent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
-                    startActivity(mapIntent);
-                }
+                Intent mapIntent = new Intent(MainActivity.this, WaterReportMapActivity.class);
+                mapIntent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
+                startActivity(mapIntent);
             }
         });
     }
