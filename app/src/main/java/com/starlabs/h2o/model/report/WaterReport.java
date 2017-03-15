@@ -10,7 +10,6 @@ import java.util.Random;
  *
  * @author chase, tejun
  */
-
 public class WaterReport {
     private String reporterName;
     private Date creationDate;

@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.water_report;
 
 import android.Manifest;
 import android.content.Context;
@@ -94,7 +94,7 @@ public class CreateWaterReportActivity extends AppCompatActivity {
                     report.setReportNumber(id + 1);
                     reportNumText.setText(Integer.toString(report.getReportNumber()));
 
-                    // Incremement next id in the content provider
+                    // Increment next id in the content provider
                     contentProvider.setNextWaterReportId(id + 1);
                 }
             };

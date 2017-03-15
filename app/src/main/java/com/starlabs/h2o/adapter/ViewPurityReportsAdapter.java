@@ -15,10 +15,10 @@ import java.util.List;
  * Created by Rishi on 3/14/2017.
  */
 
-public class ViewWaterPurityReportsAdapter extends RecyclerView.Adapter<ViewWaterPurityReportsAdapter.CustomViewHolder> {
+public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
     private List<PurityReport> waterPurityReports;
 
-    public ViewWaterPurityReportsAdapter(List<PurityReport> waterPurityReports) {
+    public ViewPurityReportsAdapter(List<PurityReport> waterPurityReports) {
         this.waterPurityReports = waterPurityReports;
     }
 

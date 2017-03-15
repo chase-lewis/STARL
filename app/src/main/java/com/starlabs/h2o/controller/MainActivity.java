@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.purity_report.ViewPurityReportsActivity;
+import com.starlabs.h2o.controller.water_report.CreateWaterReportActivity;
+import com.starlabs.h2o.controller.water_report.ViewWaterReportsActivity;
+import com.starlabs.h2o.controller.water_report.WaterReportMapActivity;
 import com.starlabs.h2o.model.user.User;
 
 /**
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         waterPurityReportsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent purityReportsIntent = new Intent(MainActivity.this, ViewPurityWaterReportsActivity.class);
+                Intent purityReportsIntent = new Intent(MainActivity.this, ViewPurityReportsActivity.class);
                 startActivity(purityReportsIntent);
             }
         });

@@ -34,8 +34,8 @@
         </activity>
         <activity android:name=".controller.MainActivity" />
         <activity android:name=".controller.ViewUserProfileActivity" />
-        <activity android:name=".controller.CreateWaterReportActivity" />
-        <activity android:name=".controller.ViewWaterReportsActivity" />
+        <activity android:name=".controller.water_report.CreateWaterReportActivity" />
+        <activity android:name=".controller.water_report.ViewWaterReportsActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,9 +49,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".controller.WaterReportMapActivity"
+            android:name=".controller.water_report.WaterReportMapActivity"
             android:label="@string/title_activity_water_report_map" />
-        <activity android:name=".controller.ViewPurityWaterReportsActivity"></activity>
+        <activity android:name=".controller.purity_report.ViewPurityReportsActivity"></activity>
     </application>
 
 </manifest>

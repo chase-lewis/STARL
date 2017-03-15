@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.water_report;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
