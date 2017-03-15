@@ -84,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
         waterPurityReportsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent purityReportsIntent = new Intent(MainActivity.this, ViewPurityReportsActivity.class);
-                startActivity(purityReportsIntent);
+                if (user.getUserType() == UserType.ADMINISTRATOR
+                        || user.getUserType() == UserType.MANAGER) {
+                    Intent purityReportsIntent = new Intent(MainActivity.this, ViewPurityReportsActivity.class);
+                    startActivity(purityReportsIntent);
+                }
             }
         });
 
