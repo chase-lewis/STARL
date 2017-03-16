@@ -40,7 +40,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
                 + " Longitude: " + waterReport.getLongitude());
         holder.purityCondition.setText("Condition: " + waterReport.getCondition().toString());
         holder.virusPPM.setText("virusPPM: " + waterReport.getVirusPPM());
-        holder.virusPPM.setText("contPPM: " + waterReport.getContPPM());
+        holder.contPPM.setText("contPPM: " + waterReport.getContPPM());
     }
 
     @Override
