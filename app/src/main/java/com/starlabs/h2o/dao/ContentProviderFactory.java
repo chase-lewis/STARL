@@ -8,6 +8,8 @@ package com.starlabs.h2o.dao;
 
 public class ContentProviderFactory {
 
+    private static ContentProvider contentProvider;
+
     private ContentProviderFactory() {
         // Private constructor to disable object creation
     }
@@ -18,7 +20,13 @@ public class ContentProviderFactory {
      * @return a content provider
      */
     public static ContentProvider getDefaultContentProvider() {
-        ContentProvider contentProvider = new FirebaseContentProvider();
+
+        // Lazy singleton instantiation
+        if (contentProvider == null) {
+            // Use the firebase content provider
+            contentProvider = new FirebaseContentProvider();
+        }
+
         return contentProvider;
     }
 }
