@@ -13,7 +13,6 @@ import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterReport;
-import com.starlabs.h2o.model.user.User;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -22,7 +21,6 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
 
     public static final String TO_REPORT_USER = "TO_WATER_REPORT";
     private GoogleMap mMap;
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +30,6 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        user = getIntent().getParcelableExtra(TO_REPORT_USER);
-
-
     }
 
 
@@ -79,7 +74,6 @@ public class WaterReportMapActivity extends FragmentActivity implements OnMapRea
                 intent.putExtra("latitude", latLng.latitude);
                 intent.putExtra("longitude", latLng.longitude);
                 intent.putExtra("fromMapClick", "fromMapClick");
-                intent.putExtra(CreateWaterReportActivity.USER_TO_REPORT, user);
                 startActivity(intent);
             }
         });

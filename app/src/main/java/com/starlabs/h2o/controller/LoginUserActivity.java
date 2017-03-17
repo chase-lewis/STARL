@@ -145,7 +145,7 @@ public class LoginUserActivity extends AppCompatActivity {
             Consumer<User> onUserFound = new Consumer<User>() {
                 @Override
                 public void accept(User user) {
-                    if (user.getPassword().equals(password)) {
+                    if (user.isCorrectPassword(password)) {
                         // Password matches!
                         // Call the async success method
                         mAuthTask.setUser(user);
@@ -185,7 +185,7 @@ public class LoginUserActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private User mUser;
 
@@ -221,9 +221,12 @@ public class LoginUserActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
+                // Save the user for the session
+                ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+                contentProvider.setLoggedInUser(mUser);
+
                 // Transition to the main activity with the retrieved user
                 Intent profileIntent = new Intent(LoginUserActivity.this, MainActivity.class);
-                profileIntent.putExtra(MainActivity.USER_TO_MAIN, mUser);
                 startActivity(profileIntent);
                 finish();
             } else {

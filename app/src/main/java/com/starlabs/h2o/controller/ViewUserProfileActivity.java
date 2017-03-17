@@ -41,14 +41,16 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.user_profile_email);
         addressField = (EditText) findViewById(R.id.user_profile_address);
 
-        // Get the user from the intent message
-        user = getIntent().getParcelableExtra(RegisterUserActivity.REG_INTENT);
+        // Get the user from the session
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        user = contentProvider.getLoggedInUser();
 
         // Set up the text pre-defined values
         nameField.setText(user.getName());
         emailField.setText(user.getEmail());
         addressField.setText(user.getAddress());
 
+        // Focus
         nameField.requestFocus();
 
         // Done button setup
@@ -83,14 +85,15 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setUser(user);
 
+        // Also store it in the session
+        contentProvider.setLoggedInUser(user);
+
         // Transition to the proper activity
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
             Intent toMain = new Intent(ViewUserProfileActivity.this, MainActivity.class);
-            toMain.putExtra(MainActivity.USER_TO_MAIN, user);
             startActivity(toMain);
         } else {
             Intent result = new Intent();
-            result.putExtra(PROF_UPDATE, user);
             setResult(Activity.RESULT_OK, result);
         }
         finish();

@@ -20,7 +20,6 @@ import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
-import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
 
 import java.util.function.Consumer;
@@ -28,7 +27,6 @@ import java.util.function.Consumer;
 public class CreatePurityReportActivity extends AppCompatActivity {
 
     // Intent message ids
-    public static final String USER_TO_REPORT = "TO_PURITY_REPORT";
     public static final String PURITY_REPORT_TO_REPORT = "PRTR";
 
     // Field views
@@ -62,8 +60,9 @@ public class CreatePurityReportActivity extends AppCompatActivity {
         virusPPMText = (EditText) findViewById(R.id.create_purity_report_virus_ppm);
         contPPMText = (EditText) findViewById(R.id.create_purity_report_cont_ppm);
 
-        // Get the user from the intent message
-        user = getIntent().getParcelableExtra(USER_TO_REPORT);
+        // Get the user from session
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        user = contentProvider.getLoggedInUser();
 
         ArrayAdapter<String> condAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, PurityCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,7 +77,6 @@ public class CreatePurityReportActivity extends AppCompatActivity {
             report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
 
             // Get the correct id for the new report from the content provider
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
                 @Override
                 public void accept(Integer id) {

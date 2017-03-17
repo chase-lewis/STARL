@@ -34,7 +34,6 @@ import java.util.function.Consumer;
 public class CreateWaterReportActivity extends AppCompatActivity {
 
     // Intent message ids
-    public static final String USER_TO_REPORT = "TO_WATER_REPORT";
     public static final String WATER_REPORT_TO_REPORT = "WRTR";
 
     // Field views
@@ -66,8 +65,9 @@ public class CreateWaterReportActivity extends AppCompatActivity {
         waterTypeSpinner = (Spinner) findViewById(R.id.create_water_report_type);
         waterCondSpinner = (Spinner) findViewById(R.id.create_water_report_condition);
 
-        // Get the user from the intent message
-        user = getIntent().getParcelableExtra(USER_TO_REPORT);
+        // Get the user from the session
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        user = contentProvider.getLoggedInUser();
 
         ArrayAdapter<String> typeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterType.values());
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,7 +86,6 @@ public class CreateWaterReportActivity extends AppCompatActivity {
             report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
             // Get the correct id for the new report from the content provider
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
                 @Override
                 public void accept(Integer id) {

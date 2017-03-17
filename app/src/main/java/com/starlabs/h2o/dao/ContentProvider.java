@@ -15,6 +15,20 @@ import java.util.function.Consumer;
 
 public interface ContentProvider {
     /**
+     * Gets the user for this session.
+     *
+     * @return the logged in user
+     */
+    User getLoggedInUser();
+
+    /**
+     * Sets the user for this session
+     *
+     * @param loggedInUser the logged in user
+     */
+    void setLoggedInUser(User loggedInUser);
+
+    /**
      * Gets all users. Calls the callback when all users have been received.
      *
      * @param callback Called with a list of users

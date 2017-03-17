@@ -17,11 +17,13 @@ import java.util.function.Consumer;
  * Specific type of content provider that uses firebase
  */
 
-class FirebaseContentProvider implements ContentProvider {
+class FirebaseContentProvider extends SessionContentProvider implements ContentProvider {
 
     private DatabaseReference mDatabase;
 
     FirebaseContentProvider() {
+        super();
+
         // Firebase database authentication
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }

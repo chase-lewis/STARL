@@ -218,9 +218,12 @@ public class RegisterUserActivity extends AppCompatActivity {
                 UserType userType = (UserType) mUserTypeView.getSelectedItem();
                 user = new User(mUsername, mPassword, userType);
 
+                // Set the user in the current session
+                ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+                contentProvider.setLoggedInUser(user);
+
                 // Transition to the Profile activity
                 Intent profileIntent = new Intent(RegisterUserActivity.this, ViewUserProfileActivity.class);
-                profileIntent.putExtra(REG_INTENT, user);
                 profileIntent.putExtra(ViewUserProfileActivity.TO_MAIN, true);
                 startActivity(profileIntent);
                 finish();
