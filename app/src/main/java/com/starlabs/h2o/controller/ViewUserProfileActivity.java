@@ -22,7 +22,7 @@ public class ViewUserProfileActivity extends AppCompatActivity {
 
     // Intent message ids
     public static final String TO_MAIN = "TO_MAIN";
-    public static final String PROF_UPDATE = "PROF UPDATE";
+
     // Field views
     private EditText nameField;
     private EditText emailField;
@@ -92,9 +92,6 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
             Intent toMain = new Intent(ViewUserProfileActivity.this, MainActivity.class);
             startActivity(toMain);
-        } else {
-            Intent result = new Intent();
-            setResult(Activity.RESULT_OK, result);
         }
         finish();
     }

@@ -23,7 +23,6 @@ import com.starlabs.h2o.model.user.UserType;
  * @author tejun
  */
 public class MainActivity extends AppCompatActivity {
-    private final int CODE = 392;
     private User user;
 
     @Override
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         profileEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent profileIntent = new Intent(MainActivity.this, ViewUserProfileActivity.class);
-                startActivityForResult(profileIntent, CODE);
+                startActivity(profileIntent);
             }
         });
 
@@ -100,18 +99,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(mapIntent);
             }
         });
-    }
-
-    /**
-     * Method called when startActivityForResult returns
-     *
-     * @param requestCode the code indicating the original caller
-     * @param resultCode  the code indicating whether the return was successful
-     * @param data        the data returned
-     */
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE && resultCode == RESULT_OK) {
-            user = data.getParcelableExtra(ViewUserProfileActivity.PROF_UPDATE);
-        }
     }
 }
