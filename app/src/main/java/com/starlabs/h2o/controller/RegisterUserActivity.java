@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 /**
  * The registration screen for username/password authentication
  *
- * @author tejun
+ * @author tejun, clewis
  */
 public class RegisterUserActivity extends AppCompatActivity {
     public static final String REG_INTENT = "USER_TEMP";

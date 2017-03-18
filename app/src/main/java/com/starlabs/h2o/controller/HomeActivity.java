@@ -16,13 +16,20 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
 import com.starlabs.h2o.model.user.UserType;
 
+/**
+ * Main screen with navigation drawer to allow transitions between fragments
+ *
+ * @author clewis
+ */
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    User user = new User("user", "pass", UserType.USER);
+    User user = new User("user", "pass", UserType.MANAGER);
 
 
     NavigationView navigationView = null;
@@ -30,6 +37,7 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager fragmentManager = getFragmentManager();
     Fragment mapFragment = new MapViewFragment();
     Fragment waterReportCreateFragment = new WaterReportCreateFragment();
+    Fragment purityReportCreateFragment = new PurityReportCreateFragment();
 
 
     @Override
@@ -39,6 +47,10 @@ public class HomeActivity extends AppCompatActivity
 
         //FIXME: Actually read in the user from the login
         user.setName("Bob Ross");
+
+        //FIXME:Temporary testing code... remove later
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        contentProvider.setLoggedInUser(user);
 
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -130,21 +142,21 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_map) {
             newFragment = mapFragment;
         } else if (id == R.id.nav_create_water_report) {
-            if (!(current instanceof WaterReportCreateFragment)) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("User", user);
-                if (waterReportCreateFragment.getArguments() == null) {
-                    waterReportCreateFragment.setArguments(bundle);
-                } else {
-                    waterReportCreateFragment.getArguments().clear();
-                    waterReportCreateFragment.getArguments().putAll(bundle);
-                }
-            }
+//            if (!(current instanceof WaterReportCreateFragment)) {
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable("User", user);
+//                if (waterReportCreateFragment.getArguments() == null) {
+//                    waterReportCreateFragment.setArguments(bundle);
+//                } else {
+//                    waterReportCreateFragment.getArguments().clear();
+//                    waterReportCreateFragment.getArguments().putAll(bundle);
+//                }
+//            }
             newFragment = waterReportCreateFragment;
         } else if (id == R.id.nav_view_water_reports) {
             newFragment = current;
         } else if (id == R.id.nav_create_purity_report) {
-            newFragment = current;
+            newFragment = purityReportCreateFragment;
         } else if (id == R.id.nav_view_purity_reports) {
             newFragment = current;
         } else if (id == R.id.nav_view_histogram) {

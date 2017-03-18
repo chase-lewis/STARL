@@ -15,9 +15,8 @@ import android.widget.TextView;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
-import com.starlabs.h2o.model.report.WaterCondition;
-import com.starlabs.h2o.model.report.WaterReport;
-import com.starlabs.h2o.model.report.WaterType;
+import com.starlabs.h2o.model.report.PurityCondition;
+import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.user.User;
 
 import java.util.function.Consumer;
@@ -25,34 +24,37 @@ import java.util.function.Consumer;
 ///**
 // * A simple {@link Fragment} subclass.
 // * Activities that contain this fragment must implement the
-// * {@link WaterReportCreateFragment.OnFragmentInteractionListener} interface
+// * {@link PurityReportCreateFragment.OnFragmentInteractionListener} interface
 // * to handle interaction events.
-// * Use the {@link WaterReportCreateFragment#newInstance} factory method to
+// * Use the {@link PurityReportCreateFragment#newInstance} factory method to
 // * create an instance of this fragment.
 // */
-public class WaterReportCreateFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class PurityReportCreateFragment extends Fragment {
+//    // TODO: Rename parameter arguments, choose names that match
+//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
 //    private static final String ARG_PARAM2 = "param2";
 //
 //    // TODO: Rename and change types of parameters
 //    private String mParam1;
 //    private String mParam2;
-
+//
 //    private OnFragmentInteractionListener mListener;
 
     User user;
+
+    private TextView reportReporterName;
     private TextView reportDateText;
     private TextView reportNumText;
     private EditText reportLocLatEditText;
     private EditText reportLocLongEditText;
-    private TextView reportReporterName;
-    private Spinner waterTypeSpinner;
-    private Spinner waterCondSpinner;
-    private WaterReport report;
+    private Spinner purityCondSpinner;
+    private EditText virusPPMText;
+    private EditText contPPMText;
 
-    public WaterReportCreateFragment() {
+    private PurityReport report;
+
+    public PurityReportCreateFragment() {
         // Required empty public constructor
     }
 
@@ -62,11 +64,11 @@ public class WaterReportCreateFragment extends Fragment {
 //     *
 //     * @param param1 Parameter 1.
 //     * @param param2 Parameter 2.
-//     * @return A new instance of fragment WaterReportCreateFragment.
+//     * @return A new instance of fragment PurityReportCreateFragment.
 //     */
 //    // TODO: Rename and change types and number of parameters
-//    public static WaterReportCreateFragment newInstance(String param1, String param2) {
-//        WaterReportCreateFragment fragment = new WaterReportCreateFragment();
+//    public static PurityReportCreateFragment newInstance(String param1, String param2) {
+//        PurityReportCreateFragment fragment = new PurityReportCreateFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -77,54 +79,42 @@ public class WaterReportCreateFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Bundle bundle = this.getArguments();
-//        if (bundle != null) {
-//            user = bundle.getParcelable("User");
-//            Log.d("CWRF", "BUNDLE RECEIVED");
-//            Log.d("CWRF", user.getName());
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        Bundle bundle = this.getArguments();
-//        if (bundle != null) {
-//            user = bundle.getParcelable("User");
-//        }
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_create_water_report, container, false);
+        View view = inflater.inflate(R.layout.activity_create_purity_report, container, false);
 
         // Set up the fields for the user profile
-        reportDateText = (TextView) view.findViewById(R.id.create_water_report_date);
-        reportNumText = (TextView) view.findViewById(R.id.create_water_report_num);
-        reportLocLatEditText = (EditText) view.findViewById(R.id.create_water_report_lat);
-        reportLocLongEditText = (EditText) view.findViewById(R.id.create_water_report_long);
-        reportReporterName = (TextView) view.findViewById(R.id.create_water_report_username);
-        waterTypeSpinner = (Spinner) view.findViewById(R.id.create_water_report_type);
-        waterCondSpinner = (Spinner) view.findViewById(R.id.create_water_report_condition);
+        reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
+        reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
+        reportLocLatEditText = (EditText) view.findViewById(R.id.create_purity_report_lat);
+        reportLocLongEditText = (EditText) view.findViewById(R.id.create_purity_report_long);
+        reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
+        purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
+        virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
+        contPPMText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);
 
-        // Get the user from the session
+        // Get the user from session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         user = contentProvider.getLoggedInUser();
 
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterType.values());
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterTypeSpinner.setAdapter(typeAdapter);
-
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterCondition.values());
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, PurityCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterCondSpinner.setAdapter(condAdapter);
+        purityCondSpinner.setAdapter(condAdapter);
 
         // TODO: Someone remember to send a parcel from main class when editing
-//        if (getIntent().hasExtra(WATER_REPORT_TO_REPORT)) {
+//        if (getIntent().hasExtra(PURITY_REPORT_TO_REPORT)) {
 //            // TODO get the report from the intent
 //            // TODO do we need to change any values? I don't think so, just let the user update them
 //        } else {
         // Create a new report
-        report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
+        report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
 
         // Get the correct id for the new report from the content provider
         Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
@@ -135,12 +125,12 @@ public class WaterReportCreateFragment extends Fragment {
                 reportNumText.setText(Integer.toString(report.getReportNumber()));
 
                 // Increment next id in the content provider
-                contentProvider.setNextWaterReportId(id + 1);
+                contentProvider.setNextPurityReportId(id + 1);
             }
         };
-        contentProvider.getNextWaterReportId(onNextIdFound);
+        contentProvider.getNextPurityReportId(onNextIdFound);
 
-        // Check if report's latLong is being generated due to Map Tap or user's location
+//            // Check if report's latLong is being generated due to Map Tap or user's location
 //            if (getIntent().hasExtra("fromMapClick")) {
 //                report.setLatitude(getIntent().getDoubleExtra("latitude", 0));
 //                report.setLongitude(getIntent().getDoubleExtra("longitude", 0));
@@ -169,11 +159,12 @@ public class WaterReportCreateFragment extends Fragment {
         reportNumText.setText(Integer.toString(report.getReportNumber()));
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
-        waterTypeSpinner.setSelection(report.getType().ordinal());
-        waterCondSpinner.setSelection(report.getCondition().ordinal());
+        purityCondSpinner.setSelection(report.getCondition().ordinal());
+        virusPPMText.setText(report.getVirusPPM() + "");
+        contPPMText.setText(report.getContPPM() + "");
 
         // Create button setup
-        Button reportCreateButton = (Button) view.findViewById(R.id.create_water_report_create);
+        Button reportCreateButton = (Button) view.findViewById(R.id.create_purity_report_create);
         reportCreateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onReportCreatePressed(view);
@@ -181,12 +172,13 @@ public class WaterReportCreateFragment extends Fragment {
         });
 
         // Cancel button setup
-        Button reportCancelButton = (Button) view.findViewById(R.id.create_water_report_cancel);
+        Button reportCancelButton = (Button) view.findViewById(R.id.create_purity_report_cancel);
         reportCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onCancelPressed(view);
             }
         });
+
         return view;
     }
 
@@ -197,8 +189,9 @@ public class WaterReportCreateFragment extends Fragment {
      */
     protected void onReportCreatePressed(View view) {
         // Update the values in the model from the UI
-        report.setType((WaterType) waterTypeSpinner.getSelectedItem());
-        report.setCondition((WaterCondition) waterCondSpinner.getSelectedItem());
+        report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
+        report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
+        report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
 
         // Verify the location data is valid
         double latitude;
@@ -234,7 +227,7 @@ public class WaterReportCreateFragment extends Fragment {
 
         // Store data
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        contentProvider.setWaterReport(report);
+        contentProvider.setPurityReport(report);
 
         getActivity().getFragmentManager().popBackStackImmediate();
     }
@@ -248,14 +241,13 @@ public class WaterReportCreateFragment extends Fragment {
         getActivity().getFragmentManager().popBackStackImmediate();
     }
 
-
 //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
 //        }
 //    }
-
+//
 //    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
@@ -266,7 +258,7 @@ public class WaterReportCreateFragment extends Fragment {
 //                    + " must implement OnFragmentInteractionListener");
 //        }
 //    }
-
+//
 //    @Override
 //    public void onDetach() {
 //        super.onDetach();

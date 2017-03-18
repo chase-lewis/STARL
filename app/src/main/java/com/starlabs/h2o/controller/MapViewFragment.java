@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Created by chase on 3/17/17.
+ * Fragment for displaying google map in the HomeActivity
+ *
+ * @author clewis
  */
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
