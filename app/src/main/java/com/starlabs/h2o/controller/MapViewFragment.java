@@ -1,19 +1,19 @@
 package com.starlabs.h2o.controller;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.MapFragment;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.controller.water_report.CreateWaterReportActivity;
-import com.starlabs.h2o.controller.water_report.WaterReportMapActivity;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterReport;
@@ -27,12 +27,26 @@ import java.util.function.Consumer;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
+    private static View view;
     MapView mMapView;
     private GoogleMap mMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_gmaps, container, false);
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null)
+                parent.removeView(view);
+        }
+        try {
+            view = inflater.inflate(R.layout.fragment_gmaps, container, false);
+        } catch (InflateException e) {
+        /* map is already there, just return view as it is */
+        }
+        return view;
+
+
+//        return inflater.inflate(R.layout.fragment_gmaps, container, false);
     }
 
     @Override

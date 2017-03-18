@@ -8,4 +8,9 @@
     tools:context="com.starlabs.h2o.controller.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
+    <RelativeLayout
+        android:id="@+id/fragment_home_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>
