@@ -4,9 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -50,14 +48,14 @@ public class HomeActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -68,11 +66,24 @@ public class HomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        if (user.getUserType() == UserType.USER) {
+            navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
+            navigationView.getMenu().getItem(5).setVisible(false);
+        } else if (user.getUserType() == UserType.WORKER) {
+            navigationView.getMenu().getItem(4).setVisible(false);
+            navigationView.getMenu().getItem(5).setVisible(false);
+        }
+
         View header = navigationView.getHeaderView(0);
         TextView name = (TextView) header.findViewById(R.id.header_name);
         name.setText(user.getName());
         TextView username = (TextView) header.findViewById(R.id.header_username);
         username.setText(user.getUsername());
+
+//        fragmentManager.addOnBackStackChangedListener(() -> );
     }
 
     @Override
@@ -112,29 +123,41 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment newFragment;
 
+        Fragment current = fragmentManager.findFragmentById(R.id.fragment_home_container);
         //TODO: Only switch fragments if not currently accessing that one
         if (id == R.id.nav_map) {
-            FragmentTransaction transaction= fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragment_home_container, mapFragment);
-            transaction.addToBackStack("MAP");
-            transaction.commit();
+            newFragment = mapFragment;
         } else if (id == R.id.nav_create_water_report) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("User", user);
-            waterReportCreateFragment.setArguments(bundle);
-            FragmentTransaction transaction= fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragment_home_container, waterReportCreateFragment);
-            transaction.addToBackStack("CREATE_WATER_REPORT");
+            if (!(current instanceof WaterReportCreateFragment)) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("User", user);
+                if (waterReportCreateFragment.getArguments() == null) {
+                    waterReportCreateFragment.setArguments(bundle);
+                } else {
+                    waterReportCreateFragment.getArguments().clear();
+                    waterReportCreateFragment.getArguments().putAll(bundle);
+                }
+            }
+            newFragment = waterReportCreateFragment;
+        } else if (id == R.id.nav_view_water_reports) {
+            newFragment = current;
+        } else if (id == R.id.nav_create_purity_report) {
+            newFragment = current;
+        } else if (id == R.id.nav_view_purity_reports) {
+            newFragment = current;
+        } else if (id == R.id.nav_view_histogram) {
+            newFragment = current;
+        } else {
+            newFragment = current;
+        }
+
+        if (newFragment.getClass() != current.getClass()) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_home_container, newFragment);
+            transaction.addToBackStack("HOME_FRAG");
             transaction.commit();
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

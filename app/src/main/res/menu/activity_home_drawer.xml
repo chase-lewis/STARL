@@ -11,26 +11,39 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Create Water Report" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_view_water_reports"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="View Water Reports" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_create_purity_report"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Create Purity Report"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/nav_view_purity_reports"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="View Purity Reports"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/nav_view_histogram"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="View Histogram"
+            android:visible="true" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <!--<item android:title="Communicate">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_share"-->
+    <!--android:icon="@drawable/ic_menu_share"-->
+    <!--android:title="Share" />-->
+    <!--<item-->
+    <!--android:id="@+id/nav_send"-->
+    <!--android:icon="@drawable/ic_menu_send"-->
+    <!--android:title="Send" />-->
+    <!--</menu>-->
+    <!--</item>-->
 
 </menu>
