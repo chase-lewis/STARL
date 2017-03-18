@@ -103,6 +103,11 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (fragmentManager.findFragmentById(R.id.fragment_home_container).getClass() != mapFragment.getClass()) {
+            //FIXME: Replace with code that simulates user pressing map
+            //Actually this seems to work for now... review later
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            navigationView.getMenu().getItem(0).setChecked(true);
         } else {
             super.onBackPressed();
         }
@@ -168,7 +173,7 @@ public class HomeActivity extends AppCompatActivity
         if (newFragment.getClass() != current.getClass()) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_home_container, newFragment);
-            transaction.addToBackStack("HOME_FRAG");
+//            transaction.addToBackStack("HOME_FRAG");
             transaction.commit();
         }
 

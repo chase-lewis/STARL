@@ -236,7 +236,8 @@ public class WaterReportCreateFragment extends Fragment {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setWaterReport(report);
 
-        getActivity().getFragmentManager().popBackStackImmediate();
+//        getActivity().getFragmentManager().popBackStackImmediate();
+        getActivity().onBackPressed();
     }
 
     /**
@@ -245,7 +246,8 @@ public class WaterReportCreateFragment extends Fragment {
      * @param view the parameter View
      */
     protected void onCancelPressed(View view) {
-        getActivity().getFragmentManager().popBackStackImmediate();
+//        getActivity().getFragmentManager().popBackStackImmediate();
+        getActivity().onBackPressed();
     }
 
 

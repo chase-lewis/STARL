@@ -229,7 +229,8 @@ public class PurityReportCreateFragment extends Fragment {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setPurityReport(report);
 
-        getActivity().getFragmentManager().popBackStackImmediate();
+//        getActivity().getFragmentManager().popBackStackImmediate();
+        getActivity().onBackPressed();
     }
 
     /**
@@ -238,7 +239,8 @@ public class PurityReportCreateFragment extends Fragment {
      * @param view the parameter View
      */
     protected void onCancelPressed(View view) {
-        getActivity().getFragmentManager().popBackStackImmediate();
+//        getActivity().getFragmentManager().popBackStackImmediate();
+        getActivity().onBackPressed();
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
