@@ -226,7 +226,7 @@ public class LoginUserActivity extends AppCompatActivity {
                 contentProvider.setLoggedInUser(mUser);
 
                 // Transition to the main activity with the retrieved user
-                Intent profileIntent = new Intent(LoginUserActivity.this, MainActivity.class);
+                Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
                 startActivity(profileIntent);
                 finish();
             } else {

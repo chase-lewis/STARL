@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.purity_report;
 
 import android.app.Fragment;
 import android.location.Location;

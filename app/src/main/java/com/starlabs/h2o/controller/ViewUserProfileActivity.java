@@ -1,6 +1,5 @@
 package com.starlabs.h2o.controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -90,7 +89,7 @@ public class ViewUserProfileActivity extends AppCompatActivity {
 
         // Transition to the proper activity
         if (getIntent().getBooleanExtra(TO_MAIN, false)) {
-            Intent toMain = new Intent(ViewUserProfileActivity.this, MainActivity.class);
+            Intent toMain = new Intent(ViewUserProfileActivity.this, HomeActivity.class);
             startActivity(toMain);
         }
         finish();

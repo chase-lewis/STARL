@@ -29,8 +29,10 @@
     <string name="repeat_password">Retype password</string>
     <string name="action_register">Register</string>
     <string name="error_invalid_password">This password is too short</string>
+
+
     <string name="title_activity_water_report_map">Map</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">H2O</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

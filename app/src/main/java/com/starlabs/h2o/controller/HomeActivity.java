@@ -3,6 +3,7 @@ package com.starlabs.h2o.controller;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.purity_report.PurityReportCreateFragment;
+import com.starlabs.h2o.controller.purity_report.ViewPurityReportsFragment;
+import com.starlabs.h2o.controller.water_report.ViewWaterReportsFragment;
+import com.starlabs.h2o.controller.water_report.WaterReportCreateFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
@@ -29,7 +34,7 @@ import com.starlabs.h2o.model.user.UserType;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    User user = new User("user", "pass", UserType.MANAGER);
+    User user = new User("NAVTEST", "pass", UserType.MANAGER);
 
 
     NavigationView navigationView = null;
@@ -45,12 +50,15 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //FIXME: Actually read in the user from the login
-        user.setName("Bob Ross");
-
-        //FIXME:Temporary testing code... remove later
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        contentProvider.setLoggedInUser(user);
+        user = contentProvider.getLoggedInUser();
+
+//        //FIXME: Actually read in the user from the login
+//        user.setName("Bob Ross");
+//
+//        //FIXME:Temporary testing code... remove later
+//        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+//        contentProvider.setLoggedInUser(user);
 
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -128,7 +136,12 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_edit_profile) {
+            Intent profileIntent = new Intent(HomeActivity.this, ViewUserProfileActivity.class);
+            startActivity(profileIntent);
+            return true;
+        } else if (id == R.id.action_logout) {
+            finish();
             return true;
         }
 
@@ -159,11 +172,11 @@ public class HomeActivity extends AppCompatActivity
 //            }
             newFragment = waterReportCreateFragment;
         } else if (id == R.id.nav_view_water_reports) {
-            newFragment = current;
+            newFragment = new ViewWaterReportsFragment();
         } else if (id == R.id.nav_create_purity_report) {
             newFragment = purityReportCreateFragment;
         } else if (id == R.id.nav_view_purity_reports) {
-            newFragment = current;
+            newFragment = new ViewPurityReportsFragment();
         } else if (id == R.id.nav_view_histogram) {
             newFragment = current;
         } else {
