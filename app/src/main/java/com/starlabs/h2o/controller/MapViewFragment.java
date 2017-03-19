@@ -64,8 +64,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         // Get all the water reports from the content provider
@@ -84,15 +84,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         contentProvider.getAllWaterReports(onWaterReportsReceived);
 
         // Listens for a tap gesture on the map and then proceeds to the screen for report creation.
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                Intent intent = new Intent("NON", CreateWaterReportActivity.class);
-//                intent.putExtra("latitude", latLng.latitude);
-//                intent.putExtra("longitude", latLng.longitude);
-//                intent.putExtra("fromMapClick", "fromMapClick");
-//                startActivity(intent);
-//            }
-//        });
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("LOC", latLng);
+                ((HomeActivity) getActivity()).switchToWaterReportCreate(bundle);
+            }
+        });
     }
 }

@@ -1,8 +1,13 @@
 package com.starlabs.h2o.controller;
 
+import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
@@ -43,6 +49,7 @@ public class WaterReportCreateFragment extends Fragment {
 //    private OnFragmentInteractionListener mListener;
 
     User user;
+    private boolean edit = false;
     private TextView reportDateText;
     private TextView reportNumText;
     private EditText reportLocLatEditText;
@@ -118,11 +125,14 @@ public class WaterReportCreateFragment extends Fragment {
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         waterCondSpinner.setAdapter(condAdapter);
 
-        // TODO: Someone remember to send a parcel from main class when editing
-//        if (getIntent().hasExtra(WATER_REPORT_TO_REPORT)) {
-//            // TODO get the report from the intent
-//            // TODO do we need to change any values? I don't think so, just let the user update them
-//        } else {
+//         TODO: Someone remember to send a parcel from main class when editing
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.getParcelable("WR_EDIT") != null) {
+            // TODO get the report from the intent
+            // TODO do we need to change any values? I don't think so, just let the user update them
+            report = bundle.getParcelable("WR_EDIT");
+            edit = true;
+        } else {
         // Create a new report
         report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
@@ -135,33 +145,34 @@ public class WaterReportCreateFragment extends Fragment {
                 reportNumText.setText(Integer.toString(report.getReportNumber()));
 
                 // Increment next id in the content provider
-                contentProvider.setNextWaterReportId(id + 1);
+//                contentProvider.setNextWaterReportId(id + 1);
             }
         };
         contentProvider.getNextWaterReportId(onNextIdFound);
 
         // Check if report's latLong is being generated due to Map Tap or user's location
-//            if (getIntent().hasExtra("fromMapClick")) {
-//                report.setLatitude(getIntent().getDoubleExtra("latitude", 0));
-//                report.setLongitude(getIntent().getDoubleExtra("longitude", 0));
-//            } else {
-//                // Set up the location of the report
-//                // Check if we have location access permission first. Note we are using Network Location, not GPS
-//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//                    LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//                    String locationProvider = LocationManager.NETWORK_PROVIDER;
-//
-//                    // Get rough location very synchronously
-//                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-//
-//                    if (lastKnownLocation != null) {
-//                        // Set the location in the pojo
-//                        report.setLatitude(lastKnownLocation.getLatitude());
-//                        report.setLongitude(lastKnownLocation.getLongitude());
-//                    }
-//                }
-//            }
-//        }
+            if (bundle != null) {
+                LatLng latLng = bundle.getParcelable("LOC");
+                report.setLatitude(latLng.latitude);
+                report.setLongitude(latLng.longitude);
+            } else {
+                // Set up the location of the report
+                // Check if we have location access permission first. Note we are using Network Location, not GPS
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                    String locationProvider = LocationManager.NETWORK_PROVIDER;
+
+                    // Get rough location very synchronously
+                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+                    if (lastKnownLocation != null) {
+                        // Set the location in the pojo
+                        report.setLatitude(lastKnownLocation.getLatitude());
+                        report.setLongitude(lastKnownLocation.getLongitude());
+                    }
+                }
+            }
+        }
 
         // Set all the text views
         reportReporterName.setText(user.getName());
@@ -235,6 +246,9 @@ public class WaterReportCreateFragment extends Fragment {
         // Store data
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setWaterReport(report);
+        if (!edit) {
+            contentProvider.setNextWaterReportId(report.getReportNumber());
+        }
 
 //        getActivity().getFragmentManager().popBackStackImmediate();
         getActivity().onBackPressed();

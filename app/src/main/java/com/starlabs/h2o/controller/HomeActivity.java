@@ -80,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        //hide features from restricted users
         if (user.getUserType() == UserType.USER) {
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(false);
@@ -106,8 +107,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (fragmentManager.findFragmentById(R.id.fragment_home_container).getClass() != mapFragment.getClass()) {
             //FIXME: Replace with code that simulates user pressing map
             //Actually this seems to work for now... review later
-            onNavigationItemSelected(navigationView.getMenu().getItem(0));
-            navigationView.getMenu().getItem(0).setChecked(true);
+            switchToMap();
         } else {
             super.onBackPressed();
         }
@@ -180,5 +180,19 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void switchToMap() {
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        navigationView.getMenu().getItem(0).setChecked(true);
+    }
+
+    public void switchToWaterReportCreate(Bundle bundle) {
+        WaterReportCreateFragment newReport = new WaterReportCreateFragment();
+        newReport.setArguments(bundle);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_home_container, newReport);
+        transaction.commit();
+        navigationView.getMenu().getItem(1).setChecked(true);
     }
 }
