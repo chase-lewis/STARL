@@ -1,16 +1,25 @@
 package com.starlabs.h2o.controller;
 
+import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.starlabs.h2o.R;
@@ -28,27 +37,12 @@ import java.util.function.Consumer;
  */
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
-
-    private static View view;
-    MapView mMapView;
     private GoogleMap mMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null)
-                parent.removeView(view);
-        }
-        try {
-            view = inflater.inflate(R.layout.fragment_gmaps, container, false);
-        } catch (InflateException e) {
-        /* map is already there, just return view as it is */
-        }
-        return view;
-
-
-//        return inflater.inflate(R.layout.fragment_gmaps, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_gmaps, container, false);
     }
 
     @Override
@@ -63,10 +57,21 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Move the camera in the map to our current location
+        // Check if we have location access permission first. Note we are using Network Location, not GPS
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
+
+            // Get rough location synchronously
+            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+            if (lastKnownLocation != null) {
+                // Set the location
+                LatLng loc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+            }
+        }
 
         // Get all the water reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();

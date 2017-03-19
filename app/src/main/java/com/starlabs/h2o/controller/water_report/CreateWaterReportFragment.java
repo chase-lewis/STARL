@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller.purity_report;
+package com.starlabs.h2o.controller.water_report;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -21,71 +21,77 @@ import com.google.android.gms.maps.model.LatLng;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
-import com.starlabs.h2o.model.report.PurityCondition;
-import com.starlabs.h2o.model.report.PurityReport;
+import com.starlabs.h2o.model.report.WaterCondition;
+import com.starlabs.h2o.model.report.WaterReport;
+import com.starlabs.h2o.model.report.WaterType;
 import com.starlabs.h2o.model.user.User;
 
 import java.util.function.Consumer;
 
 /**
- * A fragment for creating purity reports
+ * A fragment for creating water reports
  *
  * @author chase
  */
-public class PurityReportCreateFragment extends Fragment {
+public class CreateWaterReportFragment extends Fragment {
 
-    private User user;
-    private boolean edit;
-    private TextView reportReporterName;
+    User user;
+    private boolean edit = false;
     private TextView reportDateText;
     private TextView reportNumText;
     private EditText reportLocLatEditText;
     private EditText reportLocLongEditText;
-    private Spinner purityCondSpinner;
-    private EditText virusPPMText;
-    private EditText contPPMText;
-    private PurityReport report;
+    private TextView reportReporterName;
+    private Spinner waterTypeSpinner;
+    private Spinner waterCondSpinner;
+    private WaterReport report;
 
-    public PurityReportCreateFragment() {
+    public CreateWaterReportFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_create_purity_report, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_create_water_report, container, false);
 
         // Set up the fields for the user profile
-        reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
-        reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
-        reportLocLatEditText = (EditText) view.findViewById(R.id.create_purity_report_lat);
-        reportLocLongEditText = (EditText) view.findViewById(R.id.create_purity_report_long);
-        reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
-        purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
-        virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
-        contPPMText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);
+        reportDateText = (TextView) view.findViewById(R.id.create_water_report_date);
+        reportNumText = (TextView) view.findViewById(R.id.create_water_report_num);
+        reportLocLatEditText = (EditText) view.findViewById(R.id.create_water_report_lat);
+        reportLocLongEditText = (EditText) view.findViewById(R.id.create_water_report_long);
+        reportReporterName = (TextView) view.findViewById(R.id.create_water_report_username);
+        waterTypeSpinner = (Spinner) view.findViewById(R.id.create_water_report_type);
+        waterCondSpinner = (Spinner) view.findViewById(R.id.create_water_report_condition);
 
-        // Get the user from session
+        // Get the user from the session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         user = contentProvider.getLoggedInUser();
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, PurityCondition.values());
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterType.values());
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        waterTypeSpinner.setAdapter(typeAdapter);
+
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        purityCondSpinner.setAdapter(condAdapter);
+        waterCondSpinner.setAdapter(condAdapter);
 
         // TODO: Someone remember to send a parcel from main class when editing
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.getParcelable("PR_EDIT") != null) {
-            report = bundle.getParcelable("PR_EDIT");
+        if (bundle != null && bundle.getParcelable("WR_EDIT") != null) {
+            report = bundle.getParcelable("WR_EDIT");
             edit = true;
         } else {
         // Create a new report
-        report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
+        report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
         // Get the correct id for the new report from the content provider
         Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
@@ -96,13 +102,15 @@ public class PurityReportCreateFragment extends Fragment {
                 reportNumText.setText(Integer.toString(report.getReportNumber()));
             }
         };
-        contentProvider.getNextPurityReportId(onNextIdFound);
+        contentProvider.getNextWaterReportId(onNextIdFound);
 
-            // Check if report's latLong is being generated due to Map Tap or user's location
+        // Check if report's latLong is being generated due to Map Tap or user's location
             if (bundle != null) {
                 LatLng latLng = bundle.getParcelable("LOC");
-                report.setLatitude(latLng.latitude);
-                report.setLongitude(latLng.longitude);
+                if (latLng != null) {
+                    report.setLatitude(latLng.latitude);
+                    report.setLongitude(latLng.longitude);
+                }
             } else {
                 // Set up the location of the report
                 // Check if we have location access permission first. Note we are using Network Location, not GPS
@@ -128,12 +136,11 @@ public class PurityReportCreateFragment extends Fragment {
         reportNumText.setText(Integer.toString(report.getReportNumber()));
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
-        purityCondSpinner.setSelection(report.getCondition().ordinal());
-        virusPPMText.setText(report.getVirusPPM() + "");
-        contPPMText.setText(report.getContPPM() + "");
+        waterTypeSpinner.setSelection(report.getType().ordinal());
+        waterCondSpinner.setSelection(report.getCondition().ordinal());
 
         // Create button setup
-        Button reportCreateButton = (Button) view.findViewById(R.id.create_purity_report_create);
+        Button reportCreateButton = (Button) view.findViewById(R.id.create_water_report_create);
         reportCreateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onReportCreatePressed(view);
@@ -141,13 +148,12 @@ public class PurityReportCreateFragment extends Fragment {
         });
 
         // Cancel button setup
-        Button reportCancelButton = (Button) view.findViewById(R.id.create_purity_report_cancel);
+        Button reportCancelButton = (Button) view.findViewById(R.id.create_water_report_cancel);
         reportCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onCancelPressed(view);
             }
         });
-
         return view;
     }
 
@@ -158,9 +164,8 @@ public class PurityReportCreateFragment extends Fragment {
      */
     protected void onReportCreatePressed(View view) {
         // Update the values in the model from the UI
-        report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
-        report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
-        report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
+        report.setType((WaterType) waterTypeSpinner.getSelectedItem());
+        report.setCondition((WaterCondition) waterCondSpinner.getSelectedItem());
 
         // Verify the location data is valid
         double latitude;
@@ -196,8 +201,10 @@ public class PurityReportCreateFragment extends Fragment {
 
         // Store data
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        contentProvider.setPurityReport(report);
-        contentProvider.setNextPurityReportId(report.getReportNumber());
+        contentProvider.setWaterReport(report);
+        if (!edit) {
+            contentProvider.setNextWaterReportId(report.getReportNumber());
+        }
 
         getActivity().onBackPressed();
     }
@@ -210,5 +217,4 @@ public class PurityReportCreateFragment extends Fragment {
     protected void onCancelPressed(View view) {
         getActivity().onBackPressed();
     }
-
 }

@@ -1,9 +1,12 @@
 package com.starlabs.h2o.controller;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,7 +20,7 @@ import com.starlabs.h2o.model.user.User;
  *
  * @author tejun, chase
  */
-public class ViewUserProfileActivity extends AppCompatActivity {
+public class ViewUserProfileFragment extends Fragment {
 
     // Intent message ids
     public static final String TO_MAIN = "TO_MAIN";
@@ -30,15 +33,25 @@ public class ViewUserProfileActivity extends AppCompatActivity {
     // User passed into this activity
     private User user;
 
+    public ViewUserProfileFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View view = inflater.inflate(R.layout.activity_profile, container, false);
 
         // Set up the fields for the user profile
-        nameField = (EditText) findViewById(R.id.user_profile_name_field);
-        emailField = (EditText) findViewById(R.id.user_profile_email);
-        addressField = (EditText) findViewById(R.id.user_profile_address);
+        nameField = (EditText) view.findViewById(R.id.user_profile_name_field);
+        emailField = (EditText) view.findViewById(R.id.user_profile_email);
+        addressField = (EditText) view.findViewById(R.id.user_profile_address);
 
         // Get the user from the session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -53,7 +66,7 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         nameField.requestFocus();
 
         // Done button setup
-        Button profileDoneButton = (Button) findViewById(R.id.profile_done_button);
+        Button profileDoneButton = (Button) view.findViewById(R.id.profile_done_button);
         profileDoneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onProfileDonePressed(view);
@@ -61,12 +74,14 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         });
 
         // Cancel button setup
-        Button profileCancelButton = (Button) findViewById(R.id.profile_cancel_button);
+        Button profileCancelButton = (Button) view.findViewById(R.id.profile_cancel_button);
         profileCancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onCancelPressed(view);
             }
         });
+
+        return view;
     }
 
     /**
@@ -87,12 +102,8 @@ public class ViewUserProfileActivity extends AppCompatActivity {
         // Also store it in the session
         contentProvider.setLoggedInUser(user);
 
-        // Transition to the proper activity
-        if (getIntent().getBooleanExtra(TO_MAIN, false)) {
-            Intent toMain = new Intent(ViewUserProfileActivity.this, HomeActivity.class);
-            startActivity(toMain);
-        }
-        finish();
+        // Transition back to the map fragment
+        getActivity().onBackPressed();
     }
 
     /**
@@ -101,7 +112,7 @@ public class ViewUserProfileActivity extends AppCompatActivity {
      * @param view the parameter View
      */
     protected void onCancelPressed(View view) {
-        finish();
+        getActivity().onBackPressed();
     }
 
 }

@@ -222,10 +222,10 @@ public class RegisterUserActivity extends AppCompatActivity {
                 ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
                 contentProvider.setLoggedInUser(user);
 
-                // Transition to the Profile activity
-                Intent profileIntent = new Intent(RegisterUserActivity.this, ViewUserProfileActivity.class);
-                profileIntent.putExtra(ViewUserProfileActivity.TO_MAIN, true);
-                startActivity(profileIntent);
+                // Transition to the Profile fragment in the Home Activity
+                Intent intent = new Intent(RegisterUserActivity.this, HomeActivity.class);
+                intent.putExtra(HomeActivity.TO_PROFILE, "From register");
+                startActivity(intent);
                 finish();
             } else if (foundUser) {
                 // Username is already taken

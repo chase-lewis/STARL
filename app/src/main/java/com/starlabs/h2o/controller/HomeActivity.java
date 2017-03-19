@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,11 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.MapFragment;
 import com.starlabs.h2o.R;
-import com.starlabs.h2o.controller.purity_report.PurityReportCreateFragment;
+import com.starlabs.h2o.controller.purity_report.CreatePurityReportFragment;
 import com.starlabs.h2o.controller.purity_report.ViewPurityReportsFragment;
 import com.starlabs.h2o.controller.water_report.ViewWaterReportsFragment;
-import com.starlabs.h2o.controller.water_report.WaterReportCreateFragment;
+import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
@@ -34,12 +36,10 @@ import com.starlabs.h2o.model.user.UserType;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    User user;
-    NavigationView navigationView = null;
-    Toolbar toolbar = null;
-    FragmentManager fragmentManager = getFragmentManager();
-    Fragment mapFragment = new MapViewFragment();
-
+    public static final String TO_PROFILE = "HOME_TO_PROFILE";
+    private NavigationView navigationView = null;
+    private FragmentManager fragmentManager = getFragmentManager();
+    private int oldId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +47,9 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        user = contentProvider.getLoggedInUser();
+        User user = contentProvider.getLoggedInUser();
 
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_home_container, mapFragment);
-        transaction.commit();
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -65,8 +61,6 @@ public class HomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().getItem(0).setChecked(true);
-
         //hide features from restricted users
         if (user.getUserType() == UserType.USER) {
             navigationView.getMenu().getItem(3).setVisible(false);
@@ -76,87 +70,99 @@ public class HomeActivity extends AppCompatActivity
             navigationView.getMenu().getItem(4).setVisible(false);
             navigationView.getMenu().getItem(5).setVisible(false);
         }
+        // TODO admin features + hide from all other users
 
-        //set header information
+        // Set header information
         View header = navigationView.getHeaderView(0);
         TextView name = (TextView) header.findViewById(R.id.header_name);
         name.setText(user.getName());
         TextView username = (TextView) header.findViewById(R.id.header_username);
         username.setText(user.getUsername());
+
+        Fragment mapFragment = new MapViewFragment();
+        Fragment profileFragment = new ViewUserProfileFragment();
+        int id;
+
+        // Transition to the proper fragment
+        if (getIntent().hasExtra(TO_PROFILE)) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_home_container, profileFragment);
+            transaction.commit();
+            id = R.id.nav_profile;
+        } else {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_home_container, mapFragment);
+            transaction.commit();
+            id = R.id.nav_map;
+        }
+        // Check the proper menu items
+        navigationView.getMenu().findItem(id).setChecked(true);
+        oldId = id;
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            // Close drawer if it is open
             drawer.closeDrawer(GravityCompat.START);
-        } else if (fragmentManager.findFragmentById(R.id.fragment_home_container).getClass() != mapFragment.getClass()) {
+        } else if (fragmentManager.findFragmentById(R.id.fragment_home_container).getClass() != MapFragment.class) {
+            // Transition to default map fragment if it's not open
             switchToMap();
         } else {
+            // If on map fragment...
             super.onBackPressed();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_edit_profile) {
-            Intent profileIntent = new Intent(HomeActivity.this, ViewUserProfileActivity.class);
-            startActivity(profileIntent);
-            return true;
-        } else if (id == R.id.action_logout) {
-            finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment newFragment;
-
         Fragment current = fragmentManager.findFragmentById(R.id.fragment_home_container);
-        //TODO: Only switch fragments if not currently accessing that one
+
         if (id == R.id.nav_map) {
-            newFragment = mapFragment;
+            newFragment = new MapViewFragment();
         } else if (id == R.id.nav_create_water_report) {
-            newFragment = new WaterReportCreateFragment();
+            newFragment = new CreateWaterReportFragment();
         } else if (id == R.id.nav_view_water_reports) {
             newFragment = new ViewWaterReportsFragment();
         } else if (id == R.id.nav_create_purity_report) {
-            newFragment = new PurityReportCreateFragment();
+            newFragment = new CreatePurityReportFragment();
         } else if (id == R.id.nav_view_purity_reports) {
             newFragment = new ViewPurityReportsFragment();
         } else if (id == R.id.nav_view_histogram) {
+            // TODO
             newFragment = current;
-        } else {
+        } else if (id == R.id.nav_profile) {
+            newFragment = new ViewUserProfileFragment();
+        } else if (id == R.id.nav_log_out) {
+            newFragment = current;
+            // Logout!
+            finish();
+        }
+        else {
+            // TODO admin items
             newFragment = current;
         }
 
+        // Only switch fragments if not currently accessing that one
         if (newFragment.getClass() != current.getClass()) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_home_container, newFragment);
             transaction.commit();
+
+            // Uncheck and recheck the proper menu items
+            navigationView.getMenu().findItem(oldId).setChecked(false);
+            navigationView.getMenu().findItem(id).setChecked(true);
+            oldId = id;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
@@ -165,8 +171,7 @@ public class HomeActivity extends AppCompatActivity
      * item in the nav drawer.
      */
     public void switchToMap() {
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
-        navigationView.getMenu().getItem(0).setChecked(true);
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_map));
     }
 
     /**
@@ -176,11 +181,17 @@ public class HomeActivity extends AppCompatActivity
      * @param bundle A bundle containing either a LatLng or a water report to edit
      */
     public void switchToWaterReportCreate(Bundle bundle) {
-        WaterReportCreateFragment newReport = new WaterReportCreateFragment();
+        CreateWaterReportFragment newReport = new CreateWaterReportFragment();
         newReport.setArguments(bundle);
+
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_home_container, newReport);
         transaction.commit();
-        navigationView.getMenu().getItem(1).setChecked(true);
+
+        // Uncheck and recheck the proper menu items
+        int id = R.id.nav_create_water_report;
+        navigationView.getMenu().findItem(oldId).setChecked(false);
+        navigationView.getMenu().findItem(id).setChecked(true);
+        oldId = id;
     }
 }

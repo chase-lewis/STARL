@@ -24,7 +24,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.purityreport_list_row, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_purity_report, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }

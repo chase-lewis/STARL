@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_water">
+
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/map"
@@ -31,6 +33,19 @@
             android:icon="@drawable/chart_line"
             android:title="View Histogram"
             android:visible="true" />
+    </group>
+
+    <group
+        android:id="@+id/menu_user">
+
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_log_out"
+            android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
+            android:title="Log Out" />
     </group>
 
 </menu>

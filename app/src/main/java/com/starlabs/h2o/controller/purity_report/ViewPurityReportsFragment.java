@@ -34,13 +34,12 @@ public class ViewPurityReportsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_view_purity_reports, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_purity_reports, container, false);
 
         mRecycler = (RecyclerView) view.findViewById(R.id.purity_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));

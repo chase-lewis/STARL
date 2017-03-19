@@ -225,7 +225,7 @@ public class LoginUserActivity extends AppCompatActivity {
                 ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
                 contentProvider.setLoggedInUser(mUser);
 
-                // Transition to the main activity with the retrieved user
+                // Transition to the Map fragment in the Home Activity
                 Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
                 startActivity(profileIntent);
                 finish();

@@ -14,7 +14,6 @@ import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterReport;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -27,7 +26,6 @@ public class ViewWaterReportsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private ViewWaterReportsAdapter adapter;
-    private List<WaterReport> waterReports = new ArrayList<>();
 
     public ViewWaterReportsFragment() {
         // Required empty public constructor
@@ -36,14 +34,12 @@ public class ViewWaterReportsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_view_reports, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_view_reports, container, false);
 
         mRecycler = (RecyclerView) view.findViewById(R.id.water_report_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
