@@ -12,7 +12,7 @@ import com.starlabs.h2o.model.report.PurityReport;
 import java.util.List;
 
 /**
- * Created by Rishi on 3/14/2017.
+ * @author Rishi
  */
 
 public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {

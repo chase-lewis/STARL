@@ -15,7 +15,7 @@ import com.starlabs.h2o.model.user.User;
 /**
  * Activity to edit the user profile
  *
- * @author tejun
+ * @author tejun, chase
  */
 public class ViewUserProfileActivity extends AppCompatActivity {
 

@@ -29,20 +29,16 @@ import com.starlabs.h2o.model.user.UserType;
 /**
  * Main screen with navigation drawer to allow transitions between fragments
  *
- * @author clewis
+ * @author chase
  */
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    User user = new User("NAVTEST", "pass", UserType.MANAGER);
-
-
+    User user;
     NavigationView navigationView = null;
     Toolbar toolbar = null;
     FragmentManager fragmentManager = getFragmentManager();
     Fragment mapFragment = new MapViewFragment();
-    Fragment waterReportCreateFragment = new WaterReportCreateFragment();
-    Fragment purityReportCreateFragment = new PurityReportCreateFragment();
 
 
     @Override
@@ -53,29 +49,12 @@ public class HomeActivity extends AppCompatActivity
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         user = contentProvider.getLoggedInUser();
 
-//        //FIXME: Actually read in the user from the login
-//        user.setName("Bob Ross");
-//
-//        //FIXME:Temporary testing code... remove later
-//        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-//        contentProvider.setLoggedInUser(user);
-
-
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_home_container, mapFragment);
         transaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -98,13 +77,12 @@ public class HomeActivity extends AppCompatActivity
             navigationView.getMenu().getItem(5).setVisible(false);
         }
 
+        //set header information
         View header = navigationView.getHeaderView(0);
         TextView name = (TextView) header.findViewById(R.id.header_name);
         name.setText(user.getName());
         TextView username = (TextView) header.findViewById(R.id.header_username);
         username.setText(user.getUsername());
-
-//        fragmentManager.addOnBackStackChangedListener(() -> );
     }
 
     @Override
@@ -113,8 +91,6 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.findFragmentById(R.id.fragment_home_container).getClass() != mapFragment.getClass()) {
-            //FIXME: Replace with code that simulates user pressing map
-            //Actually this seems to work for now... review later
             switchToMap();
         } else {
             super.onBackPressed();
@@ -160,21 +136,11 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_map) {
             newFragment = mapFragment;
         } else if (id == R.id.nav_create_water_report) {
-//            if (!(current instanceof WaterReportCreateFragment)) {
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable("User", user);
-//                if (waterReportCreateFragment.getArguments() == null) {
-//                    waterReportCreateFragment.setArguments(bundle);
-//                } else {
-//                    waterReportCreateFragment.getArguments().clear();
-//                    waterReportCreateFragment.getArguments().putAll(bundle);
-//                }
-//            }
-            newFragment = waterReportCreateFragment;
+            newFragment = new WaterReportCreateFragment();
         } else if (id == R.id.nav_view_water_reports) {
             newFragment = new ViewWaterReportsFragment();
         } else if (id == R.id.nav_create_purity_report) {
-            newFragment = purityReportCreateFragment;
+            newFragment = new PurityReportCreateFragment();
         } else if (id == R.id.nav_view_purity_reports) {
             newFragment = new ViewPurityReportsFragment();
         } else if (id == R.id.nav_view_histogram) {
@@ -186,7 +152,6 @@ public class HomeActivity extends AppCompatActivity
         if (newFragment.getClass() != current.getClass()) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_home_container, newFragment);
-//            transaction.addToBackStack("HOME_FRAG");
             transaction.commit();
         }
 
@@ -195,11 +160,21 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Method that switches the fragment to the map and updates the selected
+     * item in the nav drawer.
+     */
     public void switchToMap() {
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
+    /**
+     * Method that switches the fragment to the map and updates the selected
+     * item in the nav drawer.
+     *
+     * @param bundle A bundle containing either a LatLng or a water report to edit
+     */
     public void switchToWaterReportCreate(Bundle bundle) {
         WaterReportCreateFragment newReport = new WaterReportCreateFragment();
         newReport.setArguments(bundle);

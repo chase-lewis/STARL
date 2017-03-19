@@ -14,7 +14,7 @@ import com.starlabs.h2o.R;
 /**
  * Initial screen that the user starts on.
  *
- * @author tejun
+ * @author tejun, chase
  */
 
 public class InitialActivity extends AppCompatActivity {

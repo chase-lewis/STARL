@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.starlabs.h2o.controller.purity_report.ViewPurityReportsActivity">
+    tools:context="com.starlabs.h2o.controller.HomeActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/purity_recycler_view"

@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 /**
  * The login screen for username/password authentication
  *
- * @author tejun, clewis
+ * @author tejun, chase
  */
 public class LoginUserActivity extends AppCompatActivity {
 
