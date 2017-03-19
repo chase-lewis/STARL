@@ -84,19 +84,19 @@ public class CreatePurityReportFragment extends Fragment {
             report = bundle.getParcelable("PR_EDIT");
             edit = true;
         } else {
-        // Create a new report
-        report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
+            // Create a new report
+            report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
 
-        // Get the correct id for the new report from the content provider
-        Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
-            @Override
-            public void accept(Integer id) {
-                // Set the report number
-                report.setReportNumber(id + 1);
-                reportNumText.setText(Integer.toString(report.getReportNumber()));
-            }
-        };
-        contentProvider.getNextPurityReportId(onNextIdFound);
+            // Get the correct id for the new report from the content provider
+            Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
+                @Override
+                public void accept(Integer id) {
+                    // Set the report number
+                    report.setReportNumber(id + 1);
+                    reportNumText.setText(Integer.toString(report.getReportNumber()));
+                }
+            };
+            contentProvider.getNextPurityReportId(onNextIdFound);
 
             // Check if report's latLong is being generated due to Map Tap or user's location
             if (bundle != null) {

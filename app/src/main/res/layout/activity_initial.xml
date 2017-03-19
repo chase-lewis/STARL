@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_initial"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.starlabs.h2o.controller.InitialActivity">
 
-    <ImageView android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
         android:id="@+id/initial_background"
-        android:src="@drawable/water_background"
-        android:scaleType="centerCrop" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/water_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:orientation="vertical"
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="60dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="60dp">
-        <Button
-            android:text="@string/goTo_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/initial_register"
-            android:layout_marginBottom="10dp"/>
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
 
         <Button
-            android:text="@string/goTo_login"
+            android:id="@+id/initial_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/initial_sign_in" />
+            android:layout_marginBottom="10dp"
+            android:text="@string/goTo_register" />
+
+        <Button
+            android:id="@+id/initial_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/goTo_login" />
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/initial_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:layout_marginTop="60dp"
-        android:id="@+id/initial_logo"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="60dp"
+        android:src="@drawable/logo" />
 
 </RelativeLayout>

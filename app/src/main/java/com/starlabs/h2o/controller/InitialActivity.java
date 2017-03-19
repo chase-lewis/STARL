@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.user.LoginUserActivity;
+import com.starlabs.h2o.controller.user.RegisterUserActivity;
 
 /**
  * Initial screen that the user starts on.

@@ -3,7 +3,6 @@ package com.starlabs.h2o.controller;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,8 +19,10 @@ import com.google.android.gms.maps.MapFragment;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.controller.purity_report.CreatePurityReportFragment;
 import com.starlabs.h2o.controller.purity_report.ViewPurityReportsFragment;
-import com.starlabs.h2o.controller.water_report.ViewWaterReportsFragment;
+import com.starlabs.h2o.controller.user.ViewUserProfileFragment;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
+import com.starlabs.h2o.controller.water_report.ViewMapFragment;
+import com.starlabs.h2o.controller.water_report.ViewWaterReportsFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
@@ -72,14 +72,9 @@ public class HomeActivity extends AppCompatActivity
         }
         // TODO admin features + hide from all other users
 
-        // Set header information
-        View header = navigationView.getHeaderView(0);
-        TextView name = (TextView) header.findViewById(R.id.header_name);
-        name.setText(user.getName());
-        TextView username = (TextView) header.findViewById(R.id.header_username);
-        username.setText(user.getUsername());
+        this.setHeaderInfo(user);
 
-        Fragment mapFragment = new MapViewFragment();
+        Fragment mapFragment = new ViewMapFragment();
         Fragment profileFragment = new ViewUserProfileFragment();
         int id;
 
@@ -124,7 +119,7 @@ public class HomeActivity extends AppCompatActivity
         Fragment current = fragmentManager.findFragmentById(R.id.fragment_home_container);
 
         if (id == R.id.nav_map) {
-            newFragment = new MapViewFragment();
+            newFragment = new ViewMapFragment();
         } else if (id == R.id.nav_create_water_report) {
             newFragment = new CreateWaterReportFragment();
         } else if (id == R.id.nav_view_water_reports) {
@@ -142,8 +137,7 @@ public class HomeActivity extends AppCompatActivity
             newFragment = current;
             // Logout!
             finish();
-        }
-        else {
+        } else {
             // TODO admin items
             newFragment = current;
         }
@@ -193,5 +187,19 @@ public class HomeActivity extends AppCompatActivity
         navigationView.getMenu().findItem(oldId).setChecked(false);
         navigationView.getMenu().findItem(id).setChecked(true);
         oldId = id;
+    }
+
+    /**
+     * Set up the user info in the header.
+     *
+     * @param user the info to use
+     */
+    public void setHeaderInfo(User user) {
+        // Set header information
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView) header.findViewById(R.id.header_name);
+        name.setText(user.getName());
+        TextView username = (TextView) header.findViewById(R.id.header_username);
+        username.setText(user.getUsername());
     }
 }

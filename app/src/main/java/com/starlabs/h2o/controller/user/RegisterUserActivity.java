@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.user;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.HomeActivity;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;

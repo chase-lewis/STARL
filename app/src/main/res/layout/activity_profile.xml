@@ -8,96 +8,96 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.starlabs.h2o.controller.ViewUserProfileFragment">
+    tools:context="com.starlabs.h2o.controller.user.ViewUserProfileFragment">
 
     <TextView
-        android:text="User Profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textAlignment="center"
-        android:textSize="20dp"
         android:id="@+id/user_profile_title_text"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="Email:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="User Profile"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <TextView
         android:id="@+id/user_profile_email_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/user_profile_name_field"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="38dp" />
+        android:layout_marginTop="38dp"
+        android:text="Email:" />
 
     <TextView
-        android:text="Name:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/user_profile_name_text"
-        android:layout_below="@+id/user_profile_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="11dp" />
+        android:layout_below="@+id/user_profile_title_text"
+        android:layout_marginTop="11dp"
+        android:text="Name:" />
 
     <TextView
-        android:text="Home Address:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/user_profile_address_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/user_profile_email"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="28dp" />
+        android:layout_marginTop="28dp"
+        android:text="Home Address:" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
         android:id="@+id/user_profile_address"
-        android:text="Home Address"
-        android:layout_below="@+id/user_profile_address_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/profile_done_button"
-        android:layout_marginTop="65dp"
-        android:layout_below="@+id/user_profile_address"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/profile_cancel_button"
-        android:layout_below="@+id/profile_done_button"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/user_profile_name_field"
-        android:layout_below="@+id/user_profile_name_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/user_profile_address_text"
         android:ems="10"
+        android:inputType="textPostalAddress"
+        android:text="Home Address" />
+
+    <Button
+        android:id="@+id/profile_done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/user_profile_address"
+        android:layout_marginTop="65dp"
+        android:text="Done" />
+
+    <Button
+        android:id="@+id/profile_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/profile_done_button"
+        android:layout_marginTop="12dp"
+        android:text="Cancel" />
+
+    <EditText
+        android:id="@+id/user_profile_name_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/user_profile_name_text"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <EditText
         android:id="@+id/user_profile_email"
-        android:text="Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/user_profile_email_text"
-        android:layout_alignParentStart="true" />
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Email" />
 
 </RelativeLayout>

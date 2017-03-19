@@ -90,21 +90,21 @@ public class CreateWaterReportFragment extends Fragment {
             report = bundle.getParcelable("WR_EDIT");
             edit = true;
         } else {
-        // Create a new report
-        report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
+            // Create a new report
+            report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
 
-        // Get the correct id for the new report from the content provider
-        Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
-            @Override
-            public void accept(Integer id) {
-                // Set the report number
-                report.setReportNumber(id + 1);
-                reportNumText.setText(Integer.toString(report.getReportNumber()));
-            }
-        };
-        contentProvider.getNextWaterReportId(onNextIdFound);
+            // Get the correct id for the new report from the content provider
+            Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
+                @Override
+                public void accept(Integer id) {
+                    // Set the report number
+                    report.setReportNumber(id + 1);
+                    reportNumText.setText(Integer.toString(report.getReportNumber()));
+                }
+            };
+            contentProvider.getNextWaterReportId(onNextIdFound);
 
-        // Check if report's latLong is being generated due to Map Tap or user's location
+            // Check if report's latLong is being generated due to Map Tap or user's location
             if (bundle != null) {
                 LatLng latLng = bundle.getParcelable("LOC");
                 if (latLng != null) {

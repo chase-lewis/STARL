@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.water_report;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -8,21 +8,18 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.HomeActivity;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterReport;
@@ -36,7 +33,7 @@ import java.util.function.Consumer;
  * @author chase
  */
 
-public class MapViewFragment extends Fragment implements OnMapReadyCallback {
+public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
 
     @Override

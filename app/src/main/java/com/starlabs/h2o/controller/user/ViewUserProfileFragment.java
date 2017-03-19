@@ -1,9 +1,7 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.user;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.controller.HomeActivity;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
@@ -103,6 +102,7 @@ public class ViewUserProfileFragment extends Fragment {
         contentProvider.setLoggedInUser(user);
 
         // Transition back to the map fragment
+        ((HomeActivity) getActivity()).setHeaderInfo(user);
         getActivity().onBackPressed();
     }
 

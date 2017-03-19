@@ -20,10 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".controller.LoginUserActivity"
+            android:name=".controller.user.LoginUserActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".controller.RegisterUserActivity"
+            android:name=".controller.user.RegisterUserActivity"
             android:label="@string/title_activity_register" />
         <activity android:name=".controller.InitialActivity">
             <intent-filter>
@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.ViewUserProfileFragment" />
+        <activity android:name=".controller.user.ViewUserProfileFragment" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
