@@ -62,6 +62,12 @@ public class User implements Parcelable {
         userType = UserType.valueOf(in.readString());
     }
 
+    /**
+     * Checks if the given password matches this user's password.
+     *
+     * @param password the password to check
+     * @return true if matches
+     */
     public boolean isCorrectPassword(String password) {
         return this.password.equals(password);
     }
