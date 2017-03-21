@@ -2,7 +2,9 @@ package com.starlabs.h2o.model.report;
 
 import android.location.Location;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,6 +20,7 @@ public class WaterReport {
     private double longitude;
     private WaterType type;
     private WaterCondition condition;
+    private List<Integer> purityReportIds;
 
     public WaterReport(String reporterName, Location location, WaterType type, WaterCondition condition) {
         this.reporterName = reporterName;
@@ -27,6 +30,7 @@ public class WaterReport {
         this.condition = condition;
         this.creationDate = new Date();
         this.reportNumber = new Random().nextInt();
+        this.purityReportIds = new ArrayList<>();
     }
 
     public WaterReport() {
@@ -172,5 +176,41 @@ public class WaterReport {
      */
     public void setCondition(WaterCondition condition) {
         this.condition = condition;
+    }
+
+    /**
+     * Add a specific purity report id to this water report.
+     *
+     * @param purityReportId the id of the purity report
+     */
+    public void linkPurityReport(int purityReportId) {
+        purityReportIds.add(purityReportId);
+    }
+
+    /**
+     * Returns a list of the purity report ids associated with this water report.
+     *
+     * @return a read-only list
+     */
+    public List<Integer> getLinkedPurityReports() {
+        // Make a copy of the list to prevent changes from affecting the model
+        return new ArrayList<>(purityReportIds);
+    }
+
+    /**
+     * Removes the specified purity report id from the list of associated purity reports.
+     *
+     * @param purityReportId the id to remove
+     * @return whether it has been removed
+     */
+    public boolean unlinkPurityReport(int purityReportId) {
+        return purityReportIds.remove((Integer) purityReportId);
+    }
+
+    /**
+     * Removes all linked purity reports!
+     */
+    public void resetLinkedPurityReports() {
+        this.purityReportIds = new ArrayList<>();
     }
 }

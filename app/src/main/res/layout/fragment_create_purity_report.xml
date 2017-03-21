@@ -1,135 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_alignParentTop="true">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.08"
-        android:text="Create Purity Report"
-        android:textAlignment="center"
-        android:textSize="20dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Date and Time:"
-        android:textAlignment="textStart"
-        android:textSize="14dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.08"
+            android:text="Create Purity Report"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/create_purity_report_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:text="[The Date]"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date and Time:"
+            android:textAlignment="textStart"
+            android:textSize="14dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Report Number:" />
+        <TextView
+            android:id="@+id/create_purity_report_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.04"
+            android:text="[The Date]"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/create_purity_report_num"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:text="[Report Number]"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Report Number:" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name of Reporter:" />
+        <TextView
+            android:id="@+id/create_purity_report_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.04"
+            android:text="[Report Number]"
+            android:textColor="@android:color/background_dark"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/create_purity_report_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.12"
-        android:text="[Name of User]"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name of Reporter:" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Latitude" />
+        <TextView
+            android:id="@+id/create_purity_report_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12"
+            android:text="[Name of User]"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/create_purity_report_lat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal|numberSigned"
-        android:text="" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Latitude" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Longitude" />
+        <EditText
+            android:id="@+id/create_purity_report_lat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal|numberSigned"
+            android:text="" />
 
-    <EditText
-        android:id="@+id/create_purity_report_long"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.08"
-        android:inputType="numberDecimal|numberSigned"
-        android:text="" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Longitude" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Purity Condition" />
+        <EditText
+            android:id="@+id/create_purity_report_long"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.08"
+            android:inputType="numberDecimal|numberSigned"
+            android:text="" />
 
-    <Spinner
-        android:id="@+id/create_purity_report_condition"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.11" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Purity Condition" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Virus PPM" />
+        <Spinner
+            android:id="@+id/create_purity_report_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11" />
 
-    <EditText
-        android:id="@+id/create_purity_report_virus_ppm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Virus PPM" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Contaminant PPM" />
+        <EditText
+            android:id="@+id/create_purity_report_virus_ppm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="" />
 
-    <EditText
-        android:id="@+id/create_purity_report_cont_ppm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.08"
-        android:inputType="number"
-        android:text="" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contaminant PPM" />
 
-    <Button
-        android:id="@+id/create_purity_report_create"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create" />
+        <EditText
+            android:id="@+id/create_purity_report_cont_ppm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.08"
+            android:inputType="number"
+            android:text="" />
 
-    <Button
-        android:id="@+id/create_purity_report_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel" />
+        <Button
+            android:id="@+id/create_purity_report_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/create_purity_report_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+
+    </LinearLayout>
+</ScrollView>

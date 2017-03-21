@@ -151,6 +151,8 @@ public class LoginUserActivity extends AppCompatActivity {
                         // Call the async success method
                         mAuthTask.setUser(user);
                         mAuthTask.onPostExecute(true);
+                    } else {
+                        mAuthTask.onPostExecute(false);
                     }
                 }
             };
@@ -207,7 +209,7 @@ public class LoginUserActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // Sleep for 2 seconds while attempting to login with the content provider
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 return false;
             }
