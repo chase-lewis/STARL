@@ -199,4 +199,24 @@ public class User implements Parcelable {
         dest.writeString(email);
         dest.writeString(userType.toString());
     }
+
+    /**
+     * Checks if a username is valid
+     *
+     * @param username the username to check
+     * @return true if valid
+     */
+    public static boolean isUsernameValid(String username) {
+        return username.length() >= 4;
+    }
+
+    /**
+     * Checks if a password is valid
+     *
+     * @param password the password to check
+     * @return true if valid
+     */
+    public static boolean isPasswordValid(String password) {
+        return password.length() >= 4;
+    }
 }

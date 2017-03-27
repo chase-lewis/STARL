@@ -90,6 +90,8 @@ public class LoginUserActivity extends AppCompatActivity {
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
+     *
+     * TODO move business logic out of activity
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -113,7 +115,7 @@ public class LoginUserActivity extends AppCompatActivity {
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!isUsernameValid(username)) {
+        } else if (!User.isUsernameValid(username)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be at least 4 characters");
             focusView = mUsernameView;
@@ -123,7 +125,7 @@ public class LoginUserActivity extends AppCompatActivity {
             mPasswordView.setError("A password is required");
             focusView = mPasswordView;
             cancel = true;
-        } else if (!isPasswordValid(password)) {
+        } else if (!User.isPasswordValid(password)) {
             // Check if the password is not valid
             mPasswordView.setError("The password must be at least 4 characters");
             focusView = mPasswordView;
@@ -158,21 +160,6 @@ public class LoginUserActivity extends AppCompatActivity {
             };
             contentProvider.getSingleUser(onUserFound, username);
         }
-    }
-
-
-    /**
-     * Checks if a username is valid
-     */
-    private boolean isUsernameValid(String username) {
-        return username.length() >= 4;
-    }
-
-    /**
-     * Checks if a password is valid
-     */
-    private boolean isPasswordValid(String password) {
-        return password.length() >= 4;
     }
 
     /**

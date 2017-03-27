@@ -86,6 +86,8 @@ public class RegisterUserActivity extends AppCompatActivity {
      * Attempts to register the account specified by the login form.
      * If there are form errors (invalid user, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
+     *
+     * TODO move business logic out of activity
      */
     private void attemptRegister() {
         if (mAuthTask != null) {
@@ -110,7 +112,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!isUsernameValid(username)) {
+        } else if (!User.isUsernameValid(username)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be at least 4 characters");
             focusView = mUsernameView;
@@ -120,7 +122,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             mPasswordView.setError("A password is required");
             focusView = mPasswordView;
             cancel = true;
-        } else if (!isPasswordValid(password)) {
+        } else if (!User.isPasswordValid(password)) {
             // Check if the password is not valid
             mPasswordView.setError("The password must be at least 4 characters");
             focusView = mPasswordView;
@@ -158,20 +160,6 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     /**
-     * Checks if a username is valid
-     */
-    private boolean isUsernameValid(String username) {
-        return username.length() >= 4;
-    }
-
-    /**
-     * Checks if a password is valid
-     */
-    private boolean isPasswordValid(String password) {
-        return password.length() >= 4;
-    }
-
-    /**
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -184,7 +172,7 @@ public class RegisterUserActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUsername;
         private final String mPassword;

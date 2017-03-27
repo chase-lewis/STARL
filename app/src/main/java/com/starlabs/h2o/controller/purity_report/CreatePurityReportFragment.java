@@ -157,6 +157,8 @@ public class CreatePurityReportFragment extends Fragment {
      * Method to create/finalize edit on report
      *
      * @param view the parameter View
+     *
+     *             TODO move business logic out of activity
      */
     protected void onReportCreatePressed(View view) {
         // Update the values in the model from the UI
