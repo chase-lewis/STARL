@@ -127,9 +127,9 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
                         linkedPurityReportIds.add(id);
                     }
 
+                    waterReport.resetLinkedPurityReports();
                     if (linkedPurityReportIds.get(0) != -1) {
                         // Actual data stored in firebase
-                        waterReport.resetLinkedPurityReports();
                         linkedPurityReportIds.forEach(waterReport::linkPurityReport);
                     }
 
@@ -148,7 +148,6 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
     @Override
     public void setWaterReport(WaterReport waterReport) {
         DatabaseReference ref = mDatabase.child("waterReports").child("" + waterReport.getReportNumber());
-        ref.setValue(waterReport);
 
         if (waterReport.getLinkedPurityReports().size() > 0) {
             // Store the actual water report ids
@@ -160,6 +159,8 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
             emptyList.add(-2);
             ref.child("purityReportIds").setValue(emptyList);
         }
+
+        ref.setValue(waterReport);
     }
 
     @Override
