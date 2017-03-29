@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.*;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.starlabs.h2o.R;
 
 import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
@@ -24,6 +26,7 @@ import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -88,13 +91,25 @@ public class ViewHistogramFragment extends Fragment {
                     }
                 }
 
+                LineGraphSeries<DataPoint> viruses = new LineGraphSeries<DataPoint>();
+                LineGraphSeries<DataPoint> contam = new LineGraphSeries<DataPoint>();
+
+                for (PurityReport current: filteredPurityReports) {
+                    int currRepNum = current.getReportNumber();
+                    int currVirNum = current.getVirusPPM();
+                    int currContNum = current.getContPPM();
+
+                    viruses.appendData(new DataPoint(currRepNum, currVirNum), true, 500);
+                    contam.appendData(new DataPoint(currRepNum, currContNum), true, 500);
+                }
+
                 yAxisSpinner.setSelection(yaxisChoices.indexOf(initYAxis));
 
                 // Get whether user wants to see contamination or virus level
                 String yaxis = (String)yAxisSpinner.getSelectedItem();
 
                 // Set Title based on y axis
-                String titleToShow = reportYear + " " + yaxis + " Histogram";
+                String titleToShow = reportYear + " " + yaxis + " PPM Histogram";
                 histogramTitle = (TextView) view.findViewById(R.id.histogramReportTitle);
                 histogramTitle.setText(titleToShow);
 
@@ -103,9 +118,9 @@ public class ViewHistogramFragment extends Fragment {
                 histogram.getGridLabelRenderer().setHorizontalAxisTitle("Purity Report ID");
                 histogram.removeAllSeries();
                 if (yaxis.equals("Virus")) {
-                    //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
+                    histogram.addSeries(viruses);
                 } else {
-                    //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
+                    histogram.addSeries(contam);
                 }
 
                 Button updateHistogramButton = (Button) view.findViewById(R.id.updateHistogramButton);
@@ -114,11 +129,11 @@ public class ViewHistogramFragment extends Fragment {
                         String newYaxis = (String)yAxisSpinner.getSelectedItem();
                         histogram.removeAllSeries();
                         if (newYaxis.equals("Virus")) {
-                            //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
+                            histogram.addSeries(viruses);
                         } else {
-                            //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
+                            histogram.addSeries(contam);
                         }
-                        String titleToShow = reportYear + " " + newYaxis + " Histogram";
+                        String titleToShow = reportYear + " " + newYaxis + " PPM Histogram";
                         histogramTitle.setText(titleToShow);
                     }
                 });
