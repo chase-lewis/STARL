@@ -130,7 +130,7 @@ public class HomeActivity extends AppCompatActivity
             newFragment = new ViewPurityReportsFragment();
         } else if (id == R.id.nav_view_histogram) {
             // TODO
-            newFragment = current;
+            newFragment = new SetupHistogramFragment();
         } else if (id == R.id.nav_profile) {
             newFragment = new ViewUserProfileFragment();
         } else if (id == R.id.nav_log_out) {
@@ -187,6 +187,21 @@ public class HomeActivity extends AppCompatActivity
         navigationView.getMenu().findItem(oldId).setChecked(false);
         navigationView.getMenu().findItem(id).setChecked(true);
         oldId = id;
+    }
+
+    /**
+     * Method that switches the fragment to the histogram
+     *
+     * @param bundle A bundle containing water report id, virus or contaminant, and year
+     */
+    public void switchToHistogram(Bundle bundle) {
+        //TODO replace this with new fragment for histogram
+        CreateWaterReportFragment frag = new CreateWaterReportFragment();
+        frag.setArguments(bundle);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_home_container,frag);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     /**
