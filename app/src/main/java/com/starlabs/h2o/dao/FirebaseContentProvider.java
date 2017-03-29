@@ -86,16 +86,10 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
                 for (DataSnapshot report : dataSnapshot.getChildren()) {
                     WaterReport waterReport = report.getValue(WaterReport.class);
 
-                    List<Integer> linkedPurityReportIds = new ArrayList<>();
-                    for (DataSnapshot idDs : report.child("purityReportIds").getChildren()) {
+                    waterReport.resetLinkedPurityReports();
+                    for (DataSnapshot idDs : dataSnapshot.child("linkedPurityReports").getChildren()) {
                         Integer id = idDs.getValue(Integer.class);
-                        linkedPurityReportIds.add(id);
-                    }
-
-                    if (linkedPurityReportIds.get(0) != -1) {
-                        // Actual data stored in firebase
-                        waterReport.resetLinkedPurityReports();
-                        linkedPurityReportIds.forEach(waterReport::linkPurityReport);
+                        waterReport.linkPurityReport(id);
                     }
 
                     waterReports.add(waterReport);
@@ -121,16 +115,10 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
                     // Extract out the user object from firebase
                     WaterReport waterReport = dataSnapshot.getValue(WaterReport.class);
 
-                    List<Integer> linkedPurityReportIds = new ArrayList<>();
-                    for (DataSnapshot idDs : dataSnapshot.child("purityReportIds").getChildren()) {
-                        Integer id = idDs.getValue(Integer.class);
-                        linkedPurityReportIds.add(id);
-                    }
-
                     waterReport.resetLinkedPurityReports();
-                    if (linkedPurityReportIds.get(0) != -1) {
-                        // Actual data stored in firebase
-                        linkedPurityReportIds.forEach(waterReport::linkPurityReport);
+                    for (DataSnapshot idDs : dataSnapshot.child("linkedPurityReports").getChildren()) {
+                        Integer id = idDs.getValue(Integer.class);
+                        waterReport.linkPurityReport(id);
                     }
 
                     // Call the provided callback
@@ -148,18 +136,6 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
     @Override
     public void setWaterReport(WaterReport waterReport) {
         DatabaseReference ref = mDatabase.child("waterReports").child("" + waterReport.getReportNumber());
-
-        if (waterReport.getLinkedPurityReports().size() > 0) {
-            // Store the actual water report ids
-            ref.child("purityReportIds").setValue(waterReport.getLinkedPurityReports());
-        } else {
-            // No ids to store, set -1 so it actually saves to firebase (empty lists don't save)
-            List<Integer> emptyList = new ArrayList<>();
-            emptyList.add(-1);
-            emptyList.add(-2);
-            ref.child("purityReportIds").setValue(emptyList);
-        }
-
         ref.setValue(waterReport);
     }
 

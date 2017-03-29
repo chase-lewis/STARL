@@ -184,6 +184,9 @@ public class WaterReport {
      * @param purityReportId the id of the purity report
      */
     public void linkPurityReport(int purityReportId) {
+        if (purityReportIds == null) {
+            this.resetLinkedPurityReports();
+        }
         purityReportIds.add(purityReportId);
     }
 
