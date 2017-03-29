@@ -40,7 +40,7 @@
         android:layout_below="@id/worker_name" />
 
     <TextView
-        android:id="@+id/purity_location"
+        android:id="@+id/purity_linked_water_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/purity_condition" />
@@ -49,7 +49,7 @@
         android:id="@+id/virus_PPM"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/purity_location" />
+        android:layout_below="@id/purity_linked_water_report" />
 
     <TextView
         android:id="@+id/cont_PPM"

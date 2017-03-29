@@ -31,16 +31,15 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        PurityReport waterReport = waterPurityReports.get(position);
+        PurityReport purityReport = waterPurityReports.get(position);
 
-        holder.workerName.setText("Reported by " + waterReport.getworkerName());
-        holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
-        holder.creationDate.setText(waterReport.getCreationDate().toString());
-        holder.purityLocation.setText("Latitude: " + waterReport.getLatitude()
-                + " Longitude: " + waterReport.getLongitude());
-        holder.purityCondition.setText("Condition: " + waterReport.getCondition().toString());
-        holder.virusPPM.setText("virusPPM: " + waterReport.getVirusPPM());
-        holder.contPPM.setText("contPPM: " + waterReport.getContPPM());
+        holder.workerName.setText("Reported by " + purityReport.getworkerName());
+        holder.reportNumber.setText("Report # " + purityReport.getReportNumber());
+        holder.creationDate.setText(purityReport.getCreationDate().toString());
+        holder.linkedWaterReport.setText("Linked Water Report" + purityReport.getLinkedWaterReportId());
+        holder.purityCondition.setText("Condition: " + purityReport.getCondition().toString());
+        holder.virusPPM.setText("virusPPM: " + purityReport.getVirusPPM());
+        holder.contPPM.setText("contPPM: " + purityReport.getContPPM());
     }
 
     @Override
@@ -52,7 +51,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
         TextView workerName;
         TextView reportNumber;
         TextView creationDate;
-        TextView purityLocation;
+        TextView linkedWaterReport;
         TextView purityCondition;
         TextView virusPPM;
         TextView contPPM;
@@ -62,7 +61,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
             workerName = (TextView) view.findViewById(R.id.worker_name);
             reportNumber = (TextView) view.findViewById(R.id.purity_report_title);
             creationDate = (TextView) view.findViewById(R.id.purity_report_date);
-            purityLocation = (TextView) view.findViewById(R.id.purity_location);
+            linkedWaterReport = (TextView) view.findViewById(R.id.purity_linked_water_report);
             purityCondition = (TextView) view.findViewById(R.id.purity_condition);
             virusPPM = (TextView) view.findViewById(R.id.virus_PPM);
             contPPM = (TextView) view.findViewById(R.id.cont_PPM);
