@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,11 @@ import android.widget.Spinner;
 
 import com.starlabs.h2o.R;
 
+import com.starlabs.h2o.adapter.ViewPurityReportsAdapter;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
+import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 
 import java.util.ArrayList;
@@ -33,8 +36,9 @@ public class SetupHistogramFragment extends Fragment {
     private EditText reportNum;
     private WaterReport selectedReport;
     private String spinnerVal;
-    private FragmentManager fragmentManager = getFragmentManager();
-    
+    private Bundle args;
+    private List<Integer> purityReportIds;
+
     public SetupHistogramFragment(){
         //required empty constructor
     }
@@ -62,11 +66,10 @@ public class SetupHistogramFragment extends Fragment {
 
 
 
-        // Create button setup
+        // View button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.view_histogram_button);
         reportCreateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //TODO transfer data to next activity with intent
                 onHistogramViewPressed();
             }
         });
@@ -107,6 +110,7 @@ public class SetupHistogramFragment extends Fragment {
             return;
         }
 
+        purityReportIds = new ArrayList<>();
         // Obtain list of Water Reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<List<WaterReport>> onWaterReportsReceived = new Consumer<List<WaterReport>>() {
@@ -119,11 +123,13 @@ public class SetupHistogramFragment extends Fragment {
                     if (selectedReport != null){
                         spinnerVal = yAxisSpinner.getSelectedItem().toString();
 
-                        Bundle args = new Bundle();
+                        args = new Bundle();
                         args.putInt("select_year",selectYear);
                         args.putString("spinner_val",spinnerVal);
-                        List<Integer> purityReportIds = new ArrayList<>();
+
                         purityReportIds = selectedReport.getLinkedPurityReports();
+                        //Debugging
+                        Log.d("purityIds", Integer.toString(purityReportIds.size()));
                         args.putIntegerArrayList("purity_report_ids", (ArrayList<Integer>) purityReportIds);
                         ((HomeActivity) getActivity()).switchToHistogram(args);
                     }
@@ -131,8 +137,6 @@ public class SetupHistogramFragment extends Fragment {
             }
         };
         contentProvider.getAllWaterReports(onWaterReportsReceived);
-
-
 
     }
 
