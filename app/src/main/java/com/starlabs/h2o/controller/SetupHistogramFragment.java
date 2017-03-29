@@ -54,8 +54,8 @@ public class SetupHistogramFragment extends Fragment {
         reportNum = (EditText) view.findViewById(R.id.report_number);
         
         List<String> yaxisChoices = new ArrayList<>();
-        yaxisChoices.add("virus");
-        yaxisChoices.add("contaminant");
+        yaxisChoices.add("Virus");
+        yaxisChoices.add("Contaminant");
         ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, yaxisChoices);
         yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yAxisSpinner.setAdapter(yaxisAdapter);

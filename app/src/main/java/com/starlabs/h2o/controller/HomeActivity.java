@@ -196,7 +196,7 @@ public class HomeActivity extends AppCompatActivity
      */
     public void switchToHistogram(Bundle bundle) {
         //TODO replace this with new fragment for histogram
-        CreateWaterReportFragment frag = new CreateWaterReportFragment();
+        ViewHistogramFragment frag = new ViewHistogramFragment();
         frag.setArguments(bundle);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_home_container,frag);
