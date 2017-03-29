@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setup_histogram_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/setupTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"
+        android:text="VIew Histogram"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/location_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.09"
+        android:text="Select Water Report:"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/report_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/yaxis_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:text="Virus or Contaminant:"
+        android:textSize="16dp" />
+    <Spinner
+        android:id="@+id/histogram_yaxis_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06" />
+
+    <TextView
+        android:id="@+id/select_year_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"
+        android:text="Select Year:"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/year_histogram_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="" />
+
+    <Button
+        android:id="@+id/view_histogram_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View" />
+
+    <Button
+        android:id="@+id/cancel_histogram_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel" />
+
+</LinearLayout>
