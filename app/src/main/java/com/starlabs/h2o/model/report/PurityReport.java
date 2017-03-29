@@ -15,22 +15,19 @@ public class PurityReport {
     private String workerName;
     private Date creationDate;
     private int reportNumber;
-    private double latitude;
-    private double longitude;
     private PurityCondition condition;
     private int virusPPM;
     private int contPPM;
+    private int linkedWaterReportId;
 
-    public PurityReport(String workerName, Location location, PurityCondition condition,
-                        int virusPPM, int contPPM) {
+    public PurityReport(String workerName, PurityCondition condition, int virusPPM, int contPPM) {
         this.workerName = workerName;
-        this.latitude = location.getLatitude();
-        this.longitude = location.getLongitude();
         this.condition = condition;
         this.creationDate = new Date();
         this.reportNumber = new Random().nextInt();
         this.virusPPM = virusPPM;
         this.contPPM = contPPM;
+        this.linkedWaterReportId = -1;
     }
 
     public PurityReport() {
@@ -97,52 +94,6 @@ public class PurityReport {
     }
 
     /**
-     * Getter for the latitude
-     *
-     * @return The latitude the report was created
-     */
-    public double getLatitude() {
-        return latitude;
-    }
-
-    /**
-     * Setter for the latitude
-     *
-     * @param latitude The latitude to be set (-90 to 90)
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     * Getter for the longitude
-     *
-     * @return The longitude the report was created
-     */
-    public double getLongitude() {
-        return longitude;
-    }
-
-    /**
-     * Setter for the longitude
-     *
-     * @param longitude The longitude to be set (-90 to 90)
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    /**
-     * Setter for the location
-     *
-     * @param location The location the report was created
-     */
-    public void setLocation(Location location) {
-        this.latitude = location.getLatitude();
-        this.longitude = location.getLongitude();
-    }
-
-    /**
      * Getter for the waterConditon
      *
      * @return The water condition
@@ -196,6 +147,23 @@ public class PurityReport {
         this.contPPM = contPPM;
     }
 
+    /**
+     * Getter for the water report id this is linked to
+     *
+     * @return the corresponding water report id
+     */
+    public int getLinkedWaterReportId() {
+        return linkedWaterReportId;
+    }
+
+    /**
+     * Setter to link a purity report to a water report
+     *
+     * @param linkedWaterReportId the water report id
+     */
+    public void setLinkedWaterReportId(int linkedWaterReportId) {
+        this.linkedWaterReportId = linkedWaterReportId;
+    }
 }
 
 

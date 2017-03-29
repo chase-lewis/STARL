@@ -67,28 +67,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Latitude" />
+            android:text="Linked Water Report Id" />
 
         <EditText
-            android:id="@+id/create_purity_report_lat"
+            android:id="@+id/create_purity_linked_water_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal|numberSigned"
+            android:inputType="number"
             android:text="" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Longitude" />
-
-        <EditText
-            android:id="@+id/create_purity_report_long"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.08"
-            android:inputType="numberDecimal|numberSigned"
-            android:text="" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -23,6 +23,7 @@ import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
+import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 
 import java.util.function.Consumer;
@@ -39,8 +40,7 @@ public class CreatePurityReportFragment extends Fragment {
     private TextView reportReporterName;
     private TextView reportDateText;
     private TextView reportNumText;
-    private EditText reportLocLatEditText;
-    private EditText reportLocLongEditText;
+    private EditText linkedWaterReportEditText;
     private Spinner purityCondSpinner;
     private EditText virusPPMText;
     private EditText contPPMText;
@@ -63,8 +63,7 @@ public class CreatePurityReportFragment extends Fragment {
         // Set up the fields for the user profile
         reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
         reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
-        reportLocLatEditText = (EditText) view.findViewById(R.id.create_purity_report_lat);
-        reportLocLongEditText = (EditText) view.findViewById(R.id.create_purity_report_long);
+        linkedWaterReportEditText = (EditText) view.findViewById(R.id.create_purity_linked_water_report);
         reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
         purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
         virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
@@ -85,7 +84,7 @@ public class CreatePurityReportFragment extends Fragment {
             edit = true;
         } else {
             // Create a new report
-            report = new PurityReport(user.getName(), new Location("H20"), PurityCondition.SAFE, 0, 0);
+            report = new PurityReport(user.getName(), PurityCondition.SAFE, 0, 0);
 
             // Get the correct id for the new report from the content provider
             Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
@@ -97,39 +96,13 @@ public class CreatePurityReportFragment extends Fragment {
                 }
             };
             contentProvider.getNextPurityReportId(onNextIdFound);
-
-            // Check if report's latLong is being generated due to Map Tap or user's location
-            if (bundle != null) {
-                LatLng latLng = bundle.getParcelable("LOC");
-                if (latLng != null) {
-                    report.setLatitude(latLng.latitude);
-                    report.setLongitude(latLng.longitude);
-                }
-            } else {
-                // Set up the location of the report
-                // Check if we have location access permission first. Note we are using Network Location, not GPS
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                    String locationProvider = LocationManager.NETWORK_PROVIDER;
-
-                    // Get rough location very synchronously
-                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-
-                    if (lastKnownLocation != null) {
-                        // Set the location in the pojo
-                        report.setLatitude(lastKnownLocation.getLatitude());
-                        report.setLongitude(lastKnownLocation.getLongitude());
-                    }
-                }
-            }
         }
 
         // Set all the text views
         reportReporterName.setText(user.getName());
         reportDateText.setText(report.getCreationDate().toString());
         reportNumText.setText(Integer.toString(report.getReportNumber()));
-        reportLocLatEditText.setText(Double.toString(report.getLatitude()));
-        reportLocLongEditText.setText(Double.toString(report.getLongitude()));
+        linkedWaterReportEditText.setText(Integer.toString(report.getLinkedWaterReportId()));
         purityCondSpinner.setSelection(report.getCondition().ordinal());
         virusPPMText.setText(report.getVirusPPM() + "");
         contPPMText.setText(report.getContPPM() + "");
@@ -161,49 +134,32 @@ public class CreatePurityReportFragment extends Fragment {
      *             TODO move business logic out of activity
      */
     protected void onReportCreatePressed(View view) {
+        final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.getText().toString());
+
         // Update the values in the model from the UI
         report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
         report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
         report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
-
-        // Verify the location data is valid
-        double latitude;
-        double longitude;
-
-        reportLocLatEditText.setError(null);
-        reportLocLongEditText.setError(null);
-
-        try {
-            latitude = Double.parseDouble(reportLocLatEditText.getText().toString());
-        } catch (NumberFormatException e) {
-            reportLocLatEditText.setError("Must pass in a valid number");
-            return;
-        }
-
-        try {
-            longitude = Double.parseDouble(reportLocLongEditText.getText().toString());
-        } catch (NumberFormatException e) {
-            reportLocLongEditText.setError("Must pass in a valid number");
-            return;
-        }
-
-        if (latitude < -90 || latitude > 90) {
-            reportLocLatEditText.setError("Latitude must be between -90 and 90");
-            return;
-        } else if (longitude < -180 || longitude > 180) {
-            reportLocLongEditText.setError("Longitude must be between -180 and 180");
-            return;
-        } else {
-            report.setLatitude(latitude);
-            report.setLongitude(longitude);
-        }
+        report.setLinkedWaterReportId(linkedWaterReportId);
 
         // Store data
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setPurityReport(report);
         contentProvider.setNextPurityReportId(report.getReportNumber());
 
-        getActivity().onBackPressed();
+        // Store association in the water report
+        Consumer<WaterReport> waterReportConsumer = new Consumer<WaterReport>() {
+            @Override
+            public void accept(WaterReport waterReport) {
+                // Store this purity report's id in the water report
+                waterReport.linkPurityReport(report.getReportNumber());
+                contentProvider.setWaterReport(waterReport);
+
+                // Exit this fragment here
+                getActivity().onBackPressed();
+            }
+        };
+        contentProvider.getSingleWaterReport(waterReportConsumer, linkedWaterReportId);
     }
 
     /**
