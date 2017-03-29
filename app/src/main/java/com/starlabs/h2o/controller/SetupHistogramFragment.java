@@ -34,10 +34,6 @@ public class SetupHistogramFragment extends Fragment {
     private Spinner yAxisSpinner;
     private EditText yearText;
     private EditText reportNum;
-    private WaterReport selectedReport;
-    private String spinnerVal;
-    private Bundle args;
-    private List<Integer> purityReportIds;
 
     public SetupHistogramFragment(){
         //required empty constructor
@@ -53,18 +49,18 @@ public class SetupHistogramFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setup_histogram, container, false);
 
+        // Inflate views
         yAxisSpinner = (Spinner) view.findViewById(R.id.histogram_yaxis_choice);
         yearText = (EditText) view.findViewById(R.id.year_histogram_text);
         reportNum = (EditText) view.findViewById(R.id.report_number);
-        
+
+        // Setup y axis spinner
         List<String> yaxisChoices = new ArrayList<>();
         yaxisChoices.add("Virus");
         yaxisChoices.add("Contaminant");
         ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, yaxisChoices);
         yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yAxisSpinner.setAdapter(yaxisAdapter);
-
-
 
         // View button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.view_histogram_button);
@@ -86,57 +82,53 @@ public class SetupHistogramFragment extends Fragment {
     }
 
     protected void onHistogramViewPressed() {
-        //check if year is valid input
+        // Get input from ui
+        String spinnerVal = yAxisSpinner.getSelectedItem().toString();
         int selectYear;
-
         int reportNumHist;
 
-
-        try{
+        try {
             selectYear = Integer.parseInt(yearText.getText().toString());
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e){
             yearText.setError("Must pass in a valid number");
             return;
         }
+
         if(selectYear > 3000 || selectYear < 1900){
             yearText.setError("Year is out of range");
             return;
         }
 
-        try{
+        try {
             reportNumHist = Integer.parseInt(reportNum.getText().toString());
-        }catch(NumberFormatException e){
-            yearText.setError("Must pass in a valid number");
+        } catch(NumberFormatException e){
+            reportNum.setError("Must pass in a valid number");
             return;
         }
 
-        purityReportIds = new ArrayList<>();
         // Obtain list of Water Reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<WaterReport>> onWaterReportsReceived = new Consumer<List<WaterReport>>() {
+        Consumer<WaterReport> onWaterReportReceived = new Consumer<WaterReport>() {
             @Override
-            public void accept(List<WaterReport> waterReports) {
-                for(WaterReport report : waterReports){
-                    if(report.getReportNumber() == reportNumHist){
-                        selectedReport = report;
-                    }
-                    if (selectedReport != null){
-                        spinnerVal = yAxisSpinner.getSelectedItem().toString();
+            public void accept(WaterReport waterReport) {
+                if (waterReport != null) {
+                    // Transition to the histogram fragment
+                    Bundle args = new Bundle();
+                    args.putInt("select_year", selectYear);
+                    args.putString("spinner_val", spinnerVal);
 
-                        args = new Bundle();
-                        args.putInt("select_year",selectYear);
-                        args.putString("spinner_val",spinnerVal);
+                    // Place purity ids in the bundle
+                    List<Integer> purityReportIds = waterReport.getLinkedPurityReports();
+                    args.putIntegerArrayList("purity_report_ids", (ArrayList<Integer>) purityReportIds);
+                    ((HomeActivity) getActivity()).switchToHistogram(args);
 
-                        purityReportIds = selectedReport.getLinkedPurityReports();
-                        //Debugging
-                        Log.d("purityIds", Integer.toString(purityReportIds.size()));
-                        args.putIntegerArrayList("purity_report_ids", (ArrayList<Integer>) purityReportIds);
-                        ((HomeActivity) getActivity()).switchToHistogram(args);
-                    }
+                } else {
+                    // No water report found in the db
+                    reportNum.setError("Not a valid water report number");
                 }
             }
         };
-        contentProvider.getAllWaterReports(onWaterReportsReceived);
+        contentProvider.getSingleWaterReport(onWaterReportReceived, reportNumHist);
 
     }
 

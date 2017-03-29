@@ -15,8 +15,9 @@ import java.util.function.Consumer;
 
 /**
  * Specific type of content provider that uses firebase
+ *
+ * @author tejun
  */
-
 class FirebaseContentProvider extends SessionContentProvider implements ContentProvider {
 
     private DatabaseReference mDatabase;

@@ -35,7 +35,6 @@ public class ViewHistogramFragment extends Fragment {
     private Spinner yAxisSpinner;
     private TextView histogramTitle;
     private String spinnerVal;
-    private List<PurityReport> purReports;;
 
     private FragmentManager fragmentManager = getFragmentManager();
 
@@ -67,37 +66,34 @@ public class ViewHistogramFragment extends Fragment {
         Bundle b = getArguments();
         String initYAxis = (String)b.getString("spinner_val");
         int reportYear = (int)b.getInt("select_year");
-        List<Integer> purityReportIds = b.getIntegerArrayList("purity_report_ids");
-        // Obtain list of Water Purity Reports from the content provider
+        final List<Integer> purityReportIds = b.getIntegerArrayList("purity_report_ids");
 
+        // Obtain list of Purity Reports from the content provider using the ids
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<List<PurityReport>> waterReportsReceived = new Consumer<List<PurityReport>>() {
             @Override
-            public void accept(List<PurityReport> waterPurityReports) {
-                purReports = new ArrayList<>();
-                for(PurityReport preport : waterPurityReports){
+            public void accept(List<PurityReport> allPurityReports) {
+                List<PurityReport> filteredPurityReports = new ArrayList<>();
+
+                // Filter out the purity reports and only use the ones with the matching ids
+                for (PurityReport pReport : allPurityReports){
                     boolean reportFound = false;
                     int i = 0;
-                    while(!reportFound && i < purityReportIds.size()){
-                        if(preport.getReportNumber() == purityReportIds.get(i)){
+                    while (!reportFound && i < purityReportIds.size()){
+                        if (pReport.getReportNumber() == purityReportIds.get(i)){
                             reportFound = true;
-                            purReports.add(preport);
-                            i++;
+                            filteredPurityReports.add(pReport);
                         }
+                        i++;
                     }
                 }
 
                 yAxisSpinner.setSelection(yaxisChoices.indexOf(initYAxis));
 
-                //Debugging
-                Log.d("purityreportsize",Integer.toString(purReports.size()));
-                Log.d("idsSIZE",Integer.toString(purityReportIds.size()));
-                //Log.d("purityreport",purReports.get(0).getworkerName());
-
-                //Get whether user wants to see contamination or virus level
+                // Get whether user wants to see contamination or virus level
                 String yaxis = (String)yAxisSpinner.getSelectedItem();
 
-                //Set Title based on y axis
+                // Set Title based on y axis
                 String titleToShow = reportYear + " " + yaxis + " Histogram";
                 histogramTitle = (TextView) view.findViewById(R.id.histogramReportTitle);
                 histogramTitle.setText(titleToShow);
@@ -106,7 +102,7 @@ public class ViewHistogramFragment extends Fragment {
                 GraphView histogram = (GraphView) view.findViewById(R.id.histogramGraph);
                 histogram.getGridLabelRenderer().setHorizontalAxisTitle("Purity Report ID");
                 histogram.removeAllSeries();
-                if (yaxis == "Virus") {
+                if (yaxis.equals("Virus")) {
                     //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
                 } else {
                     //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
@@ -117,7 +113,7 @@ public class ViewHistogramFragment extends Fragment {
                     public void onClick(View view) {
                         String newYaxis = (String)yAxisSpinner.getSelectedItem();
                         histogram.removeAllSeries();
-                        if (newYaxis == "Virus") {
+                        if (newYaxis.equals("Virus")) {
                             //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
                         } else {
                             //TODO: GRAPH POINTS BASE ON WHAT RISHI PASSES IN
@@ -138,10 +134,6 @@ public class ViewHistogramFragment extends Fragment {
         };
         contentProvider.getAllPurityReports(waterReportsReceived);
         return view;
-    }
-
-    protected void getPurityReports(List<Integer> purityReportIds){
-
     }
 
     /**
