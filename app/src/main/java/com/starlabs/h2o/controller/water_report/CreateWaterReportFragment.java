@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  */
 public class CreateWaterReportFragment extends Fragment {
 
-    User user;
+    private User user;
     private boolean edit = false;
     private TextView reportDateText;
     private TextView reportNumText;

@@ -48,13 +48,13 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView workerName;
-        TextView reportNumber;
-        TextView creationDate;
-        TextView linkedWaterReport;
-        TextView purityCondition;
-        TextView virusPPM;
-        TextView contPPM;
+        private TextView workerName;
+        private TextView reportNumber;
+        private TextView creationDate;
+        private TextView linkedWaterReport;
+        private TextView purityCondition;
+        private TextView virusPPM;
+        private TextView contPPM;
 
         public CustomViewHolder(View view) {
             super(view);
