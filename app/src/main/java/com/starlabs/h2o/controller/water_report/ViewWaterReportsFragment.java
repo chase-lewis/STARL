@@ -46,12 +46,9 @@ public class ViewWaterReportsFragment extends Fragment {
 
         // Obtain list of Water Reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<WaterReport>> onWaterReportsReceived = new Consumer<List<WaterReport>>() {
-            @Override
-            public void accept(List<WaterReport> waterReports) {
-                adapter = new ViewWaterReportsAdapter(waterReports);
-                mRecycler.setAdapter(adapter);
-            }
+        Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
+            adapter = new ViewWaterReportsAdapter(waterReports);
+            mRecycler.setAdapter(adapter);
         };
         contentProvider.getAllWaterReports(onWaterReportsReceived);
 

@@ -34,7 +34,7 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
         mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<User> users = new ArrayList<User>();
+                List<User> users = new ArrayList<>();
 
                 for (DataSnapshot user : dataSnapshot.getChildren()) {
                     users.add(user.getValue(User.class));
@@ -82,7 +82,7 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
         mDatabase.child("waterReports").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<WaterReport> waterReports = new ArrayList<WaterReport>();
+                List<WaterReport> waterReports = new ArrayList<>();
 
                 for (DataSnapshot report : dataSnapshot.getChildren()) {
                     WaterReport waterReport = report.getValue(WaterReport.class);
@@ -167,7 +167,7 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
         mDatabase.child("purityReports").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<PurityReport> purityReports = new ArrayList<PurityReport>();
+                List<PurityReport> purityReports = new ArrayList<>();
 
                 for (DataSnapshot report : dataSnapshot.getChildren()) {
                     purityReports.add(report.getValue(PurityReport.class));

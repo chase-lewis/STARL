@@ -66,19 +66,11 @@ public class ViewUserProfileFragment extends Fragment {
 
         // Done button setup
         Button profileDoneButton = (Button) view.findViewById(R.id.profile_done_button);
-        profileDoneButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onProfileDonePressed(view);
-            }
-        });
+        profileDoneButton.setOnClickListener(this::onProfileDonePressed);
 
         // Cancel button setup
         Button profileCancelButton = (Button) view.findViewById(R.id.profile_cancel_button);
-        profileCancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onCancelPressed(view);
-            }
-        });
+        profileCancelButton.setOnClickListener(this::onCancelPressed);
 
         return view;
     }

@@ -72,27 +72,21 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
 
         // Get all the water reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<WaterReport>> onWaterReportsReceived = new Consumer<List<WaterReport>>() {
-            @Override
-            public void accept(List<WaterReport> waterReports) {
-                for (WaterReport waterReport : waterReports) {
-                    double latitude = waterReport.getLatitude();
-                    double longitude = waterReport.getLongitude();
-                    LatLng markLocation = new LatLng(latitude, longitude);
-                    mMap.addMarker(new MarkerOptions().position(markLocation).title(waterReport.toString()));
-                }
+        Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
+            for (WaterReport waterReport : waterReports) {
+                double latitude = waterReport.getLatitude();
+                double longitude = waterReport.getLongitude();
+                LatLng markLocation = new LatLng(latitude, longitude);
+                mMap.addMarker(new MarkerOptions().position(markLocation).title(waterReport.toString()));
             }
         };
         contentProvider.getAllWaterReports(onWaterReportsReceived);
 
         // Listens for a tap gesture on the map and then proceeds to the screen for report creation.
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("LOC", latLng);
-                ((HomeActivity) getActivity()).switchToWaterReportCreate(bundle);
-            }
+        mMap.setOnMapClickListener(latLng -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("LOC", latLng);
+            ((HomeActivity) getActivity()).switchToWaterReportCreate(bundle);
         });
     }
 }

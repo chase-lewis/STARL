@@ -79,13 +79,10 @@ public class CreatePurityReportFragment extends Fragment {
             report = new PurityReport(user.getName(), PurityCondition.SAFE, 0, 0);
 
             // Get the correct id for the new report from the content provider
-            Consumer<Integer> onNextIdFound = new Consumer<Integer>() {
-                @Override
-                public void accept(Integer id) {
-                    // Set the report number
-                    report.setReportNumber(id + 1);
-                    reportNumText.setText(Integer.toString(report.getReportNumber()));
-                }
+            Consumer<Integer> onNextIdFound = id -> {
+                // Set the report number
+                report.setReportNumber(id + 1);
+                reportNumText.setText(Integer.toString(report.getReportNumber()));
             };
             contentProvider.getNextPurityReportId(onNextIdFound);
         }
@@ -101,19 +98,11 @@ public class CreatePurityReportFragment extends Fragment {
 
         // Create button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.create_purity_report_create);
-        reportCreateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onReportCreatePressed(view);
-            }
-        });
+        reportCreateButton.setOnClickListener(this::onReportCreatePressed);
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.create_purity_report_cancel);
-        reportCancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onCancelPressed(view);
-            }
-        });
+        reportCancelButton.setOnClickListener(this::onCancelPressed);
 
         return view;
     }
@@ -140,16 +129,13 @@ public class CreatePurityReportFragment extends Fragment {
         contentProvider.setNextPurityReportId(report.getReportNumber());
 
         // Store association in the water report
-        Consumer<WaterReport> waterReportConsumer = new Consumer<WaterReport>() {
-            @Override
-            public void accept(WaterReport waterReport) {
-                // Store this purity report's id in the water report
-                waterReport.linkPurityReport(report.getReportNumber());
-                contentProvider.setWaterReport(waterReport);
+        Consumer<WaterReport> waterReportConsumer = waterReport -> {
+            // Store this purity report's id in the water report
+            waterReport.linkPurityReport(report.getReportNumber());
+            contentProvider.setWaterReport(waterReport);
 
-                // Exit this fragment here
-                getActivity().onBackPressed();
-            }
+            // Exit this fragment here
+            getActivity().onBackPressed();
         };
         contentProvider.getSingleWaterReport(waterReportConsumer, linkedWaterReportId);
     }

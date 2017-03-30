@@ -57,19 +57,11 @@ public class SetupHistogramFragment extends Fragment {
 
         // View button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.view_histogram_button);
-        reportCreateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onHistogramViewPressed();
-            }
-        });
+        reportCreateButton.setOnClickListener(view1 -> onHistogramViewPressed());
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.cancel_histogram_button);
-        reportCancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onCancelPressed(view);
-            }
-        });
+        reportCancelButton.setOnClickListener(this::onCancelPressed);
         
         return view;
     }
@@ -101,24 +93,21 @@ public class SetupHistogramFragment extends Fragment {
 
         // Obtain list of Water Reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<WaterReport> onWaterReportReceived = new Consumer<WaterReport>() {
-            @Override
-            public void accept(WaterReport waterReport) {
-                if (waterReport != null) {
-                    // Transition to the histogram fragment
-                    Bundle args = new Bundle();
-                    args.putInt("select_year", selectYear);
-                    args.putString("spinner_val", spinnerVal);
+        Consumer<WaterReport> onWaterReportReceived = waterReport -> {
+            if (waterReport != null) {
+                // Transition to the histogram fragment
+                Bundle args = new Bundle();
+                args.putInt("select_year", selectYear);
+                args.putString("spinner_val", spinnerVal);
 
-                    // Place purity ids in the bundle
-                    List<Integer> purityReportIds = waterReport.getLinkedPurityReports();
-                    args.putIntegerArrayList("purity_report_ids", (ArrayList<Integer>) purityReportIds);
-                    ((HomeActivity) getActivity()).switchToHistogram(args);
+                // Place purity ids in the bundle
+                List<Integer> purityReportIds = waterReport.getLinkedPurityReports();
+                args.putIntegerArrayList("purity_report_ids", (ArrayList<Integer>) purityReportIds);
+                ((HomeActivity) getActivity()).switchToHistogram(args);
 
-                } else {
-                    // No water report found in the db
-                    reportNum.setError("Not a valid water report number");
-                }
+            } else {
+                // No water report found in the db
+                reportNum.setError("Not a valid water report number");
             }
         };
         contentProvider.getSingleWaterReport(onWaterReportReceived, reportNumHist);

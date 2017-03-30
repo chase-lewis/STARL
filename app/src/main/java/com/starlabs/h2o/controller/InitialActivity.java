@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
@@ -30,19 +29,11 @@ public class InitialActivity extends AppCompatActivity {
 
         // Set up the login button
         Button goToLogin = (Button) findViewById(R.id.initial_sign_in);
-        goToLogin.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                launchLogin();
-            }
-        });
+        goToLogin.setOnClickListener(view -> launchLogin());
 
         // Set up the register button
         Button goToRegister = (Button) findViewById(R.id.initial_register);
-        goToRegister.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                launchRegister();
-            }
-        });
+        goToRegister.setOnClickListener(view -> launchRegister());
 
         // Get user location permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

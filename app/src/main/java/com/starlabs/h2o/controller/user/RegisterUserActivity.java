@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -56,21 +55,11 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         // Set up the register button
         Button registerButton = (Button) findViewById(R.id.register_register_button);
-        registerButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptRegister();
-            }
-        });
+        registerButton.setOnClickListener(view -> attemptRegister());
 
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.register_cancel_button);
-        cancelSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        cancelSignInButton.setOnClickListener(view -> finish());
 
         // Set up the progress bar for registration
         mProgressView = (ProgressBar) findViewById(R.id.register_progress);
@@ -138,12 +127,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
             // Check if username already exists in our content provider
             ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-            Consumer<User> onUserFound = new Consumer<User>() {
-                @Override
-                public void accept(User user) {
-                    mAuthTask.setFoundUser(true);
-                }
-            };
+            Consumer<User> onUserFound = user -> mAuthTask.setFoundUser(true);
             contentProvider.getSingleUser(onUserFound, username);
         }
 

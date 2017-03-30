@@ -7,15 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.controller.HomeActivity;
@@ -56,30 +53,15 @@ public class LoginUserActivity extends AppCompatActivity {
         // Set up the password form
         mPasswordView = (EditText) findViewById(R.id.login_password);
         mPasswordView.setText("");
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                return id == R.id.login || id == EditorInfo.IME_NULL;
-            }
-        });
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> id == R.id.login || id == EditorInfo.IME_NULL);
 
         // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mSignInButton.setOnClickListener(view -> attemptLogin());
 
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.login_cancel);
-        cancelSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        cancelSignInButton.setOnClickListener(view -> finish());
 
         // Set up the progress bar that shows logging in
         // Note: This is hidden on startup
@@ -145,17 +127,14 @@ public class LoginUserActivity extends AppCompatActivity {
 
             // Check if the user exists in the content provider
             ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-            Consumer<User> onUserFound = new Consumer<User>() {
-                @Override
-                public void accept(User user) {
-                    if (user.isCorrectPassword(password)) {
-                        // Password matches!
-                        // Call the async success method
-                        mAuthTask.setUser(user);
-                        mAuthTask.onPostExecute(true);
-                    } else {
-                        mAuthTask.onPostExecute(false);
-                    }
+            Consumer<User> onUserFound = user -> {
+                if (user.isCorrectPassword(password)) {
+                    // Password matches!
+                    // Call the async success method
+                    mAuthTask.setUser(user);
+                    mAuthTask.onPostExecute(true);
+                } else {
+                    mAuthTask.onPostExecute(false);
                 }
             };
             contentProvider.getSingleUser(onUserFound, username);

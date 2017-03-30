@@ -67,81 +67,70 @@ public class ViewHistogramFragment extends Fragment {
 
         // Obtain list of Purity Reports from the content provider using the ids
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<PurityReport>> waterReportsReceived = new Consumer<List<PurityReport>>() {
-            @Override
-            public void accept(List<PurityReport> allPurityReports) {
-                List<PurityReport> filteredPurityReports = new ArrayList<>();
+        Consumer<List<PurityReport>> waterReportsReceived = allPurityReports -> {
+            List<PurityReport> filteredPurityReports = new ArrayList<>();
 
-                // Filter out the purity reports and only use the ones with the matching ids
-                for (PurityReport pReport : allPurityReports){
-                    boolean reportFound = false;
-                    int i = 0;
-                    while (!reportFound && i < purityReportIds.size()){
-                        if (pReport.getReportNumber() == purityReportIds.get(i)){
-                            reportFound = true;
-                            filteredPurityReports.add(pReport);
-                        }
-                        i++;
+            // Filter out the purity reports and only use the ones with the matching ids
+            for (PurityReport pReport : allPurityReports){
+                boolean reportFound = false;
+                int i = 0;
+                while (!reportFound && i < purityReportIds.size()){
+                    if (pReport.getReportNumber() == purityReportIds.get(i)){
+                        reportFound = true;
+                        filteredPurityReports.add(pReport);
                     }
+                    i++;
                 }
+            }
 
-                LineGraphSeries<DataPoint> viruses = new LineGraphSeries<DataPoint>();
-                LineGraphSeries<DataPoint> contam = new LineGraphSeries<DataPoint>();
+            LineGraphSeries<DataPoint> viruses = new LineGraphSeries<>();
+            LineGraphSeries<DataPoint> contam = new LineGraphSeries<>();
 
-                for (PurityReport current: filteredPurityReports) {
-                    if ((reportYear - 1900) == current.getCreationDate().getYear()) {
-                        int currRepNum = current.getReportNumber();
-                        int currVirNum = current.getVirusPPM();
-                        int currContNum = current.getContPPM();
+            filteredPurityReports.stream().filter(current -> (reportYear - 1900) == current.getCreationDate().getYear()).forEach(current -> {
+                int currRepNum = current.getReportNumber();
+                int currVirNum = current.getVirusPPM();
+                int currContNum = current.getContPPM();
 
-                        viruses.appendData(new DataPoint(currRepNum, currVirNum), true, 500);
-                        contam.appendData(new DataPoint(currRepNum, currContNum), true, 500);
-                    }
-                }
+                viruses.appendData(new DataPoint(currRepNum, currVirNum), true, 500);
+                contam.appendData(new DataPoint(currRepNum, currContNum), true, 500);
+            });
 
-                yAxisSpinner.setSelection(yaxisChoices.indexOf(initYAxis));
+            yAxisSpinner.setSelection(yaxisChoices.indexOf(initYAxis));
 
-                // Get whether user wants to see contamination or virus level
-                String yaxis = (String)yAxisSpinner.getSelectedItem();
+            // Get whether user wants to see contamination or virus level
+            String yaxis = (String)yAxisSpinner.getSelectedItem();
 
-                // Set Title based on y axis
-                String titleToShow = reportYear + " " + yaxis + " PPM Histogram";
-                histogramTitle = (TextView) view.findViewById(R.id.histogramReportTitle);
-                histogramTitle.setText(titleToShow);
+            // Set Title based on y axis
+            String titleToShow = reportYear + " " + yaxis + " PPM Histogram";
+            histogramTitle = (TextView) view.findViewById(R.id.histogramReportTitle);
+            histogramTitle.setText(titleToShow);
 
 
-                GraphView histogram = (GraphView) view.findViewById(R.id.histogramGraph);
-                histogram.getGridLabelRenderer().setHorizontalAxisTitle("Purity Report ID");
+            GraphView histogram = (GraphView) view.findViewById(R.id.histogramGraph);
+            histogram.getGridLabelRenderer().setHorizontalAxisTitle("Purity Report ID");
+            histogram.removeAllSeries();
+            if (yaxis.equals("Virus")) {
+                histogram.addSeries(viruses);
+            } else {
+                histogram.addSeries(contam);
+            }
+
+            Button updateHistogramButton = (Button) view.findViewById(R.id.updateHistogramButton);
+            updateHistogramButton.setOnClickListener(view1 -> {
+                String newYaxis = (String)yAxisSpinner.getSelectedItem();
                 histogram.removeAllSeries();
-                if (yaxis.equals("Virus")) {
+                if (newYaxis.equals("Virus")) {
                     histogram.addSeries(viruses);
                 } else {
                     histogram.addSeries(contam);
                 }
+                String titleToShow1 = reportYear + " " + newYaxis + " PPM Histogram";
+                histogramTitle.setText(titleToShow1);
+            });
 
-                Button updateHistogramButton = (Button) view.findViewById(R.id.updateHistogramButton);
-                updateHistogramButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        String newYaxis = (String)yAxisSpinner.getSelectedItem();
-                        histogram.removeAllSeries();
-                        if (newYaxis.equals("Virus")) {
-                            histogram.addSeries(viruses);
-                        } else {
-                            histogram.addSeries(contam);
-                        }
-                        String titleToShow = reportYear + " " + newYaxis + " PPM Histogram";
-                        histogramTitle.setText(titleToShow);
-                    }
-                });
-
-                // Cancel button setup
-                Button reportCancelButton = (Button) view.findViewById(R.id.histogramCancel);
-                reportCancelButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        onCancelPressed(view);
-                    }
-                });
-            }
+            // Cancel button setup
+            Button reportCancelButton = (Button) view.findViewById(R.id.histogramCancel);
+            reportCancelButton.setOnClickListener(ViewHistogramFragment.this::onCancelPressed);
         };
         contentProvider.getAllPurityReports(waterReportsReceived);
         return view;
