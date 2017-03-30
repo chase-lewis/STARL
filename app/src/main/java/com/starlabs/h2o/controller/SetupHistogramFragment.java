@@ -1,10 +1,7 @@
 package com.starlabs.h2o.controller;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.starlabs.h2o.R;
-
-import com.starlabs.h2o.adapter.ViewPurityReportsAdapter;
-import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
-import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 
 import java.util.ArrayList;

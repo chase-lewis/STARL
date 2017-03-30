@@ -50,12 +50,12 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView reporterName;
-        TextView reportNumber;
-        TextView reportDate;
-        TextView waterLocation;
-        TextView waterType;
-        TextView waterCondition;
+        private TextView reporterName;
+        private TextView reportNumber;
+        private TextView reportDate;
+        private TextView waterLocation;
+        private TextView waterType;
+        private TextView waterCondition;
 
         public CustomViewHolder(View view) {
             super(view);

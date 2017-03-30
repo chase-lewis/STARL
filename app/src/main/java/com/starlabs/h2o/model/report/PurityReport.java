@@ -1,7 +1,5 @@
 package com.starlabs.h2o.model.report;
 
-import android.location.Location;
-
 import java.util.Date;
 import java.util.Random;
 

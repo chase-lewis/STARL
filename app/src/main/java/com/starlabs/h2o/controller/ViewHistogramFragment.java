@@ -2,15 +2,12 @@ package com.starlabs.h2o.controller;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,14 +16,11 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.starlabs.h2o.R;
 
-import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.PurityReport;
-import com.starlabs.h2o.model.report.WaterReport;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -67,8 +61,8 @@ public class ViewHistogramFragment extends Fragment {
         yAxisSpinner.setAdapter(yaxisAdapter);
 
         Bundle b = getArguments();
-        String initYAxis = (String)b.getString("spinner_val");
-        int reportYear = (int)b.getInt("select_year");
+        String initYAxis = (String) b.getString("spinner_val");
+        int reportYear = (int) b.getInt("select_year");
         final List<Integer> purityReportIds = b.getIntegerArrayList("purity_report_ids");
 
         // Obtain list of Purity Reports from the content provider using the ids
