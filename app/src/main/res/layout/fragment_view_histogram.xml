@@ -15,7 +15,7 @@
         android:layout_weight="0.06"
         android:text="View Histogram"
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
 
     <com.jjoe64.graphview.GraphView
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.03"
         android:text="Virus or Contaminant:"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <Spinner
         android:id="@+id/histogramSlider"

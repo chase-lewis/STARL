@@ -15,7 +15,7 @@
         android:layout_weight="0.06"
         android:text="VIew Histogram"
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/location_title_text"
@@ -23,10 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.09"
         android:text="Select Water Report:"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/report_number"
+        android:labelFor="@id/report_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.03"
         android:text="Virus or Contaminant:"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
     <Spinner
         android:id="@+id/histogram_yaxis_choice"
         android:layout_width="match_parent"
@@ -51,10 +52,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.06"
         android:text="Select Year:"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/year_histogram_text"
+        android:labelFor="@id/year_histogram_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"

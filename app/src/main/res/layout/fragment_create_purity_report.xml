@@ -18,7 +18,7 @@
             android:layout_weight="0.08"
             android:text="Create Purity Report"
             android:textAlignment="center"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Date and Time:"
             android:textAlignment="textStart"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/create_purity_report_date"
@@ -72,6 +72,7 @@
 
         <EditText
             android:id="@+id/create_purity_linked_water_report"
+            android:labelFor="@id/create_purity_linked_water_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -94,6 +95,7 @@
 
         <EditText
             android:id="@+id/create_purity_report_virus_ppm"
+            android:labelFor="@id/create_purity_report_virus_ppm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -106,6 +108,7 @@
 
         <EditText
             android:id="@+id/create_purity_report_cont_ppm"
+            android:labelFor="@id/create_purity_report_cont_ppm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.08"

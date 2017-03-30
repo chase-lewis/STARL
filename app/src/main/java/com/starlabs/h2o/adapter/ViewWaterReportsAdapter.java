@@ -26,7 +26,7 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_water_report, null);
+        View view = View.inflate(viewGroup.getContext(), R.layout.adapter_water_report, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }

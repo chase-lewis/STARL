@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical"
@@ -18,14 +18,14 @@
             android:layout_weight="0.08"
             android:text="Create Water Report"
             android:textAlignment="center"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date and Time:"
             android:textAlignment="textStart"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/create_water_report_date"
@@ -71,6 +71,7 @@
 
         <EditText
             android:id="@+id/create_water_report_lat"
+            android:labelFor="@id/create_water_report_lat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal|numberSigned"
@@ -83,6 +84,7 @@
 
         <EditText
             android:id="@+id/create_water_report_long"
+            android:labelFor="@id/create_water_report_long"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.08"

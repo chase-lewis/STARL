@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:text="User Profile"
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/user_profile_email_text"
@@ -50,6 +50,7 @@
 
     <EditText
         android:id="@+id/user_profile_address"
+        android:labelFor="@id/user_profile_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -81,6 +82,7 @@
 
     <EditText
         android:id="@+id/user_profile_name_field"
+        android:labelFor="@id/user_profile_name_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -92,6 +94,7 @@
 
     <EditText
         android:id="@+id/user_profile_email"
+        android:labelFor="@id/user_profile_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
