@@ -89,12 +89,14 @@ public class ViewHistogramFragment extends Fragment {
                 LineGraphSeries<DataPoint> contam = new LineGraphSeries<DataPoint>();
 
                 for (PurityReport current: filteredPurityReports) {
-                    int currRepNum = current.getReportNumber();
-                    int currVirNum = current.getVirusPPM();
-                    int currContNum = current.getContPPM();
+                    if ((reportYear - 1900) == current.getCreationDate().getYear()) {
+                        int currRepNum = current.getReportNumber();
+                        int currVirNum = current.getVirusPPM();
+                        int currContNum = current.getContPPM();
 
-                    viruses.appendData(new DataPoint(currRepNum, currVirNum), true, 500);
-                    contam.appendData(new DataPoint(currRepNum, currContNum), true, 500);
+                        viruses.appendData(new DataPoint(currRepNum, currVirNum), true, 500);
+                        contam.appendData(new DataPoint(currRepNum, currContNum), true, 500);
+                    }
                 }
 
                 yAxisSpinner.setSelection(yaxisChoices.indexOf(initYAxis));
