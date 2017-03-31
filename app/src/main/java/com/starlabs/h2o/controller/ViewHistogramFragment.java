@@ -61,8 +61,8 @@ public class ViewHistogramFragment extends Fragment {
         yAxisSpinner.setAdapter(yaxisAdapter);
 
         Bundle b = getArguments();
-        String initYAxis = (String) b.getString("spinner_val");
-        int reportYear = (int) b.getInt("select_year");
+        String initYAxis = b.getString("spinner_val");
+        int reportYear = b.getInt("select_year");
         final List<Integer> purityReportIds = b.getIntegerArrayList("purity_report_ids");
 
         // Obtain list of Purity Reports from the content provider using the ids

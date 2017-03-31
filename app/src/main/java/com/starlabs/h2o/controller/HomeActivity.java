@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity
             navigationView.getMenu().getItem(4).setVisible(false);
             navigationView.getMenu().getItem(5).setVisible(false);
         }
-        // TODO admin features + hide from all other users
+        // TODO admin features
 
         this.setHeaderInfo(user);
 

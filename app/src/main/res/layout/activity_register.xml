@@ -38,9 +38,9 @@
                     android:id="@+id/register_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/new_username"
+                    android:hint="username"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -52,12 +52,12 @@
                     android:id="@+id/register_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/new_password"
+                    android:hint="password"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_register"
+                    android:imeActionLabel="Register"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -69,12 +69,12 @@
                     android:id="@+id/register_retype_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/repeat_password"
+                    android:hint="repeat password"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_register"
+                    android:imeActionLabel="Register"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_register"
+                android:text="Register"
                 android:textStyle="bold" />
 
             <Button
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/cancel"
+                android:text="Cancel"
                 android:textStyle="bold" />
 
         </LinearLayout>

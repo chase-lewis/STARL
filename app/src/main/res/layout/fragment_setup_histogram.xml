@@ -27,10 +27,10 @@
 
     <EditText
         android:id="@+id/report_number"
-        android:labelFor="@id/report_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:labelFor="@id/report_number"
         android:text="" />
 
     <TextView
@@ -40,6 +40,7 @@
         android:layout_weight="0.03"
         android:text="Virus or Contaminant:"
         android:textSize="16sp" />
+
     <Spinner
         android:id="@+id/histogram_yaxis_choice"
         android:layout_width="match_parent"
@@ -56,10 +57,10 @@
 
     <EditText
         android:id="@+id/year_histogram_text"
-        android:labelFor="@id/year_histogram_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:labelFor="@id/year_histogram_text"
         android:text="" />
 
     <Button

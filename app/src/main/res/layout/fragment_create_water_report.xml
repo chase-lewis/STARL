@@ -71,10 +71,10 @@
 
         <EditText
             android:id="@+id/create_water_report_lat"
-            android:labelFor="@id/create_water_report_lat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal|numberSigned"
+            android:labelFor="@id/create_water_report_lat"
             android:text="" />
 
         <TextView
@@ -84,11 +84,11 @@
 
         <EditText
             android:id="@+id/create_water_report_long"
-            android:labelFor="@id/create_water_report_long"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.08"
             android:inputType="numberDecimal|numberSigned"
+            android:labelFor="@id/create_water_report_long"
             android:text="" />
 
         <TextView

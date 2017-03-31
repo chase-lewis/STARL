@@ -10,9 +10,9 @@
         android:id="@+id/initial_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="A beautiful picture of a watery landscape (use your imagination"
         android:scaleType="centerCrop"
-        android:src="@drawable/water_background"
-        android:contentDescription="A beautiful picture of a watery landscape (use your imagination"/>
+        android:src="@drawable/water_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,13 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/goTo_register" />
+            android:text="Register" />
 
         <Button
             android:id="@+id/initial_sign_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/goTo_login" />
+            android:text="Login" />
     </LinearLayout>
 
     <ImageView
@@ -45,7 +45,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="60dp"
-        android:src="@drawable/logo"
-        android:contentDescription="H2O"/>
+        android:contentDescription="H2O"
+        android:src="@drawable/logo" />
 
 </RelativeLayout>
