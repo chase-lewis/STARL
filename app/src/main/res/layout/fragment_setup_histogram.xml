@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.06"
-        android:text="VIew Histogram"
+        android:text="View Histogram"
         android:textAlignment="center"
         android:textSize="20sp" />
 

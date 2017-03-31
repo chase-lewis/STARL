@@ -21,7 +21,6 @@ import com.starlabs.h2o.controller.purity_report.CreatePurityReportFragment;
 import com.starlabs.h2o.controller.purity_report.ViewPurityReportsFragment;
 import com.starlabs.h2o.controller.user.ViewUserProfileFragment;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
-import com.starlabs.h2o.controller.water_report.ViewMapFragment;
 import com.starlabs.h2o.controller.water_report.ViewWaterReportsFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;

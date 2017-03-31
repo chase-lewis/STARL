@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller.water_report;
+package com.starlabs.h2o.controller;
 
 import android.Manifest;
 import android.app.Fragment;
