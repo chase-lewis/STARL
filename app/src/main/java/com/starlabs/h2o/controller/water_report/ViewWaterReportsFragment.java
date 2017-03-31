@@ -39,7 +39,7 @@ public class ViewWaterReportsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_view_reports, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_water_reports, container, false);
 
         mRecycler = (RecyclerView) view.findViewById(R.id.water_report_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));

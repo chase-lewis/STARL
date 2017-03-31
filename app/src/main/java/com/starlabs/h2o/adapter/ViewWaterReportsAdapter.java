@@ -39,9 +39,16 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
         holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
         holder.reportDate.setText(waterReport.getCreationDate().toString());
         holder.waterLocation.setText("Latitude: " + waterReport.getLatitude()
-                + " Longitude: " + waterReport.getLongitude());
+                + "\nLongitude: " + waterReport.getLongitude());
         holder.waterType.setText(waterReport.getType().toString());
         holder.waterCondition.setText(waterReport.getCondition().toString());
+
+        if (waterReport.getLinkedPurityReports().size() == 0) {
+            holder.linkedPurityReports.setText("No Linked Purity Reports");
+        } else {
+            holder.linkedPurityReports.setText("Linked Purity Reports: "
+                    + waterReport.getLinkedPurityReports().toString());
+        }
     }
 
     @Override
@@ -56,6 +63,7 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
         private TextView waterLocation;
         private TextView waterType;
         private TextView waterCondition;
+        private TextView linkedPurityReports;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -65,6 +73,7 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
             waterLocation = (TextView) view.findViewById(R.id.water_location);
             waterType = (TextView) view.findViewById(R.id.water_type);
             waterCondition = (TextView) view.findViewById(R.id.water_condition);
+            linkedPurityReports = (TextView) view.findViewById(R.id.water_linked_purity_reports);
         }
     }
 }

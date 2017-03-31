@@ -88,7 +88,7 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
                     WaterReport waterReport = report.getValue(WaterReport.class);
 
                     waterReport.resetLinkedPurityReports();
-                    for (DataSnapshot idDs : dataSnapshot.child("linkedPurityReports").getChildren()) {
+                    for (DataSnapshot idDs : report.child("linkedPurityReports").getChildren()) {
                         Integer id = idDs.getValue(Integer.class);
                         waterReport.linkPurityReport(id);
                     }

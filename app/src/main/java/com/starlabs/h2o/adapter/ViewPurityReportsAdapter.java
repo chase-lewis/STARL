@@ -36,7 +36,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
         holder.workerName.setText("Reported by " + purityReport.getworkerName());
         holder.reportNumber.setText("Report # " + purityReport.getReportNumber());
         holder.creationDate.setText(purityReport.getCreationDate().toString());
-        holder.linkedWaterReport.setText("Linked Water Report" + purityReport.getLinkedWaterReportId());
+        holder.linkedWaterReport.setText("Linked Water Report: " + purityReport.getLinkedWaterReportId());
         holder.purityCondition.setText("Condition: " + purityReport.getCondition().toString());
         holder.virusPPM.setText("virusPPM: " + purityReport.getVirusPPM());
         holder.contPPM.setText("contPPM: " + purityReport.getContPPM());
