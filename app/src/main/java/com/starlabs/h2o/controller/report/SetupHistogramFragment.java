@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.report;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -96,15 +96,13 @@ public class SetupHistogramFragment extends Fragment {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<WaterReport> onWaterReportReceived = waterReport -> {
             if (waterReport != null) {
-                // Transition to the histogram fragment
+                // Save needed data points in the bundle
                 Bundle args = new Bundle();
                 args.putInt("select_year", selectYear);
                 args.putString("spinner_val", spinnerVal);
 
-                // Place purity ids in the bundle
-                List<Integer> purityReportIds = waterReport.getLinkedPurityReports();
-                args.putIntegerArrayList("purity_report_ids", (ArrayList<Integer>) purityReportIds);
-                ((HomeActivity) getActivity()).switchToHistogram(args);
+                // Transition to the histogram fragment
+                ((HomeActivity) getActivity()).switchToHistogram(args, waterReport);
 
             } else {
                 // No water report found in the db

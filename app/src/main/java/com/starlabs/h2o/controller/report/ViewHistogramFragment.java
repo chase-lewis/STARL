@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.report;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -18,7 +18,9 @@ import com.starlabs.h2o.R;
 
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
+import com.starlabs.h2o.facade.ReportManager;
 import com.starlabs.h2o.model.report.PurityReport;
+import com.starlabs.h2o.model.report.WaterReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class ViewHistogramFragment extends Fragment {
     private LineGraphSeries<DataPoint> virusData;
     private LineGraphSeries<DataPoint> contaminationData;
     private int reportYear;
+    private WaterReport waterReport;
 
     public ViewHistogramFragment(){
         //required empty constructor
@@ -55,6 +58,10 @@ public class ViewHistogramFragment extends Fragment {
         yAxisSpinnerView = (Spinner) view.findViewById(R.id.histogramSlider);
         histogramTitleView = (TextView) view.findViewById(R.id.histogramReportTitle);
         histogramView = (GraphView) view.findViewById(R.id.histogramGraph);
+
+        // Cancel button setup
+        Button reportCancelButton = (Button) view.findViewById(R.id.histogram_done);
+        reportCancelButton.setOnClickListener(ViewHistogramFragment.this::onCancelPressed);
 
         // Initialize the data points
         virusData = new LineGraphSeries<>();
@@ -86,28 +93,16 @@ public class ViewHistogramFragment extends Fragment {
         Bundle b = getArguments();
         String initYAxis = b.getString("spinner_val");
         reportYear = b.getInt("select_year");
-        final List<Integer> purityReportIds = b.getIntegerArrayList("purity_report_ids");
 
-        // Obtain list of Purity Reports from the content provider using the ids
+        // Get the facade (Report Manager)
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<PurityReport>> waterReportsReceived = allPurityReports -> {
-            List<PurityReport> filteredPurityReports = new ArrayList<>();
+        ReportManager reportManager = ReportManager.getInstance(contentProvider);
 
-            // Filter out the purity reports and only use the ones with the matching ids
-            for (PurityReport pReport : allPurityReports){
-                boolean reportFound = false;
-                int i = 0;
-                while (!reportFound && i < purityReportIds.size()){
-                    if (pReport.getReportNumber() == purityReportIds.get(i)){
-                        reportFound = true;
-                        filteredPurityReports.add(pReport);
-                    }
-                    i++;
-                }
-            }
+        // Obtain list of Purity Reports from the Report Manager
+        Consumer<List<PurityReport>> onReportsReceived = allPurityReports -> {
 
-            // Fill in the data
-            filteredPurityReports.stream().filter(current -> (reportYear - 1900)
+            // Filter by year, fill in the data
+            allPurityReports.stream().filter(current -> (reportYear - 1900)
                     == current.getCreationDate().getYear()).forEach(current -> {
                 int currRepNum = current.getReportNumber();
                 int currVirNum = current.getVirusPPM();
@@ -129,12 +124,8 @@ public class ViewHistogramFragment extends Fragment {
 
             // Update the graph
             this.updateGraph(view);
-
-            // Cancel button setup
-            Button reportCancelButton = (Button) view.findViewById(R.id.histogram_done);
-            reportCancelButton.setOnClickListener(ViewHistogramFragment.this::onCancelPressed);
         };
-        contentProvider.getAllPurityReports(waterReportsReceived);
+        reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
 
         return view;
     }
@@ -168,5 +159,14 @@ public class ViewHistogramFragment extends Fragment {
         // Update the title
         String titleToShow1 = reportYear + " " + newYAxis + " PPM Histogram";
         histogramTitleView.setText(titleToShow1);
+    }
+
+    /**
+     * Setter for the current Water Report the data should be pulled from
+     *
+     * @param waterReport the water report to use
+     */
+    public void setWaterReport(WaterReport waterReport) {
+        this.waterReport = waterReport;
     }
 }

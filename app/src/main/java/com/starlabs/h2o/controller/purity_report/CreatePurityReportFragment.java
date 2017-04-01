@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
+import com.starlabs.h2o.facade.ReportManager;
 import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
@@ -111,8 +112,6 @@ public class CreatePurityReportFragment extends Fragment {
      * Method to create/finalize edit on report
      *
      * @param view the parameter View
-     *
-     *             TODO move business logic out of activity
      */
     protected void onReportCreatePressed(View view) {
         final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.getText().toString());
@@ -123,21 +122,20 @@ public class CreatePurityReportFragment extends Fragment {
         report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
         report.setLinkedWaterReportId(linkedWaterReportId);
 
-        // Store data
+        // Store purity report
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setPurityReport(report);
         contentProvider.setNextPurityReportId(report.getReportNumber());
 
         // Store association in the water report
-        Consumer<WaterReport> waterReportConsumer = waterReport -> {
-            // Store this purity report's id in the water report
-            waterReport.linkPurityReport(report.getReportNumber());
-            contentProvider.setWaterReport(waterReport);
-
+        Runnable onFinish = () -> {
             // Exit this fragment here
             getActivity().onBackPressed();
         };
-        contentProvider.getSingleWaterReport(waterReportConsumer, linkedWaterReportId);
+        ReportManager reportManager = ReportManager.getInstance(contentProvider);
+        reportManager.linkPurityReport(report.getReportNumber(), linkedWaterReportId, onFinish);
+
+        // Note that the activity exits in the callback above
     }
 
     /**

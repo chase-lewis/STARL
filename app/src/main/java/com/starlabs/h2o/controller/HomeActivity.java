@@ -19,11 +19,15 @@ import com.google.android.gms.maps.MapFragment;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.controller.purity_report.CreatePurityReportFragment;
 import com.starlabs.h2o.controller.purity_report.ViewPurityReportsFragment;
+import com.starlabs.h2o.controller.report.SetupHistogramFragment;
+import com.starlabs.h2o.controller.report.ViewHistogramFragment;
+import com.starlabs.h2o.controller.report.ViewMapFragment;
 import com.starlabs.h2o.controller.user.ViewUserProfileFragment;
 import com.starlabs.h2o.controller.water_report.CreateWaterReportFragment;
 import com.starlabs.h2o.controller.water_report.ViewWaterReportsFragment;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
+import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 import com.starlabs.h2o.model.user.UserType;
 
@@ -194,10 +198,11 @@ public class HomeActivity extends AppCompatActivity
      *
      * @param bundle A bundle containing water report id, virus or contaminant, and year
      */
-    public void switchToHistogram(Bundle bundle) {
-        //TODO replace this with new fragment for histogram
+    public void switchToHistogram(Bundle bundle, WaterReport waterReport) {
         ViewHistogramFragment frag = new ViewHistogramFragment();
         frag.setArguments(bundle);
+        // FIXME change this setter -- hacky
+        frag.setWaterReport(waterReport);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_home_container,frag);
         transaction.addToBackStack(null);

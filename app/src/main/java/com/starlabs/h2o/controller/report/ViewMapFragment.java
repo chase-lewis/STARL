@@ -1,4 +1,4 @@
-package com.starlabs.h2o.controller;
+package com.starlabs.h2o.controller.report;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -66,7 +66,7 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
             if (lastKnownLocation != null) {
                 // Set the location
                 LatLng loc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 4f));
             }
         }
 
