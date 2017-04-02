@@ -1,7 +1,9 @@
 package com.starlabs.h2o.controller.user;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +38,6 @@ public class ViewUserProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,11 +64,11 @@ public class ViewUserProfileFragment extends Fragment {
 
         // Done button setup
         Button profileDoneButton = (Button) view.findViewById(R.id.profile_done_button);
-        profileDoneButton.setOnClickListener(this::onProfileDonePressed);
+        profileDoneButton.setOnClickListener((view2) -> onProfileDonePressed());
 
         // Cancel button setup
         Button profileCancelButton = (Button) view.findViewById(R.id.profile_cancel_button);
-        profileCancelButton.setOnClickListener(this::onCancelPressed);
+        profileCancelButton.setOnClickListener((view1) -> onCancelPressed());
 
         return view;
     }
@@ -78,13 +76,15 @@ public class ViewUserProfileFragment extends Fragment {
     /**
      * Method to exit the activity to main.
      *
-     * @param view the parameter View
      */
-    protected void onProfileDonePressed(View view) {
+    private void onProfileDonePressed() {
         // Update the user model from the fields
-        user.setName(nameField.getText().toString());
-        user.setEmail(emailField.getText().toString());
-        user.setAddress(addressField.getText().toString());
+        Editable usName = nameField.getText();
+        user.setName(usName.toString());
+        Editable emailText = emailField.getText();
+        user.setEmail(emailText.toString());
+        Editable addrField = addressField.getText();
+        user.setAddress(addrField.toString());
 
         // Store the user in our content provider, overriding all previous data for that user
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -95,16 +95,17 @@ public class ViewUserProfileFragment extends Fragment {
 
         // Transition back to the map fragment
         ((HomeActivity) getActivity()).setHeaderInfo(user);
-        getActivity().onBackPressed();
+        Activity act = getActivity();
+        act.onBackPressed();
     }
 
     /**
      * Method to exit the activity back to caller.
      *
-     * @param view the parameter View
      */
-    protected void onCancelPressed(View view) {
-        getActivity().onBackPressed();
+    private void onCancelPressed() {
+        Activity act = getActivity();
+        act.onBackPressed();
     }
 
 }

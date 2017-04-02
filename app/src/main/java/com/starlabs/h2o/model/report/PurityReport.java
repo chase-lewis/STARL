@@ -18,13 +18,14 @@ public class PurityReport {
     private int contPPM;
     private int linkedWaterReportId;
 
-    public PurityReport(String workerName, PurityCondition condition, int virusPPM, int contPPM) {
+    public PurityReport(String workerName) {
         this.workerName = workerName;
-        this.condition = condition;
+        this.condition = PurityCondition.SAFE;
         this.creationDate = new Date();
-        this.reportNumber = new Random().nextInt();
-        this.virusPPM = virusPPM;
-        this.contPPM = contPPM;
+        Random randObject = new Random();
+        this.reportNumber = randObject.nextInt();
+        this.virusPPM = 0;
+        this.contPPM = 0;
         this.linkedWaterReportId = -1;
     }
 

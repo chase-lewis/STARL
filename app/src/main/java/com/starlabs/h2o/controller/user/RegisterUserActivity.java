@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -88,9 +89,12 @@ public class RegisterUserActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the register attempt.
-        final String username = mUsernameView.getText().toString();
-        final String password = mPasswordView.getText().toString();
-        final String retypePassword = mPasswordRetypeView.getText().toString();
+        Editable usName = mUsernameView.getText();
+        final String username = usName.toString();
+        Editable passName = mPasswordView.getText();
+        final String password = passName.toString();
+        Editable rePassName = mPasswordRetypeView.getText();
+        final String retypePassword = rePassName.toString();
 
         boolean cancel = false;
         View focusView = null;

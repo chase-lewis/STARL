@@ -1,5 +1,6 @@
 package com.starlabs.h2o.controller.report;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.starlabs.h2o.model.report.WaterReport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * Displays the histogram
@@ -45,11 +47,6 @@ public class ViewHistogramFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_histogram, container, false);
@@ -61,7 +58,7 @@ public class ViewHistogramFragment extends Fragment {
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.histogram_done);
-        reportCancelButton.setOnClickListener(ViewHistogramFragment.this::onCancelPressed);
+        reportCancelButton.setOnClickListener((view1) -> ViewHistogramFragment.this.onCancelPressed());
 
         // Initialize the data points
         virusData = new LineGraphSeries<>();
@@ -79,12 +76,12 @@ public class ViewHistogramFragment extends Fragment {
         yAxisSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                updateGraph(view);
+                updateGraph();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                updateGraph(view);
+                updateGraph();
             }
 
         });
@@ -102,7 +99,8 @@ public class ViewHistogramFragment extends Fragment {
         Consumer<List<PurityReport>> onReportsReceived = allPurityReports -> {
 
             // Filter by year, fill in the data
-            allPurityReports.stream().filter(current -> (reportYear - 1900)
+            Stream<PurityReport> reportsStream = allPurityReports.stream();
+            reportsStream.filter(current -> (reportYear - 1900)
                     == current.getCreationDate().getYear()).forEach(current -> {
                 int currRepNum = current.getReportNumber();
                 int currVirNum = current.getVirusPPM();
@@ -123,7 +121,7 @@ public class ViewHistogramFragment extends Fragment {
             histogramTitleView.setText(titleToShow);
 
             // Update the graph
-            this.updateGraph(view);
+            this.updateGraph();
         };
         reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
 
@@ -133,24 +131,23 @@ public class ViewHistogramFragment extends Fragment {
     /**
      * Method to exit the activity back to caller.
      *
-     * @param view the parameter View
      */
-    private void onCancelPressed(View view) {
-        getActivity().onBackPressed();
+    private void onCancelPressed() {
+        Activity act = getActivity();
+        act.onBackPressed();
     }
 
     /**
      * Updates the graph. Call when data to view has changed
      *
-     * @param view the view
      */
-    private void updateGraph(View view) {
+    private void updateGraph() {
         // Clear the graph
         histogramView.removeAllSeries();
 
         // Add the correct data points
         String newYAxis = (String) yAxisSpinnerView.getSelectedItem();
-        if (newYAxis.equals("Virus")) {
+        if ("Virus".equals(newYAxis)) {
             histogramView.addSeries(virusData);
         } else {
             histogramView.addSeries(contaminationData);

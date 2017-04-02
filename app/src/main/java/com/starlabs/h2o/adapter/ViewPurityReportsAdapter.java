@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  */
 
 public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
-    private List<PurityReport> waterPurityReports;
+    private final List<PurityReport> waterPurityReports;
 
     public ViewPurityReportsAdapter(List<PurityReport> waterPurityReports) {
         this.waterPurityReports = waterPurityReports;
@@ -25,8 +27,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = View.inflate(viewGroup.getContext(), R.layout.adapter_purity_report, null);
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
-        return viewHolder;
+        return new CustomViewHolder(view);
     }
 
     @Override
@@ -35,9 +36,11 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
 
         holder.workerName.setText("Reported by " + purityReport.getworkerName());
         holder.reportNumber.setText("Report # " + purityReport.getReportNumber());
-        holder.creationDate.setText(purityReport.getCreationDate().toString());
+        Date createDate = purityReport.getCreationDate();
+        holder.creationDate.setText(createDate.toString());
         holder.linkedWaterReport.setText("Linked Water Report: " + purityReport.getLinkedWaterReportId());
-        holder.purityCondition.setText("Condition: " + purityReport.getCondition().toString());
+        PurityCondition purCondition = purityReport.getCondition();
+        holder.purityCondition.setText("Condition: " + purCondition.toString());
         holder.virusPPM.setText("virusPPM: " + purityReport.getVirusPPM());
         holder.contPPM.setText("contPPM: " + purityReport.getContPPM());
     }
@@ -48,13 +51,13 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        private TextView workerName;
-        private TextView reportNumber;
-        private TextView creationDate;
-        private TextView linkedWaterReport;
-        private TextView purityCondition;
-        private TextView virusPPM;
-        private TextView contPPM;
+        private final TextView workerName;
+        private final TextView reportNumber;
+        private final TextView creationDate;
+        private final TextView linkedWaterReport;
+        private final TextView purityCondition;
+        private final TextView virusPPM;
+        private final TextView contPPM;
 
         public CustomViewHolder(View view) {
             super(view);

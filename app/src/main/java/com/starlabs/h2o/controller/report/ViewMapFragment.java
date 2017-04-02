@@ -1,7 +1,9 @@
 package com.starlabs.h2o.controller.report;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.controller.HomeActivity;
@@ -45,8 +48,8 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        MapFragment fragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.gmap);
+        FragmentManager fragMan = getChildFragmentManager();
+        MapFragment fragment = (MapFragment) fragMan.findFragmentById(R.id.gmap);
         fragment.getMapAsync(this);
     }
 
@@ -57,7 +60,8 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
         // Move the camera in the map to our current location
         // Check if we have location access permission first. Note we are using Network Location, not GPS
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            Activity activity = getActivity();
+            LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             String locationProvider = LocationManager.NETWORK_PROVIDER;
 
             // Get rough location synchronously
@@ -77,7 +81,9 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
                 double latitude = waterReport.getLatitude();
                 double longitude = waterReport.getLongitude();
                 LatLng markLocation = new LatLng(latitude, longitude);
-                mMap.addMarker(new MarkerOptions().position(markLocation).title(waterReport.toString()));
+                MarkerOptions markopts = new MarkerOptions();
+                MarkerOptions markPosition = markopts.position(markLocation);
+                mMap.addMarker(markPosition.title(waterReport.toString()));
             }
         };
         contentProvider.getAllWaterReports(onWaterReportsReceived);

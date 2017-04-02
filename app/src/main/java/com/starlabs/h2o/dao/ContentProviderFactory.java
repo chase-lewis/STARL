@@ -6,7 +6,7 @@ package com.starlabs.h2o.dao;
  * @author tejun
  */
 
-public class ContentProviderFactory {
+public final class ContentProviderFactory {
 
     private static ContentProvider contentProvider;
 

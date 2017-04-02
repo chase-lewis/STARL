@@ -3,6 +3,7 @@ package com.starlabs.h2o.controller;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ public class HomeActivity extends AppCompatActivity
 
     public static final String TO_PROFILE = "HOME_TO_PROFILE";
     private NavigationView navigationView = null;
-    private FragmentManager fragmentManager = getFragmentManager();
+    private final FragmentManager fragmentManager = getFragmentManager();
     private int oldId;
 
     @Override
@@ -66,12 +68,19 @@ public class HomeActivity extends AppCompatActivity
 
         //hide features from restricted users
         if (user.getUserType() == UserType.USER) {
-            navigationView.getMenu().getItem(3).setVisible(false);
-            navigationView.getMenu().getItem(4).setVisible(false);
-            navigationView.getMenu().getItem(5).setVisible(false);
+            Menu navMenu = navigationView.getMenu();
+            MenuItem menuItem1 = navMenu.getItem(3);
+            menuItem1.setVisible(false);
+            MenuItem menuItem2 = navMenu.getItem(4);
+            menuItem2.setVisible(false);
+            MenuItem menuItem3 = navMenu.getItem(5);
+            menuItem3.setVisible(false);
         } else if (user.getUserType() == UserType.WORKER) {
-            navigationView.getMenu().getItem(4).setVisible(false);
-            navigationView.getMenu().getItem(5).setVisible(false);
+            Menu navMenu = navigationView.getMenu();
+            MenuItem menuItem2 = navMenu.getItem(4);
+            menuItem2.setVisible(false);
+            MenuItem menuItem3 = navMenu.getItem(5);
+            menuItem3.setVisible(false);
         }
         // TODO admin features
 
@@ -82,7 +91,8 @@ public class HomeActivity extends AppCompatActivity
         int id;
 
         // Transition to the proper fragment
-        if (getIntent().hasExtra(TO_PROFILE)) {
+        Intent currIntent = getIntent();
+        if (currIntent.hasExtra(TO_PROFILE)) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_home_container, profileFragment);
             transaction.commit();
@@ -94,18 +104,20 @@ public class HomeActivity extends AppCompatActivity
             id = R.id.nav_map;
         }
         // Check the proper menu items
-        navigationView.getMenu().findItem(id).setChecked(true);
+        Menu menu1 = navigationView.getMenu();
+        MenuItem menuItem1 = menu1.findItem(id);
+        menuItem1.setChecked(true);
         oldId = id;
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        Fragment fragbyId = fragmentManager.findFragmentById(R.id.fragment_home_container);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             // Close drawer if it is open
             drawer.closeDrawer(GravityCompat.START);
-        } else if (fragmentManager.findFragmentById(R.id.fragment_home_container).getClass() != MapFragment.class) {
+        } else if (fragbyId.getClass() != MapFragment.class) {
             // Transition to default map fragment if it's not open
             switchToMap();
         } else {
@@ -152,8 +164,11 @@ public class HomeActivity extends AppCompatActivity
             transaction.commit();
 
             // Uncheck and recheck the proper menu items
-            navigationView.getMenu().findItem(oldId).setChecked(false);
-            navigationView.getMenu().findItem(id).setChecked(true);
+            Menu navMenu1 = navigationView.getMenu();
+            MenuItem menItemOld = navMenu1.findItem(oldId);
+            menItemOld.setChecked(false);
+            MenuItem menItemcurr = navMenu1.findItem(id);
+            menItemcurr.setChecked(true);
             oldId = id;
         }
 
@@ -167,8 +182,9 @@ public class HomeActivity extends AppCompatActivity
      * Method that switches the fragment to the map and updates the selected
      * item in the nav drawer.
      */
-    public void switchToMap() {
-        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_map));
+    private void switchToMap() {
+        Menu navMenu = navigationView.getMenu();
+        onNavigationItemSelected(navMenu.findItem(R.id.nav_map));
     }
 
     /**
@@ -188,8 +204,11 @@ public class HomeActivity extends AppCompatActivity
 
         // Uncheck and recheck the proper menu items
         int id = R.id.nav_create_water_report;
-        navigationView.getMenu().findItem(oldId).setChecked(false);
-        navigationView.getMenu().findItem(id).setChecked(true);
+        Menu navMenu = navigationView.getMenu();
+        MenuItem menuItem1 = navMenu.findItem(oldId);
+        menuItem1.setChecked(false);
+        MenuItem menuItem2 = navMenu.findItem(id);
+        menuItem2.setChecked(true);
         oldId = id;
     }
 

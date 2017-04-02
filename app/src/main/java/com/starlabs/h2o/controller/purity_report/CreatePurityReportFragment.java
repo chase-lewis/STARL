@@ -16,9 +16,9 @@ import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.facade.ReportManager;
 import com.starlabs.h2o.model.report.PurityCondition;
 import com.starlabs.h2o.model.report.PurityReport;
-import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.user.User;
 
+import java.util.Date;
 import java.util.function.Consumer;
 
 /**
@@ -28,10 +28,6 @@ import java.util.function.Consumer;
  */
 public class CreatePurityReportFragment extends Fragment {
 
-    private User user;
-    private boolean edit;
-    private TextView reportReporterName;
-    private TextView reportDateText;
     private TextView reportNumText;
     private EditText linkedWaterReportEditText;
     private Spinner purityCondSpinner;
@@ -44,27 +40,22 @@ public class CreatePurityReportFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_purity_report, container, false);
 
         // Set up the fields for the user profile
-        reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
+        TextView reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
         reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
         linkedWaterReportEditText = (EditText) view.findViewById(R.id.create_purity_linked_water_report);
-        reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
+        TextView reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
         purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
         virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
         contPPMText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);
 
         // Get the user from session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        user = contentProvider.getLoggedInUser();
+        User user = contentProvider.getLoggedInUser();
 
         ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, PurityCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -72,12 +63,12 @@ public class CreatePurityReportFragment extends Fragment {
 
         // TODO: Someone remember to send a parcel from main class when editing
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.getParcelable("PR_EDIT") != null) {
+        if ((bundle != null) && (bundle.getParcelable("PR_EDIT") != null)) {
             report = bundle.getParcelable("PR_EDIT");
-            edit = true;
+            boolean edit = true;
         } else {
             // Create a new report
-            report = new PurityReport(user.getName(), PurityCondition.SAFE, 0, 0);
+            report = new PurityReport(user.getName());
 
             // Get the correct id for the new report from the content provider
             Consumer<Integer> onNextIdFound = id -> {
@@ -90,20 +81,23 @@ public class CreatePurityReportFragment extends Fragment {
 
         // Set all the text views
         reportReporterName.setText(user.getName());
-        reportDateText.setText(report.getCreationDate().toString());
+        //noinspection ChainedMethodCall
+        Date date = report.getCreationDate();
+        reportDateText.setText(date.toString());
         reportNumText.setText(Integer.toString(report.getReportNumber()));
         linkedWaterReportEditText.setText(Integer.toString(report.getLinkedWaterReportId()));
+        //noinspection ChainedMethodCall
         purityCondSpinner.setSelection(report.getCondition().ordinal());
         virusPPMText.setText(report.getVirusPPM() + "");
         contPPMText.setText(report.getContPPM() + "");
 
         // Create button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.create_purity_report_create);
-        reportCreateButton.setOnClickListener(this::onReportCreatePressed);
+        reportCreateButton.setOnClickListener((view2) -> onReportCreatePressed());
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.create_purity_report_cancel);
-        reportCancelButton.setOnClickListener(this::onCancelPressed);
+        reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
 
         return view;
     }
@@ -111,14 +105,15 @@ public class CreatePurityReportFragment extends Fragment {
     /**
      * Method to create/finalize edit on report
      *
-     * @param view the parameter View
      */
-    protected void onReportCreatePressed(View view) {
-        final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.getText().toString());
+    private void onReportCreatePressed() {
+        @SuppressWarnings("ChainedMethodCall") final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.getText().toString());
 
         // Update the values in the model from the UI
         report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
+        //noinspection ChainedMethodCall
         report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
+        //noinspection ChainedMethodCall
         report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
         report.setLinkedWaterReportId(linkedWaterReportId);
 
@@ -130,6 +125,7 @@ public class CreatePurityReportFragment extends Fragment {
         // Store association in the water report
         Runnable onFinish = () -> {
             // Exit this fragment here
+            //noinspection ChainedMethodCall
             getActivity().onBackPressed();
         };
         ReportManager reportManager = ReportManager.getInstance(contentProvider);
@@ -141,9 +137,9 @@ public class CreatePurityReportFragment extends Fragment {
     /**
      * Method to exit the activity back to caller.
      *
-     * @param view the parameter View
      */
-    protected void onCancelPressed(View view) {
+    private void onCancelPressed() {
+        //noinspection ChainedMethodCall
         getActivity().onBackPressed();
     }
 

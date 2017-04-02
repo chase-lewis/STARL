@@ -1,7 +1,9 @@
 package com.starlabs.h2o.controller.report;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +34,7 @@ public class SetupHistogramFragment extends Fragment {
     public SetupHistogramFragment(){
         //required empty constructor
     }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,31 +60,34 @@ public class SetupHistogramFragment extends Fragment {
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.cancel_histogram_button);
-        reportCancelButton.setOnClickListener(this::onCancelPressed);
+        reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
         
         return view;
     }
 
-    protected void onHistogramViewPressed() {
+    private void onHistogramViewPressed() {
         // Get input from ui
-        String spinnerVal = yAxisSpinner.getSelectedItem().toString();
+        Object spinItem = yAxisSpinner.getSelectedItem();
+        String spinnerVal = spinItem.toString();
         int selectYear;
         int reportNumHist;
 
         try {
-            selectYear = Integer.parseInt(yearText.getText().toString());
+            Editable yeartext = yearText.getText();
+            selectYear = Integer.parseInt(yeartext.toString());
         } catch (NumberFormatException e){
             yearText.setError("Must pass in a valid number");
             return;
         }
 
-        if(selectYear > 3000 || selectYear < 1900){
+        if((selectYear > 3000) || (selectYear < 1900)){
             yearText.setError("Year is out of range");
             return;
         }
 
         try {
-            reportNumHist = Integer.parseInt(reportNum.getText().toString());
+            Editable repNum = reportNum.getText();
+            reportNumHist = Integer.parseInt(repNum.toString());
         } catch(NumberFormatException e){
             reportNum.setError("Must pass in a valid number");
             return;
@@ -116,10 +117,10 @@ public class SetupHistogramFragment extends Fragment {
     /**
      * Method to exit the activity back to caller.
      *
-     * @param view the parameter View
      */
-    protected void onCancelPressed(View view) {
-        getActivity().onBackPressed();
+    private void onCancelPressed() {
+        Activity act = getActivity();
+        act.onBackPressed();
     }
 
 }

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -53,7 +54,7 @@ public class LoginUserActivity extends AppCompatActivity {
         // Set up the password form
         mPasswordView = (EditText) findViewById(R.id.login_password);
         mPasswordView.setText("");
-        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> id == R.id.login || id == EditorInfo.IME_NULL);
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> (id == R.id.login) || (id == EditorInfo.IME_NULL));
 
         // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);
@@ -85,8 +86,10 @@ public class LoginUserActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        final String username = mUsernameView.getText().toString();
-        final String password = mPasswordView.getText().toString();
+        Editable usname = mUsernameView.getText();
+        final String username = usname.toString();
+        Editable passname = mPasswordView.getText();
+        final String password = passname.toString();
 
         boolean cancel = false;
         View focusView = null;

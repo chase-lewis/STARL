@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.model.report.WaterCondition;
 import com.starlabs.h2o.model.report.WaterReport;
+import com.starlabs.h2o.model.report.WaterType;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ import java.util.List;
  */
 
 public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
-    private List<WaterReport> waterReports;
+    private final List<WaterReport> waterReports;
 
     public ViewWaterReportsAdapter(List<WaterReport> waterReports) {
         this.waterReports = waterReports;
@@ -27,8 +30,7 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = View.inflate(viewGroup.getContext(), R.layout.adapter_water_report, null);
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
-        return viewHolder;
+        return new CustomViewHolder(view);
     }
 
     @Override
@@ -37,17 +39,21 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
 
         holder.reporterName.setText("Reported by " + waterReport.getReporterName());
         holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
-        holder.reportDate.setText(waterReport.getCreationDate().toString());
+        Date createDate = waterReport.getCreationDate();
+        holder.reportDate.setText(createDate.toString());
         holder.waterLocation.setText("Latitude: " + waterReport.getLatitude()
                 + "\nLongitude: " + waterReport.getLongitude());
-        holder.waterType.setText(waterReport.getType().toString());
-        holder.waterCondition.setText(waterReport.getCondition().toString());
+        WaterType watType = waterReport.getType();
+        holder.waterType.setText(watType.toString());
+        WaterCondition watCondition = waterReport.getCondition();
+        holder.waterCondition.setText(watCondition.toString());
 
-        if (waterReport.getLinkedPurityReports().size() == 0) {
+        List<Integer> linkedWater = waterReport.getLinkedPurityReports();
+        if (linkedWater.isEmpty()) {
             holder.linkedPurityReports.setText("No Linked Purity Reports");
         } else {
             holder.linkedPurityReports.setText("Linked Purity Reports: "
-                    + waterReport.getLinkedPurityReports().toString());
+                    + linkedWater.toString());
         }
     }
 
@@ -57,13 +63,13 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        private TextView reporterName;
-        private TextView reportNumber;
-        private TextView reportDate;
-        private TextView waterLocation;
-        private TextView waterType;
-        private TextView waterCondition;
-        private TextView linkedPurityReports;
+        private final TextView reporterName;
+        private final TextView reportNumber;
+        private final TextView reportDate;
+        private final TextView waterLocation;
+        private final TextView waterType;
+        private final TextView waterCondition;
+        private final TextView linkedPurityReports;
 
         public CustomViewHolder(View view) {
             super(view);

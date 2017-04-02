@@ -14,9 +14,9 @@ import java.util.function.Consumer;
  *
  * @author tejun
  */
-public class ReportManager {
+public final class ReportManager {
     private static ReportManager reportManager;
-    private ContentProvider contentProvider;
+    private final ContentProvider contentProvider;
 
     private ReportManager(ContentProvider contentProvider) {
         this.contentProvider = contentProvider;
@@ -29,7 +29,8 @@ public class ReportManager {
      * @return a report manager
      */
     public static ReportManager getInstance(ContentProvider contentProvider) {
-        if (reportManager == null || !reportManager.getContentProvider().equals(contentProvider)) {
+        ContentProvider conProv = reportManager.getContentProvider();
+        if ((reportManager == null) || !conProv.equals(contentProvider)) {
             reportManager = new ReportManager(contentProvider);
         }
 
@@ -45,8 +46,9 @@ public class ReportManager {
             for (PurityReport pReport : allPurityReports){
                 boolean reportFound = false;
                 int i = 0;
-                while (!reportFound && i < waterReport.getLinkedPurityReports().size()){
-                    if (pReport.getReportNumber() == waterReport.getLinkedPurityReports().get(i)){
+                List<Integer>purReports1 = waterReport.getLinkedPurityReports();
+                while (!reportFound && (i < purReports1.size())){
+                    if (pReport.getReportNumber() == purReports1.get(i)){
                         reportFound = true;
                         filteredPurityReports.add(pReport);
                     }
@@ -91,7 +93,7 @@ public class ReportManager {
      *
      * @return the content provider this was constructed with
      */
-    public ContentProvider getContentProvider() {
+    private ContentProvider getContentProvider() {
         return contentProvider;
     }
 }

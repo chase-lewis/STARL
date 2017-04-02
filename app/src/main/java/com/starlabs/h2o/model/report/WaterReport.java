@@ -29,7 +29,8 @@ public class WaterReport {
         this.type = type;
         this.condition = condition;
         this.creationDate = new Date();
-        this.reportNumber = new Random().nextInt();
+        Random rand = new Random();
+        this.reportNumber = rand.nextInt();
         this.purityReportIds = new ArrayList<>();
     }
 
