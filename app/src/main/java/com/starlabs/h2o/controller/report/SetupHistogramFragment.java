@@ -23,19 +23,18 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Created by Rishi on 3/27/2017.
- * Provides interface for user to enter histogram info
+ * Fragment that gives the user options to setup the histogram
+ *
+ * @author tejun, rishi
  */
-
 public class SetupHistogramFragment extends Fragment {
     private Spinner yAxisSpinner;
     private EditText yearText;
     private EditText reportNum;
 
     public SetupHistogramFragment(){
-        //required empty constructor
+        // required empty constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,11 +47,11 @@ public class SetupHistogramFragment extends Fragment {
         reportNum = (EditText) view.findViewById(R.id.report_number);
 
         // Setup y axis spinner
-        List<String> yaxisChoices = new ArrayList<>();
-        yaxisChoices.add("Virus");
-        yaxisChoices.add("Contaminant");
+        List<String> yAxisChoices = new ArrayList<>();
+        yAxisChoices.add("Virus");
+        yAxisChoices.add("Contaminant");
         ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, yaxisChoices);
+                android.R.layout.simple_spinner_item, yAxisChoices);
         yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yAxisSpinner.setAdapter(yaxisAdapter);
 
@@ -62,7 +61,7 @@ public class SetupHistogramFragment extends Fragment {
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.cancel_histogram_button);
-        reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
+        reportCancelButton.setOnClickListener(this::onCancelPressed);
         
         return view;
     }
@@ -119,10 +118,10 @@ public class SetupHistogramFragment extends Fragment {
     /**
      * Method to exit the activity back to caller.
      *
+     * @param view the parameter View
      */
-    private void onCancelPressed() {
-        Activity act = getActivity();
+    protected void onCancelPressed(View view) {
+        Activity act = this.getActivity();
         act.onBackPressed();
     }
-
 }
