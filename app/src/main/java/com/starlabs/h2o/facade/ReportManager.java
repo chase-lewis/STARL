@@ -37,6 +37,12 @@ public final class ReportManager {
         return reportManager;
     }
 
+    /**
+     * Gets all linked purity reports associated with a water report
+     *
+     * @param waterReport       the water report with purity reports
+     * @param onReportsReceived called when purity reports are downloaded
+     */
     public void getLinkedPurityReports(WaterReport waterReport,
                                        Consumer<List<PurityReport>> onReportsReceived) {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -63,6 +69,13 @@ public final class ReportManager {
         contentProvider.getAllPurityReports(onPurityReports);
     }
 
+    /**
+     * Links a purity report to a water report
+     *
+     * @param purityReportId the purity report to link with
+     * @param waterReportId  the water report to link to
+     * @param onFinish       called when linking is done
+     */
     public void linkPurityReport(int purityReportId, int waterReportId, Runnable onFinish) {
         // Store association in the water report
         Consumer<WaterReport> waterReportConsumer = waterReport -> {
@@ -76,6 +89,12 @@ public final class ReportManager {
         contentProvider.getSingleWaterReport(waterReportConsumer, waterReportId);
     }
 
+    /**
+     * Unlinks a purity report from a water report
+     *
+     * @param purityReport the purity report to unlink
+     * @param onFinish     called when it is unlinked
+     */
     public void unlinkPurityReport(PurityReport purityReport, Runnable onFinish) {
         // Remove association in the water report
         Consumer<WaterReport> waterReportConsumer = waterReport -> {

@@ -205,7 +205,6 @@ public class WaterReport {
      * Removes the specified purity report id from the list of associated purity reports.
      *
      * @param purityReportId the id to remove
-     * @return whether it has been removed
      */
     public void unlinkPurityReport(int purityReportId) {
         purityReportIds.remove((Integer) purityReportId);
