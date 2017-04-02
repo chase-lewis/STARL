@@ -54,7 +54,8 @@ public class LoginUserActivity extends AppCompatActivity {
         // Set up the password form
         mPasswordView = (EditText) findViewById(R.id.login_password);
         mPasswordView.setText("");
-        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> (id == R.id.login) || (id == EditorInfo.IME_NULL));
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> (id == R.id.login)
+                || (id == EditorInfo.IME_NULL));
 
         // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);
@@ -74,7 +75,6 @@ public class LoginUserActivity extends AppCompatActivity {
      * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      *
-     * TODO move business logic out of activity
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -194,7 +194,8 @@ public class LoginUserActivity extends AppCompatActivity {
 
             if (success) {
                 // Save the user for the session
-                ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+                ContentProvider contentProvider =
+                        ContentProviderFactory.getDefaultContentProvider();
                 contentProvider.setLoggedInUser(mUser);
 
                 // Transition to the Map fragment in the Home Activity

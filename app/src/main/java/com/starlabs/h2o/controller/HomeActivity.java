@@ -59,7 +59,8 @@ public class HomeActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -82,7 +83,6 @@ public class HomeActivity extends AppCompatActivity
             MenuItem menuItem3 = navMenu.getItem(5);
             menuItem3.setVisible(false);
         }
-        // TODO admin features
 
         this.setHeaderInfo(user);
 
@@ -144,7 +144,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_view_purity_reports) {
             newFragment = new ViewPurityReportsFragment();
         } else if (id == R.id.nav_view_histogram) {
-            // TODO
             newFragment = new SetupHistogramFragment();
         } else if (id == R.id.nav_profile) {
             newFragment = new ViewUserProfileFragment();
@@ -153,7 +152,6 @@ public class HomeActivity extends AppCompatActivity
             // Logout!
             finish();
         } else {
-            // TODO admin items
             newFragment = current;
         }
 

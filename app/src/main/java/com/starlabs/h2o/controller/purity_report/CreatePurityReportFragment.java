@@ -47,8 +47,10 @@ public class CreatePurityReportFragment extends Fragment {
         // Set up the fields for the user profile
         TextView reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
         reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
-        linkedWaterReportEditText = (EditText) view.findViewById(R.id.create_purity_linked_water_report);
-        TextView reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
+        linkedWaterReportEditText = (EditText)
+                view.findViewById(R.id.create_purity_linked_water_report);
+        TextView reportReporterName = (TextView)
+                view.findViewById(R.id.create_purity_report_username);
         purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
         virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
         contPPMText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);
@@ -57,11 +59,11 @@ public class CreatePurityReportFragment extends Fragment {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         User user = contentProvider.getLoggedInUser();
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, PurityCondition.values());
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item, PurityCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         purityCondSpinner.setAdapter(condAdapter);
 
-        // TODO: Someone remember to send a parcel from main class when editing
         Bundle bundle = getArguments();
         if ((bundle != null) && (bundle.getParcelable("PR_EDIT") != null)) {
             report = bundle.getParcelable("PR_EDIT");
@@ -107,7 +109,8 @@ public class CreatePurityReportFragment extends Fragment {
      *
      */
     private void onReportCreatePressed() {
-        @SuppressWarnings("ChainedMethodCall") final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.getText().toString());
+        @SuppressWarnings("ChainedMethodCall") final int linkedWaterReportId =
+                Integer.parseInt(linkedWaterReportEditText.getText().toString());
 
         // Update the values in the model from the UI
         report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());

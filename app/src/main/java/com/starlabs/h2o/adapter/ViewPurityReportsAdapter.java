@@ -17,7 +17,8 @@ import java.util.List;
  * @author Rishi
  */
 
-public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
+public class ViewPurityReportsAdapter
+        extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
     private final List<PurityReport> waterPurityReports;
 
     public ViewPurityReportsAdapter(List<PurityReport> waterPurityReports) {
@@ -38,7 +39,8 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
         holder.reportNumber.setText("Report # " + purityReport.getReportNumber());
         Date createDate = purityReport.getCreationDate();
         holder.creationDate.setText(createDate.toString());
-        holder.linkedWaterReport.setText("Linked Water Report: " + purityReport.getLinkedWaterReportId());
+        holder.linkedWaterReport.setText("Linked Water Report: " +
+                purityReport.getLinkedWaterReportId());
         PurityCondition purCondition = purityReport.getCondition();
         holder.purityCondition.setText("Condition: " + purCondition.toString());
         holder.virusPPM.setText("virusPPM: " + purityReport.getVirusPPM());

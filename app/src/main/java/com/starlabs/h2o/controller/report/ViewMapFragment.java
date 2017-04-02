@@ -40,7 +40,8 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_gmaps, container, false);
     }
@@ -58,10 +59,13 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Move the camera in the map to our current location
-        // Check if we have location access permission first. Note we are using Network Location, not GPS
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        // Check if we have location access permission first.
+        // Note we are using Network Location, not GPS
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Activity activity = getActivity();
-            LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+            LocationManager locationManager =
+                    (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             String locationProvider = LocationManager.NETWORK_PROVIDER;
 
             // Get rough location synchronously
@@ -69,7 +73,8 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
 
             if (lastKnownLocation != null) {
                 // Set the location
-                LatLng loc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                LatLng loc = new LatLng(lastKnownLocation.getLatitude(),
+                        lastKnownLocation.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 4f));
             }
         }

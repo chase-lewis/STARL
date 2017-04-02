@@ -20,7 +20,8 @@ import java.util.List;
  * @author Rishi
  */
 
-public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
+public class ViewWaterReportsAdapter
+        extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
     private final List<WaterReport> waterReports;
 
     public ViewWaterReportsAdapter(List<WaterReport> waterReports) {

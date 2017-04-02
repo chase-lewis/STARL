@@ -24,6 +24,7 @@ import java.util.function.Consumer;
 
 /**
  * Created by Rishi on 3/27/2017.
+ * Provides interface for user to enter histogram info
  */
 
 public class SetupHistogramFragment extends Fragment {
@@ -50,7 +51,8 @@ public class SetupHistogramFragment extends Fragment {
         List<String> yaxisChoices = new ArrayList<>();
         yaxisChoices.add("Virus");
         yaxisChoices.add("Contaminant");
-        ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, yaxisChoices);
+        ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item, yaxisChoices);
         yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yAxisSpinner.setAdapter(yaxisAdapter);
 

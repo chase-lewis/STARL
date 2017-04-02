@@ -61,31 +61,34 @@ public class CreateWaterReportFragment extends Fragment {
         reportNumText = (TextView) view.findViewById(R.id.create_water_report_num);
         reportLocLatEditText = (EditText) view.findViewById(R.id.create_water_report_lat);
         reportLocLongEditText = (EditText) view.findViewById(R.id.create_water_report_long);
-        TextView reportReporterName = (TextView) view.findViewById(R.id.create_water_report_username);
+        TextView reportReporterName = (TextView)
+                view.findViewById(R.id.create_water_report_username);
         waterTypeSpinner = (Spinner) view.findViewById(R.id.create_water_report_type);
         waterCondSpinner = (Spinner) view.findViewById(R.id.create_water_report_condition);
 
         // Get the user from the session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         User user = contentProvider.getLoggedInUser();
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item, WaterType.values());
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item, WaterType.values());
 
 
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         waterTypeSpinner.setAdapter(typeAdapter);
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterCondition.values());
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item, WaterCondition.values());
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         waterCondSpinner.setAdapter(condAdapter);
 
-        // TODO: Someone remember to send a parcel from main class when editing
         Bundle bundle = getArguments();
         if ((bundle != null) && (bundle.getParcelable("WR_EDIT") != null)) {
             report = bundle.getParcelable("WR_EDIT");
             edit = true;
         } else {
             // Create a new report
-            report = new WaterReport(user.getName(), new Location("H20"), WaterType.BOTTLED, WaterCondition.POTABLE);
+            report = new WaterReport(user.getName(), new Location("H20")
+            );
 
             // Get the correct id for the new report from the content provider
             Consumer<Integer> onNextIdFound = id -> {
@@ -104,14 +107,19 @@ public class CreateWaterReportFragment extends Fragment {
                 }
             } else {
                 // Set up the location of the report
-                // Check if we have location access permission first. Note we are using Network Location, not GPS
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                // Check if we have location access permission first.
+                // Note we are using Network Location, not GPS
+                if (ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
                     Activity act = getActivity();
-                    LocationManager locationManager = (LocationManager) act.getSystemService(Context.LOCATION_SERVICE);
+                    LocationManager locationManager = (LocationManager)
+                            act.getSystemService(Context.LOCATION_SERVICE);
                     String locationProvider = LocationManager.NETWORK_PROVIDER;
 
                     // Get rough location very synchronously
-                    Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+                    Location lastKnownLocation =
+                            locationManager.getLastKnownLocation(locationProvider);
 
                     if (lastKnownLocation != null) {
                         // Set the location in the pojo

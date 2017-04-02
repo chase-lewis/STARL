@@ -67,7 +67,8 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         // Set up the user type spinner
         mUserTypeView = (Spinner) findViewById(R.id.register_user_type);
-        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, UserType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserTypeView.setAdapter(adapter);
     }
@@ -77,7 +78,6 @@ public class RegisterUserActivity extends AppCompatActivity {
      * If there are form errors (invalid user, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      *
-     * TODO move business logic out of activity
      */
     private void attemptRegister() {
         if (mAuthTask != null) {
@@ -196,7 +196,8 @@ public class RegisterUserActivity extends AppCompatActivity {
                 user = new User(mUsername, mPassword, userType);
 
                 // Set the user in the current session
-                ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+                ContentProvider contentProvider
+                        = ContentProviderFactory.getDefaultContentProvider();
                 contentProvider.setLoggedInUser(user);
 
                 // Transition to the Profile fragment in the Home Activity

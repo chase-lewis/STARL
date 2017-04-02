@@ -58,7 +58,8 @@ public interface ContentProvider {
     void getAllWaterReports(Consumer<List<WaterReport>> callback);
 
     /**
-     * Gets a single water report object from the reportNumber. Calls the callback when the water report is received.
+     * Gets a single water report object from the reportNumber.
+     * Calls the callback when the water report is received.
      *
      * @param callback     Called with the water report object
      * @param reportNumber The reportNumber to look for
@@ -73,7 +74,8 @@ public interface ContentProvider {
     void setWaterReport(WaterReport waterReport);
 
     /**
-     * Gets the id for the next water report. Calls the callback when this next id has been received.
+     * Gets the id for the next water report.
+     * Calls the callback when this next id has been received.
      *
      * @param callback Called with the next integer report number
      */
@@ -95,7 +97,8 @@ public interface ContentProvider {
 
 
     /**
-     * Gets a single purity report object from the reportNumber. Calls the callback when the purity report is received.
+     * Gets a single purity report object from the reportNumber.
+     * Calls the callback when the purity report is received.
      *
      * @param callback     Called with the water report object
      * @param reportNumber The reportNumber to look for
@@ -110,7 +113,8 @@ public interface ContentProvider {
     void setPurityReport(PurityReport purityReport);
 
     /**
-     * Gets the id for the next purity report. Calls the callback when this next id has been received.
+     * Gets the id for the next purity report.
+     * Calls the callback when this next id has been received.
      *
      * @param callback Called with the next integer report number
      */

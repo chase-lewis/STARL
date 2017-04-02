@@ -22,12 +22,12 @@ public class WaterReport {
     private WaterCondition condition;
     private List<Integer> purityReportIds;
 
-    public WaterReport(String reporterName, Location location, WaterType type, WaterCondition condition) {
+    public WaterReport(String reporterName, Location location) {
         this.reporterName = reporterName;
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
-        this.type = type;
-        this.condition = condition;
+        this.type = WaterType.BOTTLED;
+        this.condition = WaterCondition.POTABLE;
         this.creationDate = new Date();
         Random rand = new Random();
         this.reportNumber = rand.nextInt();
@@ -207,8 +207,8 @@ public class WaterReport {
      * @param purityReportId the id to remove
      * @return whether it has been removed
      */
-    public boolean unlinkPurityReport(int purityReportId) {
-        return purityReportIds.remove((Integer) purityReportId);
+    public void unlinkPurityReport(int purityReportId) {
+        purityReportIds.remove((Integer) purityReportId);
     }
 
     /**

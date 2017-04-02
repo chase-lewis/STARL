@@ -58,7 +58,8 @@ public class ViewHistogramFragment extends Fragment {
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.histogram_done);
-        reportCancelButton.setOnClickListener((view1) -> ViewHistogramFragment.this.onCancelPressed());
+        reportCancelButton.setOnClickListener((view1) ->
+                ViewHistogramFragment.this.onCancelPressed());
 
         // Initialize the data points
         virusData = new LineGraphSeries<>();
@@ -68,14 +69,16 @@ public class ViewHistogramFragment extends Fragment {
         List<String> yaxisChoices = new ArrayList<>();
         yaxisChoices.add("Virus");
         yaxisChoices.add("Contaminant");
-        ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, yaxisChoices);
+        ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item, yaxisChoices);
         yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yAxisSpinnerView.setAdapter(yaxisAdapter);
 
         // Update the graph on spinner change
         yAxisSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView,
+                                       View selectedItemView, int position, long id) {
                 updateGraph();
             }
 

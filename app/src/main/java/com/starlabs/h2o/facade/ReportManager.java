@@ -37,7 +37,8 @@ public final class ReportManager {
         return reportManager;
     }
 
-    public void getLinkedPurityReports(WaterReport waterReport, Consumer<List<PurityReport>> onReportsReceived) {
+    public void getLinkedPurityReports(WaterReport waterReport,
+                                       Consumer<List<PurityReport>> onReportsReceived) {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<List<PurityReport>> onPurityReports = allPurityReports -> {
             List<PurityReport> filteredPurityReports = new ArrayList<>();
@@ -85,7 +86,8 @@ public final class ReportManager {
             // Do the next peace of code
             onFinish.run();
         };
-        contentProvider.getSingleWaterReport(waterReportConsumer, purityReport.getLinkedWaterReportId());
+        contentProvider.getSingleWaterReport(waterReportConsumer,
+                purityReport.getLinkedWaterReportId());
     }
 
     /**
