@@ -42,8 +42,8 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TO_PROFILE = "HOME_TO_PROFILE";
-    private NavigationView navigationView = null;
     private final FragmentManager fragmentManager = getFragmentManager();
+    private NavigationView navigationView = null;
     private int oldId;
 
     @Override
@@ -221,7 +221,7 @@ public class HomeActivity extends AppCompatActivity
         // FIXME change this setter -- hacky
         frag.setWaterReport(waterReport);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_home_container,frag);
+        transaction.replace(R.id.fragment_home_container, frag);
         transaction.addToBackStack(null);
         transaction.commit();
     }

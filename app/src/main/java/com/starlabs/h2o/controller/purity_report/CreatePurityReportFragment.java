@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
@@ -106,7 +107,6 @@ public class CreatePurityReportFragment extends Fragment {
 
     /**
      * Method to create/finalize edit on report
-     *
      */
     private void onReportCreatePressed() {
         @SuppressWarnings("ChainedMethodCall") final int linkedWaterReportId =
@@ -139,7 +139,6 @@ public class CreatePurityReportFragment extends Fragment {
 
     /**
      * Method to exit the activity back to caller.
-     *
      */
     private void onCancelPressed() {
         //noinspection ChainedMethodCall

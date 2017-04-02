@@ -154,7 +154,6 @@ public class CreateWaterReportFragment extends Fragment {
 
     /**
      * Method to create/finalize edit on report
-     *
      */
     private void onReportCreatePressed() {
         // Update the values in the model from the UI
@@ -207,7 +206,6 @@ public class CreateWaterReportFragment extends Fragment {
 
     /**
      * Method to exit the activity back to caller.
-     *
      */
     private void onCancelPressed() {
         Activity activ = getActivity();

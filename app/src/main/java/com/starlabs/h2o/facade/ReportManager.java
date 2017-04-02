@@ -44,12 +44,12 @@ public final class ReportManager {
             List<PurityReport> filteredPurityReports = new ArrayList<>();
 
             // Filter out the purity reports and only use the ones with the matching ids
-            for (PurityReport pReport : allPurityReports){
+            for (PurityReport pReport : allPurityReports) {
                 boolean reportFound = false;
                 int i = 0;
-                List<Integer>purReports1 = waterReport.getLinkedPurityReports();
-                while (!reportFound && (i < purReports1.size())){
-                    if (pReport.getReportNumber() == purReports1.get(i)){
+                List<Integer> purReports1 = waterReport.getLinkedPurityReports();
+                while (!reportFound && (i < purReports1.size())) {
+                    if (pReport.getReportNumber() == purReports1.get(i)) {
                         reportFound = true;
                         filteredPurityReports.add(pReport);
                     }

@@ -63,6 +63,26 @@ public class User implements Parcelable {
     }
 
     /**
+     * Checks if a username is valid
+     *
+     * @param username the username to check
+     * @return true if valid
+     */
+    public static boolean isUsernameValid(String username) {
+        return username.length() >= 4;
+    }
+
+    /**
+     * Checks if a password is valid
+     *
+     * @param password the password to check
+     * @return true if valid
+     */
+    public static boolean isPasswordValid(String password) {
+        return password.length() >= 4;
+    }
+
+    /**
      * Checks if the given password matches this user's password.
      *
      * @param password the password to check
@@ -145,6 +165,9 @@ public class User implements Parcelable {
         this.name = name;
     }
 
+
+    //Allows User to be parceable
+
     /**
      * Getter for address of User
      *
@@ -162,9 +185,6 @@ public class User implements Parcelable {
     public void setAddress(String address) {
         this.address = address;
     }
-
-
-    //Allows User to be parceable
 
     /**
      * Getter for email of user
@@ -198,25 +218,5 @@ public class User implements Parcelable {
         dest.writeString(address);
         dest.writeString(email);
         dest.writeString(userType.toString());
-    }
-
-    /**
-     * Checks if a username is valid
-     *
-     * @param username the username to check
-     * @return true if valid
-     */
-    public static boolean isUsernameValid(String username) {
-        return username.length() >= 4;
-    }
-
-    /**
-     * Checks if a password is valid
-     *
-     * @param password the password to check
-     * @return true if valid
-     */
-    public static boolean isPasswordValid(String password) {
-        return password.length() >= 4;
     }
 }

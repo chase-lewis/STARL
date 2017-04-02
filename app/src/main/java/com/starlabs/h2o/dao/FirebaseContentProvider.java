@@ -1,7 +1,5 @@
 package com.starlabs.h2o.dao;
 
-import android.provider.ContactsContract;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

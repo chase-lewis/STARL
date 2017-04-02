@@ -74,7 +74,6 @@ public class LoginUserActivity extends AppCompatActivity {
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
-     *
      */
     private void attemptLogin() {
         if (mAuthTask != null) {

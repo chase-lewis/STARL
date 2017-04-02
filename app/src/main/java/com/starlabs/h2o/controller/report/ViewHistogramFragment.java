@@ -12,11 +12,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.*;
+import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.starlabs.h2o.R;
-
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.facade.ReportManager;
@@ -42,7 +41,7 @@ public class ViewHistogramFragment extends Fragment {
     private int reportYear;
     private WaterReport waterReport;
 
-    public ViewHistogramFragment(){
+    public ViewHistogramFragment() {
         //required empty constructor
     }
 
@@ -133,7 +132,6 @@ public class ViewHistogramFragment extends Fragment {
 
     /**
      * Method to exit the activity back to caller.
-     *
      */
     private void onCancelPressed() {
         Activity act = getActivity();
@@ -142,7 +140,6 @@ public class ViewHistogramFragment extends Fragment {
 
     /**
      * Updates the graph. Call when data to view has changed
-     *
      */
     private void updateGraph() {
         // Clear the graph

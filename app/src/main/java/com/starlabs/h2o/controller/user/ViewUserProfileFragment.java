@@ -75,7 +75,6 @@ public class ViewUserProfileFragment extends Fragment {
 
     /**
      * Method to exit the activity to main.
-     *
      */
     private void onProfileDonePressed() {
         // Update the user model from the fields
@@ -101,7 +100,6 @@ public class ViewUserProfileFragment extends Fragment {
 
     /**
      * Method to exit the activity back to caller.
-     *
      */
     private void onCancelPressed() {
         Activity act = getActivity();

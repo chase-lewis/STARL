@@ -32,7 +32,7 @@ public class SetupHistogramFragment extends Fragment {
     private EditText yearText;
     private EditText reportNum;
 
-    public SetupHistogramFragment(){
+    public SetupHistogramFragment() {
         // required empty constructor
     }
 
@@ -62,7 +62,7 @@ public class SetupHistogramFragment extends Fragment {
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.cancel_histogram_button);
         reportCancelButton.setOnClickListener(this::onCancelPressed);
-        
+
         return view;
     }
 
@@ -76,12 +76,12 @@ public class SetupHistogramFragment extends Fragment {
         try {
             Editable yeartext = yearText.getText();
             selectYear = Integer.parseInt(yeartext.toString());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             yearText.setError("Must pass in a valid number");
             return;
         }
 
-        if((selectYear > 3000) || (selectYear < 1900)){
+        if ((selectYear > 3000) || (selectYear < 1900)) {
             yearText.setError("Year is out of range");
             return;
         }
@@ -89,7 +89,7 @@ public class SetupHistogramFragment extends Fragment {
         try {
             Editable repNum = reportNum.getText();
             reportNumHist = Integer.parseInt(repNum.toString());
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             reportNum.setError("Must pass in a valid number");
             return;
         }
