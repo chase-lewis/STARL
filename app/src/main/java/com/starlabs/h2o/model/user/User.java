@@ -17,6 +17,8 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+    private static final int MAX_PASS_LENGTH = 15;
+    private static final int MIN_PASS_LENGTH = 5;
     private String username;
     private String password;
     private String name;
@@ -78,7 +80,25 @@ public class User implements Parcelable {
      * @return true if valid
      */
     public static boolean isPasswordValid(CharSequence password) {
-        return password.length() >= 4;
+        if (password == null || password.length() < MIN_PASS_LENGTH || password.length() > MAX_PASS_LENGTH) {
+            return false;
+        }
+        boolean containsUpper = false;
+        boolean containsLower = false;
+        boolean containsDigit = false;
+        for (int i = 0; i < password.length(); i++) {
+            char charTest = password.charAt(i);
+            if (Character.isDigit(charTest)) {
+                containsDigit = true;
+            } else if (Character.isUpperCase(charTest)) {
+                containsUpper = true;
+            } else if (Character.isLowerCase(charTest)) {
+                containsLower = true;
+            } else if (Character.isWhitespace(charTest)) {
+                return false;
+            }
+        }
+        return containsDigit && containsLower && containsUpper;
     }
 
     /**
