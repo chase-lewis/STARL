@@ -40,6 +40,7 @@ public class CreatePurityReportFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressWarnings("FeatureEnvy")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class CreatePurityReportFragment extends Fragment {
     /**
      * Method to create/finalize edit on report
      */
+    @SuppressWarnings("FeatureEnvy")
     private void onReportCreatePressed() {
         @SuppressWarnings("ChainedMethodCall") final int linkedWaterReportId =
                 Integer.parseInt(linkedWaterReportEditText.getText().toString());

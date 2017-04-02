@@ -163,6 +163,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         private final String mUsername;
         private final String mPassword;
+        private final int WAIT = 2000;
         private boolean foundUser;
 
         UserLoginTask(String userName, String password) {
@@ -175,7 +176,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(WAIT);
             } catch (InterruptedException e) {
                 return false;
             }

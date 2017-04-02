@@ -28,6 +28,8 @@ import java.util.function.Consumer;
  * @author tejun, rishi
  */
 public class SetupHistogramFragment extends Fragment {
+    private final int MAX_YEAR = 3000;
+    private final int MIN_YEAR = 1900;
     private Spinner yAxisSpinner;
     private EditText yearText;
     private EditText reportNum;
@@ -81,7 +83,7 @@ public class SetupHistogramFragment extends Fragment {
             return;
         }
 
-        if ((selectYear > 3000) || (selectYear < 1900)) {
+        if ((selectYear > MAX_YEAR) || (selectYear < MIN_YEAR)) {
             yearText.setError("Year is out of range");
             return;
         }

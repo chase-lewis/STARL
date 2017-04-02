@@ -35,11 +35,12 @@ public class InitialActivity extends AppCompatActivity {
         Button goToRegister = (Button) findViewById(R.id.initial_register);
         goToRegister.setOnClickListener(view -> launchRegister());
 
+        final int PERM = 39;
         // Get user location permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 39);
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERM);
         }
     }
 

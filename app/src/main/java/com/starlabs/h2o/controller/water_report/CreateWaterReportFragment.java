@@ -38,6 +38,8 @@ import java.util.function.Consumer;
  */
 public class CreateWaterReportFragment extends Fragment {
 
+    private final int LAT_BOUND = 90;
+    private final int LONG_BOUND = 180;
     private boolean edit = false;
     private TextView reportNumText;
     private EditText reportLocLatEditText;
@@ -50,6 +52,7 @@ public class CreateWaterReportFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressWarnings("FeatureEnvy")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -155,6 +158,7 @@ public class CreateWaterReportFragment extends Fragment {
     /**
      * Method to create/finalize edit on report
      */
+    @SuppressWarnings("FeatureEnvy")
     private void onReportCreatePressed() {
         // Update the values in the model from the UI
         report.setType((WaterType) waterTypeSpinner.getSelectedItem());
@@ -183,10 +187,10 @@ public class CreateWaterReportFragment extends Fragment {
             return;
         }
 
-        if ((latitude < -90) || (latitude > 90)) {
+        if ((-latitude > LAT_BOUND) || (latitude > LAT_BOUND)) {
             reportLocLatEditText.setError("Latitude must be between -90 and 90");
             return;
-        } else if ((longitude < -180) || (longitude > 180)) {
+        } else if ((-longitude > LONG_BOUND) || (longitude > LONG_BOUND)) {
             reportLocLongEditText.setError("Longitude must be between -180 and 180");
             return;
         } else {

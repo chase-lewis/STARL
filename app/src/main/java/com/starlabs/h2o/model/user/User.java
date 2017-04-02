@@ -6,7 +6,6 @@ import android.os.Parcelable;
 /**
  * @author chase
  */
-
 public class User implements Parcelable {
     public static final Parcelable.Creator<User> CREATOR
             = new Parcelable.Creator<User>() {
@@ -68,7 +67,7 @@ public class User implements Parcelable {
      * @param username the username to check
      * @return true if valid
      */
-    public static boolean isUsernameValid(String username) {
+    public static boolean isUsernameValid(CharSequence username) {
         return username.length() >= 4;
     }
 
@@ -78,7 +77,7 @@ public class User implements Parcelable {
      * @param password the password to check
      * @return true if valid
      */
-    public static boolean isPasswordValid(String password) {
+    public static boolean isPasswordValid(CharSequence password) {
         return password.length() >= 4;
     }
 
@@ -173,7 +172,7 @@ public class User implements Parcelable {
      *
      * @return address of user
      */
-    public String getAddress() {
+    public CharSequence getAddress() {
         return address;
     }
 
@@ -191,7 +190,7 @@ public class User implements Parcelable {
      *
      * @return email of user
      */
-    public String getEmail() {
+    public CharSequence getEmail() {
         return email;
     }
 

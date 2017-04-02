@@ -75,6 +75,7 @@ public class LoginUserActivity extends AppCompatActivity {
      * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+    @SuppressWarnings("FeatureEnvy")
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -158,6 +159,7 @@ public class LoginUserActivity extends AppCompatActivity {
      */
     private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+        private final int WAIT = 3000;
         private User mUser;
 
         UserLoginTask() {
@@ -177,7 +179,7 @@ public class LoginUserActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // Sleep for 2 seconds while attempting to login with the content provider
             try {
-                Thread.sleep(3000);
+                Thread.sleep(WAIT);
             } catch (InterruptedException e) {
                 return false;
             }

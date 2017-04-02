@@ -36,6 +36,7 @@ import java.util.function.Consumer;
  */
 
 public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
+    private final float ZOOM = 4f;
     private GoogleMap mMap;
 
     @Override
@@ -53,6 +54,7 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
         fragment.getMapAsync(this);
     }
 
+    @SuppressWarnings("FeatureEnvy")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -74,7 +76,7 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
                 // Set the location
                 LatLng loc = new LatLng(lastKnownLocation.getLatitude(),
                         lastKnownLocation.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 4f));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, ZOOM));
             }
         }
 

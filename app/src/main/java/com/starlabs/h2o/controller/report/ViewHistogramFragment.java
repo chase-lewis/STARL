@@ -33,6 +33,8 @@ import java.util.stream.Stream;
  * @author tejun, rishi, kavin
  */
 public class ViewHistogramFragment extends Fragment {
+    private final int YEAR_GAP = 1900;
+    private final int MAX_DATA = 500;
     private Spinner yAxisSpinnerView;
     private TextView histogramTitleView;
     private GraphView histogramView;
@@ -45,6 +47,7 @@ public class ViewHistogramFragment extends Fragment {
         //required empty constructor
     }
 
+    @SuppressWarnings("FeatureEnvy")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,14 +105,14 @@ public class ViewHistogramFragment extends Fragment {
 
             // Filter by year, fill in the data
             Stream<PurityReport> reportsStream = allPurityReports.stream();
-            reportsStream.filter(current -> (reportYear - 1900)
+            reportsStream.filter(current -> (reportYear - YEAR_GAP)
                     == current.getCreationDate().getYear()).forEach(current -> {
                 int currRepNum = current.getReportNumber();
                 int currVirNum = current.getVirusPPM();
                 int currContNum = current.getContPPM();
 
-                virusData.appendData(new DataPoint(currRepNum, currVirNum), true, 500);
-                contaminationData.appendData(new DataPoint(currRepNum, currContNum), true, 500);
+                virusData.appendData(new DataPoint(currRepNum, currVirNum), true, MAX_DATA);
+                contaminationData.appendData(new DataPoint(currRepNum, currContNum), true, MAX_DATA);
             });
 
             // Set the choice of data to view
