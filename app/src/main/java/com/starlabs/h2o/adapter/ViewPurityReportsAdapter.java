@@ -34,7 +34,7 @@ public class ViewPurityReportsAdapter
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         PurityReport purityReport = waterPurityReports.get(position);
 
-        holder.workerName.setText("Reported by " + purityReport.getworkerName());
+        holder.workerName.setText("Reported by " + purityReport.getWorkerName());
         holder.reportNumber.setText("Report # " + purityReport.getReportNumber());
         Date createDate = purityReport.getCreationDate();
         holder.creationDate.setText(createDate.toString());

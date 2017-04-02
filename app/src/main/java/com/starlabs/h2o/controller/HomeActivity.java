@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -113,11 +113,11 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Fragment fragbyId = fragmentManager.findFragmentById(R.id.fragment_home_container);
+        Fragment fragById = fragmentManager.findFragmentById(R.id.fragment_home_container);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             // Close drawer if it is open
             drawer.closeDrawer(GravityCompat.START);
-        } else if (fragbyId.getClass() != MapFragment.class) {
+        } else if (fragById.getClass() != MapFragment.class) {
             // Transition to default map fragment if it's not open
             switchToMap();
         } else {

@@ -122,7 +122,7 @@ public class CreateWaterReportFragment extends Fragment {
                             locationManager.getLastKnownLocation(locationProvider);
 
                     if (lastKnownLocation != null) {
-                        // Set the location in the pojo
+                        // Set the location in the plain old java object
                         report.setLatitude(lastKnownLocation.getLatitude());
                         report.setLongitude(lastKnownLocation.getLongitude());
                     }
@@ -137,10 +137,10 @@ public class CreateWaterReportFragment extends Fragment {
         reportNumText.setText(Integer.toString(report.getReportNumber()));
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
-        WaterType wtype = report.getType();
-        waterTypeSpinner.setSelection(wtype.ordinal());
-        WaterCondition wcondition = report.getCondition();
-        waterCondSpinner.setSelection(wcondition.ordinal());
+        WaterType wType = report.getType();
+        waterTypeSpinner.setSelection(wType.ordinal());
+        WaterCondition wCondition = report.getCondition();
+        waterCondSpinner.setSelection(wCondition.ordinal());
 
         // Create button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.create_water_report_create);

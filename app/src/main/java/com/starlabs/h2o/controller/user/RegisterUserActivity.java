@@ -168,7 +168,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         UserLoginTask(String userName, String password) {
             mUsername = userName;
             mPassword = password;
-            foundUser = false;
+            setFoundUser(false);
         }
 
         @Override

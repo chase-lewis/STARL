@@ -79,7 +79,7 @@ public class PurityReport {
      *
      * @return The name of the user who created the report
      */
-    public String getworkerName() {
+    public String getWorkerName() {
         return workerName;
     }
 

@@ -166,7 +166,7 @@ public class User implements Parcelable {
     }
 
 
-    //Allows User to be parceable
+    //Allows User to be parcelable
 
     /**
      * Getter for address of User

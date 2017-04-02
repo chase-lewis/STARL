@@ -120,7 +120,7 @@ public class SetupHistogramFragment extends Fragment {
      *
      * @param view the parameter View
      */
-    protected void onCancelPressed(View view) {
+    private void onCancelPressed(View view) {
         Activity act = this.getActivity();
         act.onBackPressed();
     }
