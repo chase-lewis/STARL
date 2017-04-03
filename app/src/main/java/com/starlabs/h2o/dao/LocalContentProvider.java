@@ -14,6 +14,10 @@ import java.util.function.Consumer;
  * @author tejun
  */
 public class LocalContentProvider extends SessionContentProvider implements ContentProvider {
+    protected LocalContentProvider() {
+        // Do nothing
+    }
+
     @Override
     public void getAllUsers(Consumer<List<User>> callback) {
         callback.accept(new ArrayList<>());
