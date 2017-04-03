@@ -1,14 +1,11 @@
 package com.starlabs.h2o.facade;
 
 import com.starlabs.h2o.dao.ContentProvider;
-import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -51,13 +48,12 @@ public final class ReportManager {
      */
     public void getLinkedPurityReports(WaterReport waterReport,
                                        Consumer<List<PurityReport>> onReportsReceived) {
-        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<List<PurityReport>> onPurityReports = allPurityReports -> {
 
             // Filter out the purity reports and only use the ones with the matching ids
             List<PurityReport> filteredPurityReports = allPurityReports.stream()
                     .filter(purityReport -> waterReport.getLinkedPurityReports()
-                    .contains(purityReport.getReportNumber()))
+                            .contains(purityReport.getReportNumber()))
                     .collect(Collectors.toList());
 
             // Call the callback

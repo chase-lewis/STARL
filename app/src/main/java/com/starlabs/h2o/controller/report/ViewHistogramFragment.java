@@ -163,6 +163,7 @@ public class ViewHistogramFragment extends Fragment {
 
     /**
      * Setter for the current Water Report the data should be pulled from
+     *
      * @param waterReport the water report to use
      */
     public void setWaterReport(WaterReport waterReport) {
