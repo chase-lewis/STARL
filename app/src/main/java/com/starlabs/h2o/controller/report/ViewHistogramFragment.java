@@ -142,7 +142,7 @@ public class ViewHistogramFragment extends Fragment {
     }
 
     /**
-     * Updates the graph. Call when data to view has changed
+     * Updates the graph. Called when data to view has changed.
      */
     private void updateGraph() {
         // Clear the graph
@@ -163,7 +163,6 @@ public class ViewHistogramFragment extends Fragment {
 
     /**
      * Setter for the current Water Report the data should be pulled from
-     *
      * @param waterReport the water report to use
      */
     public void setWaterReport(WaterReport waterReport) {

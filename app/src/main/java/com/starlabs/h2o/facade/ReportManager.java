@@ -29,8 +29,12 @@ public final class ReportManager {
      * @return a report manager
      */
     public static ReportManager getInstance(ContentProvider contentProvider) {
+        if (reportManager == null) {
+            reportManager = new ReportManager(contentProvider);
+        }
+
         ContentProvider conProv = reportManager.getContentProvider();
-        if ((reportManager == null) || !conProv.equals(contentProvider)) {
+        if (!conProv.equals(contentProvider)) {
             reportManager = new ReportManager(contentProvider);
         }
 

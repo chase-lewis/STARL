@@ -58,8 +58,8 @@ public class SetupHistogramFragment extends Fragment {
         yAxisSpinner.setAdapter(yaxisAdapter);
 
         // View button setup
-        Button reportCreateButton = (Button) view.findViewById(R.id.view_histogram_button);
-        reportCreateButton.setOnClickListener(view1 -> onHistogramViewPressed());
+        Button reportViewButton = (Button) view.findViewById(R.id.view_histogram_button);
+        reportViewButton.setOnClickListener(view1 -> onHistogramViewPressed());
 
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.cancel_histogram_button);
@@ -68,6 +68,11 @@ public class SetupHistogramFragment extends Fragment {
         return view;
     }
 
+    /*
+    * Method is called when reportViewButton is pressed.
+    * Gathers setup info for the histogram and transfers it to the switchHistogram() method.
+    * @author: Rishi
+    * */
     private void onHistogramViewPressed() {
         // Get input from ui
         Object spinItem = yAxisSpinner.getSelectedItem();
