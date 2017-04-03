@@ -8,9 +8,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Tests for the User Plain Old Java Object
+ *
  * @author Chase
  */
-
 public class UserTest {
     @Test
     public void isPasswordValidTest() {

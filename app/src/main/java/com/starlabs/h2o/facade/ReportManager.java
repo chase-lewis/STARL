@@ -8,6 +8,8 @@ import com.starlabs.h2o.model.report.WaterReport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Facade that manages interactions between water reports and purity reports.
@@ -51,21 +53,12 @@ public final class ReportManager {
                                        Consumer<List<PurityReport>> onReportsReceived) {
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<List<PurityReport>> onPurityReports = allPurityReports -> {
-            List<PurityReport> filteredPurityReports = new ArrayList<>();
 
             // Filter out the purity reports and only use the ones with the matching ids
-            for (PurityReport pReport : allPurityReports) {
-                boolean reportFound = false;
-                int i = 0;
-                List<Integer> purReports1 = waterReport.getLinkedPurityReports();
-                while (!reportFound && (i < purReports1.size())) {
-                    if (pReport.getReportNumber() == purReports1.get(i)) {
-                        reportFound = true;
-                        filteredPurityReports.add(pReport);
-                    }
-                    i++;
-                }
-            }
+            List<PurityReport> filteredPurityReports = allPurityReports.stream()
+                    .filter(purityReport -> waterReport.getLinkedPurityReports()
+                    .contains(purityReport.getReportNumber()))
+                    .collect(Collectors.toList());
 
             // Call the callback
             onReportsReceived.accept(filteredPurityReports);
@@ -118,7 +111,7 @@ public final class ReportManager {
      *
      * @return the content provider this was constructed with
      */
-    private ContentProvider getContentProvider() {
+    public ContentProvider getContentProvider() {
         return contentProvider;
     }
 }
