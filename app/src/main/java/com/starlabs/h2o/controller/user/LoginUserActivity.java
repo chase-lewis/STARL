@@ -110,12 +110,13 @@ public class LoginUserActivity extends AppCompatActivity {
             mPasswordView.setError("A password is required");
             focusView = mPasswordView;
             cancel = true;
-        } else if (!User.isPasswordValid(password)) {
-            // Check if the password is not valid
-            mPasswordView.setError("The password must be at least 4 characters");
-            focusView = mPasswordView;
-            cancel = true;
         }
+//        else if (!User.isPasswordValid(password)) {
+//            // Check if the password is not valid
+//            mPasswordView.setError("The password must be at least 4 characters");
+//            focusView = mPasswordView;
+//            cancel = true;
+//        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
