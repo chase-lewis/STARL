@@ -54,7 +54,6 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
         fragment.getMapAsync(this);
     }
 
-    @SuppressWarnings("FeatureEnvy")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

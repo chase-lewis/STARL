@@ -19,7 +19,7 @@ public final class ContentProviderFactory {
      *
      * @return a content provider
      */
-    public static ContentProvider getDefaultContentProvider() {
+    public static synchronized ContentProvider getDefaultContentProvider() {
 
         // Lazy singleton instantiation
         if (contentProvider == null) {

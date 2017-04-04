@@ -33,7 +33,6 @@ public class ViewWaterReportsAdapter
         return new CustomViewHolder(view);
     }
 
-    @SuppressWarnings("FeatureEnvy")
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         WaterReport waterReport = waterReports.get(position);

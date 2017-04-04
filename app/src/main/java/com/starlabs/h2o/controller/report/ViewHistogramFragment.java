@@ -47,7 +47,6 @@ public class ViewHistogramFragment extends Fragment {
         //required empty constructor
     }
 
-    @SuppressWarnings("FeatureEnvy")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,7 +111,8 @@ public class ViewHistogramFragment extends Fragment {
                 int currContNum = current.getContPPM();
 
                 virusData.appendData(new DataPoint(currRepNum, currVirNum), true, MAX_DATA);
-                contaminationData.appendData(new DataPoint(currRepNum, currContNum), true, MAX_DATA);
+                contaminationData.appendData(new DataPoint(currRepNum, currContNum),
+                        true, MAX_DATA);
             });
 
             // Set the choice of data to view

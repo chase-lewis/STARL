@@ -218,7 +218,6 @@ public class HomeActivity extends AppCompatActivity
     public void switchToHistogram(Bundle bundle, WaterReport waterReport) {
         ViewHistogramFragment frag = new ViewHistogramFragment();
         frag.setArguments(bundle);
-        // FIXME change this setter -- hacky
         frag.setWaterReport(waterReport);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_home_container, frag);

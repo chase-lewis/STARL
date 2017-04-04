@@ -9,10 +9,13 @@ import android.os.Parcelable;
 public class User implements Parcelable {
     public static final Parcelable.Creator<User> CREATOR
             = new Parcelable.Creator<User>() {
+
+        @Override
         public User createFromParcel(Parcel in) {
             return new User(in);
         }
 
+        @Override
         public User[] newArray(int size) {
             return new User[size];
         }
@@ -80,7 +83,8 @@ public class User implements Parcelable {
      * @return true if valid
      */
     public static boolean isPasswordValid(CharSequence password) {
-        if (password == null || password.length() < MIN_PASS_LENGTH || password.length() > MAX_PASS_LENGTH) {
+        if (password == null || password.length() < MIN_PASS_LENGTH
+                || password.length() > MAX_PASS_LENGTH) {
             return false;
         }
         boolean containsUpper = false;

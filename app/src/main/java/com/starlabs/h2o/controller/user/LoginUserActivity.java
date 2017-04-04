@@ -75,7 +75,6 @@ public class LoginUserActivity extends AppCompatActivity {
      * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    @SuppressWarnings("FeatureEnvy")
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;

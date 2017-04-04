@@ -27,7 +27,7 @@ public final class ReportManager {
      * @param contentProvider the content provider to use throughout the manager
      * @return a report manager
      */
-    public static ReportManager getInstance(ContentProvider contentProvider) {
+    public static synchronized ReportManager getInstance(ContentProvider contentProvider) {
         if (reportManager == null) {
             reportManager = new ReportManager(contentProvider);
         }

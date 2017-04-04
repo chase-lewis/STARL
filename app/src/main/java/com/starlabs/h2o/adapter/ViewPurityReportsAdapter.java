@@ -30,7 +30,6 @@ public class ViewPurityReportsAdapter
         return new CustomViewHolder(view);
     }
 
-    @SuppressWarnings("FeatureEnvy")
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         PurityReport purityReport = waterPurityReports.get(position);

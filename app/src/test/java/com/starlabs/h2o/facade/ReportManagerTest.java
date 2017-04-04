@@ -1,8 +1,7 @@
-package com.starlabs.h2o;
+package com.starlabs.h2o.facade;
 
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.LocalContentProvider;
-import com.starlabs.h2o.facade.ReportManager;
 import com.starlabs.h2o.model.report.PurityReport;
 import com.starlabs.h2o.model.report.WaterReport;
 

@@ -38,8 +38,6 @@ public class ViewUserProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    @SuppressWarnings("FeatureEnvy")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +75,6 @@ public class ViewUserProfileFragment extends Fragment {
     /**
      * Method to exit the activity to main.
      */
-    @SuppressWarnings("FeatureEnvy")
     private void onProfileDonePressed() {
         // Update the user model from the fields
         Editable usName = nameField.getText();

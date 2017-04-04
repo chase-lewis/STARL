@@ -1,6 +1,4 @@
-package com.starlabs.h2o;
-
-import com.starlabs.h2o.model.user.User;
+package com.starlabs.h2o.model.user;
 
 import org.junit.Test;
 

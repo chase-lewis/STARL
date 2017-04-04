@@ -52,7 +52,6 @@ public class CreateWaterReportFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @SuppressWarnings("FeatureEnvy")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -158,7 +157,6 @@ public class CreateWaterReportFragment extends Fragment {
     /**
      * Method to create/finalize edit on report
      */
-    @SuppressWarnings("FeatureEnvy")
     private void onReportCreatePressed() {
         // Update the values in the model from the UI
         report.setType((WaterType) waterTypeSpinner.getSelectedItem());
