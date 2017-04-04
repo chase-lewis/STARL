@@ -116,7 +116,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             cancel = true;
         } else if (!User.isPasswordValid(password)) {
             // Check if the password is not valid
-            mPasswordView.setError("The password must be at least 4 characters");
+            mPasswordView.setError("The password must be: 4-15 characters, 1 digit, 1 uppercase, 1 lowercase");
             focusView = mPasswordView;
             cancel = true;
         } else if (!password.equals(retypePassword)) {
