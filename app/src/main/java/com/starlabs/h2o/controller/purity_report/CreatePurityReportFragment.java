@@ -109,7 +109,8 @@ public class CreatePurityReportFragment extends Fragment {
      * Method to create/finalize edit on report
      */
     private void onReportCreatePressed() {
-        final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.getText().toString());
+        final int linkedWaterReportId = Integer.parseInt(linkedWaterReportEditText.
+                getText().toString());
 
         // Update the values in the model from the UI
         report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());

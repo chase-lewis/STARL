@@ -94,14 +94,17 @@ public class LoginUserActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for valid fields
+        int MAX_USER_LENGTH = 20;
+        int MIN_USER_LENGTH = 3;
         if (TextUtils.isEmpty(username)) {
             // Check if the username is empty
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (!User.isUsernameValid(username)) {
+        } else if (username.length() > MAX_USER_LENGTH
+                || username.length() < MIN_USER_LENGTH) {
             // Check if the username is not valid
-            mUsernameView.setError("The username must be at least 4 characters");
+            mUsernameView.setError("The username must be 3-20 characters");
             focusView = mUsernameView;
             cancel = true;
         } else if (TextUtils.isEmpty(password)) {

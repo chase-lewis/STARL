@@ -22,6 +22,8 @@ public class User implements Parcelable {
     };
     private static final int MAX_PASS_LENGTH = 15;
     private static final int MIN_PASS_LENGTH = 5;
+    private static final int MAX_USER_LENGTH = 20;
+    private static final int MIN_USER_LENGTH = 3;
     private String username;
     private String password;
     private String name;
@@ -73,7 +75,22 @@ public class User implements Parcelable {
      * @return true if valid
      */
     public static boolean isUsernameValid(CharSequence username) {
-        return username.length() >= 4;
+        if (username == null || username.length() > MAX_USER_LENGTH
+                || username.length() < MIN_USER_LENGTH){
+            return false;
+        }
+        boolean containsDigit = false;
+        for (int i = 0; i < username.length(); i++){
+            char currentChar = username.charAt(i);
+            if (Character.isDigit(currentChar)){
+                containsDigit = true;
+            }
+            if (Character.isWhitespace(currentChar)){
+                return false;
+            }
+        }
+
+        return containsDigit;
     }
 
     /**

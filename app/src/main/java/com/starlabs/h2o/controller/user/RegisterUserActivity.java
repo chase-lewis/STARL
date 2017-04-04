@@ -106,7 +106,8 @@ public class RegisterUserActivity extends AppCompatActivity {
             cancel = true;
         } else if (!User.isUsernameValid(username)) {
             // Check if the username is not valid
-            mUsernameView.setError("The username must be at least 4 characters");
+            mUsernameView.setError("The username must be 3-20 characters " +
+                    "and contain a digit");
             focusView = mUsernameView;
             cancel = true;
         } else if (TextUtils.isEmpty(password)) {
@@ -116,7 +117,8 @@ public class RegisterUserActivity extends AppCompatActivity {
             cancel = true;
         } else if (!User.isPasswordValid(password)) {
             // Check if the password is not valid
-            mPasswordView.setError("The password must be: 4-15 characters, 1 digit, 1 uppercase, 1 lowercase");
+            mPasswordView.setError("The password must be: 4-15 characters," +
+                    "1 digit, 1 uppercase, 1 lowercase");
             focusView = mPasswordView;
             cancel = true;
         } else if (!password.equals(retypePassword)) {
