@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -203,6 +204,33 @@ public class ReportManagerTest {
     }
 
     /**
+     * Tests getLinkedPurityReports when the purity report has all ids that match the actual
+     * objects in the db. Uses the shuffled content provider.
+     */
+    @Test
+    public void testGetLinkedPurityReportsRandomMatchingData() {
+        purityIds.add(84);
+        purityIds.add(report13.getReportNumber());
+        purityIds.add(53);
+        purityIds.add(94);
+
+        // Create the class we are testing
+        contentProvider = new ShuffledDataContentProvider();
+        reportManager = ReportManager.getInstance(contentProvider);
+
+        // Set up the mocks
+        when(waterReport.getLinkedPurityReports()).thenReturn(purityIds);
+
+        // Call the method
+        reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
+
+        // Verify
+        List<PurityReport> expected = new ArrayList<>();
+        expected.add(report13);
+        verify(onReportsReceived).accept(expected);
+    }
+
+    /**
      * Done after each test.
      */
     @After
@@ -228,6 +256,19 @@ public class ReportManagerTest {
         @Override
         public void getAllPurityReports(Consumer<List<PurityReport>> callback) {
             callback.accept(allData);
+        }
+    }
+
+    /**
+     * Content provider that calls the callback with all the purity reports.
+     * The reports are provided in a shuffled order.
+     */
+    private class ShuffledDataContentProvider extends LocalContentProvider {
+        @Override
+        public void getAllPurityReports(Consumer<List<PurityReport>> callback) {
+            List<PurityReport> shuffledData = new ArrayList<>(allData);
+            Collections.shuffle(shuffledData);
+            callback.accept(shuffledData);
         }
     }
 }
