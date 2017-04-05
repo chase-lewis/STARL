@@ -83,7 +83,7 @@ public final class ReportManager {
     }
 
     /**
-     * Removies links between purity report from a water report
+     * Removes links between purity report from a water report
      *
      * @param purityReport the purity report to unlink
      * @param onFinish     called when it is unlinked

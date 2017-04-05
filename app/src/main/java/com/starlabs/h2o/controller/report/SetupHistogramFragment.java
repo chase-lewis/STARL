@@ -47,7 +47,7 @@ public class SetupHistogramFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_setup_histogram, container, false);
 
         // Inflate views
-        yAxisSpinner = (Spinner) view.findViewById(R.id.histogram_yaxis_choice);
+        yAxisSpinner = (Spinner) view.findViewById(R.id.histogram_yAxis_choice);
         yearText = (EditText) view.findViewById(R.id.year_histogram_text);
         reportNum = (EditText) view.findViewById(R.id.report_number);
 
@@ -84,8 +84,8 @@ public class SetupHistogramFragment extends Fragment {
         int reportNumHist;
 
         try {
-            Editable yeartext = yearText.getText();
-            selectYear = Integer.parseInt(yeartext.toString());
+            Editable yearT = yearText.getText();
+            selectYear = Integer.parseInt(yearT.toString());
         } catch (NumberFormatException e) {
             yearText.setError("Must pass in a valid number");
             return;

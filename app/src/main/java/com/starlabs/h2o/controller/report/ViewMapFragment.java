@@ -86,8 +86,8 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
                 double latitude = waterReport.getLatitude();
                 double longitude = waterReport.getLongitude();
                 LatLng markLocation = new LatLng(latitude, longitude);
-                MarkerOptions markopts = new MarkerOptions();
-                MarkerOptions markPosition = markopts.position(markLocation);
+                MarkerOptions markOpts = new MarkerOptions();
+                MarkerOptions markPosition = markOpts.position(markLocation);
                 mMap.addMarker(markPosition.title(waterReport.toString()));
             }
         };

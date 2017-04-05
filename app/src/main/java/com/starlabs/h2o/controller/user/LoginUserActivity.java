@@ -88,10 +88,10 @@ public class LoginUserActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        Editable usname = mUsernameView.getText();
-        final String username = usname.toString();
-        Editable passname = mPasswordView.getText();
-        final String password = passname.toString();
+        Editable usName = mUsernameView.getText();
+        final String username = usName.toString();
+        Editable passName = mPasswordView.getText();
+        final String password = passName.toString();
 
         boolean cancel = false;
         View focusView = null;

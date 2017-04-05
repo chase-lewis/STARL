@@ -173,16 +173,16 @@ public class CreateWaterReportFragment extends Fragment {
         reportLocLongEditText.setError(null);
 
         try {
-            Editable loclactext = reportLocLatEditText.getText();
-            latitude = Double.parseDouble(loclactext.toString());
+            Editable locLacText = reportLocLatEditText.getText();
+            latitude = Double.parseDouble(locLacText.toString());
         } catch (NumberFormatException e) {
             reportLocLatEditText.setError("Must pass in a valid number");
             return;
         }
 
         try {
-            Editable loclongtext = reportLocLongEditText.getText();
-            longitude = Double.parseDouble(loclongtext.toString());
+            Editable locLongText = reportLocLongEditText.getText();
+            longitude = Double.parseDouble(locLongText.toString());
         } catch (NumberFormatException e) {
             reportLocLongEditText.setError("Must pass in a valid number");
             return;

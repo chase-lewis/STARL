@@ -84,8 +84,8 @@ public class ViewUserProfileFragment extends Fragment {
         user.setName(usName.toString());
         Editable emailText = emailField.getText();
         user.setEmail(emailText.toString());
-        Editable addrField = addressField.getText();
-        user.setAddress(addrField.toString());
+        Editable addField = addressField.getText();
+        user.setAddress(addField.toString());
 
         // Store the user in our content provider, overriding all previous data for that user
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();

@@ -158,8 +158,8 @@ public class HomeActivity extends AppCompatActivity
             Menu navMenu1 = navigationView.getMenu();
             MenuItem menItemOld = navMenu1.findItem(oldId);
             menItemOld.setChecked(false);
-            MenuItem menItemcurr = navMenu1.findItem(id);
-            menItemcurr.setChecked(true);
+            MenuItem menItemCurr = navMenu1.findItem(id);
+            menItemCurr.setChecked(true);
             oldId = id;
         }
 

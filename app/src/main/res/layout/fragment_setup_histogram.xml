@@ -34,7 +34,7 @@
         android:text="" />
 
     <TextView
-        android:id="@+id/yaxis_title_text"
+        android:id="@+id/yAxis_title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.03"
@@ -42,7 +42,7 @@
         android:textSize="16sp" />
 
     <Spinner
-        android:id="@+id/histogram_yaxis_choice"
+        android:id="@+id/histogram_yAxis_choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.06" />

@@ -26,14 +26,14 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
         super();
 
         // Firebase database authentication
-        FirebaseDatabase dbinstance = FirebaseDatabase.getInstance();
-        mDatabase = dbinstance.getReference();
+        FirebaseDatabase dBInstance = FirebaseDatabase.getInstance();
+        mDatabase = dBInstance.getReference();
     }
 
     @Override
     public void getAllUsers(Consumer<List<User>> callback) {
-        DatabaseReference dbref = mDatabase.child("users");
-        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference databaseRef = mDatabase.child("users");
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<User> users = new ArrayList<>();
@@ -54,9 +54,9 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void getSingleUser(Consumer<User> callback, String username) {
-        DatabaseReference dbrefe = mDatabase.child("users");
-        DatabaseReference dbref2 = dbrefe.child(username);
-        dbref2.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference databaseRef = mDatabase.child("users");
+        DatabaseReference databaseRef2 = databaseRef.child(username);
+        databaseRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -78,15 +78,15 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void setUser(User user) {
-        DatabaseReference fbdb = mDatabase.child("users");
-        DatabaseReference fbdb2 = fbdb.child(user.getUsername());
-        fbdb2.setValue(user);
+        DatabaseReference faceBookDatabase = mDatabase.child("users");
+        DatabaseReference faceBookDatabase2 = faceBookDatabase.child(user.getUsername());
+        faceBookDatabase2.setValue(user);
     }
 
     @Override
     public void getAllWaterReports(Consumer<List<WaterReport>> callback) {
-        DatabaseReference dbref1 = mDatabase.child("waterReports");
-        dbref1.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference databaseRef = mDatabase.child("waterReports");
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<WaterReport> waterReports = new ArrayList<>();
@@ -95,8 +95,8 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
                     WaterReport waterReport = report.getValue(WaterReport.class);
 
                     waterReport.resetLinkedPurityReports();
-                    DataSnapshot dbpurReports = report.child("linkedPurityReports");
-                    for (DataSnapshot idDs : dbpurReports.getChildren()) {
+                    DataSnapshot databasePurReports = report.child("linkedPurityReports");
+                    for (DataSnapshot idDs : databasePurReports.getChildren()) {
                         Integer id = idDs.getValue(Integer.class);
                         waterReport.linkPurityReport(id);
                     }
@@ -116,9 +116,9 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void getSingleWaterReport(Consumer<WaterReport> callback, int reportNumber) {
-        DatabaseReference dbref = mDatabase.child("waterReports");
-        DatabaseReference dbref2 = dbref.child("" + reportNumber);
-        dbref2.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference dataBaseRef = mDatabase.child("waterReports");
+        DatabaseReference dataBaseRef2 = dataBaseRef.child("" + reportNumber);
+        dataBaseRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -147,8 +147,8 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void setWaterReport(WaterReport waterReport) {
-        DatabaseReference dbref = mDatabase.child("waterReports");
-        DatabaseReference ref = dbref.child("" + waterReport.getReportNumber());
+        DatabaseReference dataBaseRef = mDatabase.child("waterReports");
+        DatabaseReference ref = dataBaseRef.child("" + waterReport.getReportNumber());
         ref.setValue(waterReport);
     }
 
@@ -178,8 +178,8 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void getAllPurityReports(Consumer<List<PurityReport>> callback) {
-        DatabaseReference dref = mDatabase.child("purityReports");
-        dref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference dRef = mDatabase.child("purityReports");
+        dRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<PurityReport> purityReports = new ArrayList<>();
@@ -200,9 +200,9 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void getSinglePurityReport(Consumer<PurityReport> callback, int reportNumber) {
-        DatabaseReference dref1 = mDatabase.child("purityReports");
-        DatabaseReference dref2 = dref1.child("" + reportNumber);
-        dref2.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference dRef1 = mDatabase.child("purityReports");
+        DatabaseReference dRef2 = dRef1.child("" + reportNumber);
+        dRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -224,15 +224,15 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void setPurityReport(PurityReport purityReport) {
-        DatabaseReference dreff = mDatabase.child("purityReports");
-        DatabaseReference dref2 = dreff.child("" + purityReport.getReportNumber());
-        dref2.setValue(purityReport);
+        DatabaseReference dRef = mDatabase.child("purityReports");
+        DatabaseReference dRef2 = dRef.child("" + purityReport.getReportNumber());
+        dRef2.setValue(purityReport);
     }
 
     @Override
     public void getNextPurityReportId(Consumer<Integer> callback) {
-        DatabaseReference dref = mDatabase.child("purityReportId");
-        dref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference dRef = mDatabase.child("purityReportId");
+        dRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int nextId = dataSnapshot.getValue(Integer.class);
@@ -249,7 +249,7 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
     @Override
     public void setNextPurityReportId(int reportNumber) {
-        DatabaseReference dreff = mDatabase.child("purityReportId");
-        dreff.setValue(reportNumber);
+        DatabaseReference dRef = mDatabase.child("purityReportId");
+        dRef.setValue(reportNumber);
     }
 }
