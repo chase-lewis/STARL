@@ -103,7 +103,8 @@ public class ViewHistogramFragment extends Fragment {
         ReportManager reportManager = ReportManager.getInstance(contentProvider);
 
         // Obtain list of Purity Reports from the Report Manager
-        Consumer<List<PurityReport>> onReportsReceived = getFilteredWaterReports(yAxisChoices, initYAxis);
+        Consumer<List<PurityReport>> onReportsReceived =
+                getFilteredWaterReports(yAxisChoices, initYAxis);
         reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
 
         return view;
@@ -115,8 +116,9 @@ public class ViewHistogramFragment extends Fragment {
      * @param  initYAxis initial y axis choice for histogram
      * @return a Consumer<List<PurityReport> object
      */
-    public Consumer<List<PurityReport>> getFilteredWaterReports(List<String> yAxisChoices, String initYAxis) {
-        Consumer<List<PurityReport>> onReportsReceived = allPurityReports -> {
+    private Consumer<List<PurityReport>> getFilteredWaterReports(
+            List<String> yAxisChoices, String initYAxis) {
+        return allPurityReports -> {
 
             // Filter by year, fill in the data
             Stream<PurityReport> reportsStream = allPurityReports.stream();
@@ -144,7 +146,6 @@ public class ViewHistogramFragment extends Fragment {
             // Update the graph
             this.updateGraph();
         };
-        return onReportsReceived;
     }
 
     /**

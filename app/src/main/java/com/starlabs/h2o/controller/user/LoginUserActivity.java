@@ -40,6 +40,9 @@ public class LoginUserActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private ProgressBar mProgressView;
 
+    private static final int MAX_USER_LENGTH = 20;
+    private static final int MIN_USER_LENGTH = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +97,6 @@ public class LoginUserActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for valid fields
-        int MAX_USER_LENGTH = 20;
-        int MIN_USER_LENGTH = 3;
         if (TextUtils.isEmpty(username)) {
             // Check if the username is empty
             mUsernameView.setError("A username is required");

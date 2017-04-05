@@ -27,35 +27,35 @@ public class HomeActivityTest {
         boolean checkValue;
 
         int id = R.id.nav_map;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  ViewMapFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  ViewMapFragment);
         assertTrue(checkValue);
 
         id = R.id.nav_create_water_report;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  CreateWaterReportFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  CreateWaterReportFragment);
         assertTrue(checkValue);
 
         id = R.id.nav_view_water_reports;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  ViewWaterReportsFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  ViewWaterReportsFragment);
         assertTrue(checkValue);
 
         id = R.id.nav_create_purity_report;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  CreatePurityReportFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  CreatePurityReportFragment);
         assertTrue(checkValue);
 
         id = R.id.nav_view_purity_reports;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  ViewPurityReportsFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  ViewPurityReportsFragment);
         assertTrue(checkValue);
 
         id = R.id.nav_view_histogram;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  SetupHistogramFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  SetupHistogramFragment);
         assertTrue(checkValue);
 
         id = R.id.nav_profile;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) instanceof  ViewUserProfileFragment);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) instanceof  ViewUserProfileFragment);
         assertTrue(checkValue);
 
         id = -1;
-        checkValue = (homeActivityTester.fragmentCheck(id, current) == current);
+        checkValue = (homeActivityTester.fragmentInitalizer(id, current) == current);
         assertTrue(checkValue);
 
     }

@@ -92,7 +92,7 @@ public class HomeActivity extends AppCompatActivity
     /**
      * Transitions to right fragment
      */
-    public void HomeActivityTransition() {
+    private void HomeActivityTransition() {
         Fragment mapFragment = new ViewMapFragment();
         Fragment profileFragment = new ViewUserProfileFragment();
         int id;
@@ -145,7 +145,7 @@ public class HomeActivity extends AppCompatActivity
             // Logout!
             finish();
         } else {
-            newFragment = fragmentCheck(id, current);
+            newFragment = fragmentInitalizer(id, current);
         }
 
         // Only switch fragments if not currently accessing that one
@@ -169,8 +169,14 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-
-    public Fragment fragmentCheck(int id, Fragment current) {
+    /**
+     * Initializes the proper fragment based on the id that is passed in.
+     *
+     * @param id the id to transition to
+     * @param current the current fragment
+     * @return a fragment to transition to
+     */
+    public Fragment fragmentInitalizer(int id, Fragment current) {
         Fragment newFragment;
 
         if (id == R.id.nav_map) {
