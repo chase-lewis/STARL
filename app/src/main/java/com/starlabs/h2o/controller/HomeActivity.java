@@ -145,7 +145,7 @@ public class HomeActivity extends AppCompatActivity
             // Logout!
             finish();
         } else {
-            newFragment = fragmentInitalizer(id, current);
+            newFragment = fragmentInitialize(id, current);
         }
 
         // Only switch fragments if not currently accessing that one
@@ -176,7 +176,7 @@ public class HomeActivity extends AppCompatActivity
      * @param current the current fragment
      * @return a fragment to transition to
      */
-    public Fragment fragmentInitalizer(int id, Fragment current) {
+    public Fragment fragmentInitialize(int id, Fragment current) {
         Fragment newFragment;
 
         if (id == R.id.nav_map) {
