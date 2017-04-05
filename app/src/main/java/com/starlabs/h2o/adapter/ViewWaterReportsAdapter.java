@@ -23,6 +23,10 @@ public class ViewWaterReportsAdapter
         extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
     private final List<WaterReport> waterReports;
 
+    /**
+     * Constructor for viewing water purity reports
+     * @param waterReports list of water reports to view
+     */
     public ViewWaterReportsAdapter(List<WaterReport> waterReports) {
         this.waterReports = waterReports;
     }
@@ -71,6 +75,10 @@ public class ViewWaterReportsAdapter
         private final TextView waterCondition;
         private final TextView linkedPurityReports;
 
+        /**
+         * Custom view holder for viewing water reports adapter
+         * @param view view to hold
+         */
         public CustomViewHolder(View view) {
             super(view);
             reporterName = (TextView) view.findViewById(R.id.reporter_name);

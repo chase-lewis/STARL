@@ -20,6 +20,10 @@ public class ViewPurityReportsAdapter
         extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
     private final List<PurityReport> waterPurityReports;
 
+    /**
+     * Constructor that takes in a list of purity reports to view
+     * @param waterPurityReports water purity reports to view
+     */
     public ViewPurityReportsAdapter(List<PurityReport> waterPurityReports) {
         this.waterPurityReports = waterPurityReports;
     }
@@ -60,6 +64,10 @@ public class ViewPurityReportsAdapter
         private final TextView virusPPM;
         private final TextView contPPM;
 
+        /**
+         * Custom view holder for viewing purity reports
+         * @param view view to hold
+         */
         public CustomViewHolder(View view) {
             super(view);
             workerName = (TextView) view.findViewById(R.id.worker_name);

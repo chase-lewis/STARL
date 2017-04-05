@@ -27,6 +27,9 @@ public class ViewPurityReportsFragment extends Fragment {
     private RecyclerView mRecycler;
     private ViewPurityReportsAdapter adapter;
 
+    /**
+     * Default constructor with no args
+     */
     public ViewPurityReportsFragment() {
         // Required empty public constructor
     }

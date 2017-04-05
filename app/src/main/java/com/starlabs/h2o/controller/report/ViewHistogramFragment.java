@@ -43,6 +43,9 @@ public class ViewHistogramFragment extends Fragment {
     private int reportYear;
     private WaterReport waterReport;
 
+    /**
+     * Default constructor with no args
+     */
     public ViewHistogramFragment() {
         //required empty constructor
     }
@@ -67,13 +70,13 @@ public class ViewHistogramFragment extends Fragment {
         contaminationData = new LineGraphSeries<>();
 
         // Set up the spinner for choosing the y axis
-        List<String> yaxisChoices = new ArrayList<>();
-        yaxisChoices.add("Virus");
-        yaxisChoices.add("Contaminant");
-        ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, yaxisChoices);
-        yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yAxisSpinnerView.setAdapter(yaxisAdapter);
+        List<String> yAxisChoices = new ArrayList<>();
+        yAxisChoices.add("Virus");
+        yAxisChoices.add("Contaminant");
+        ArrayAdapter<String> yAxisAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item, yAxisChoices);
+        yAxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yAxisSpinnerView.setAdapter(yAxisAdapter);
 
         // Update the graph on spinner change
         yAxisSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -100,6 +103,19 @@ public class ViewHistogramFragment extends Fragment {
         ReportManager reportManager = ReportManager.getInstance(contentProvider);
 
         // Obtain list of Purity Reports from the Report Manager
+        Consumer<List<PurityReport>> onReportsReceived = getFilteredWaterReports(yAxisChoices, initYAxis);
+        reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
+
+        return view;
+    }
+
+    /**
+     * Obtains filtered water reports
+     * @param yAxisChoices array of possible y axis choices
+     * @param  initYAxis initial y axis choice for histogram
+     * @return a Consumer<List<PurityReport> object
+     */
+    public Consumer<List<PurityReport>> getFilteredWaterReports(List<String> yAxisChoices, String initYAxis) {
         Consumer<List<PurityReport>> onReportsReceived = allPurityReports -> {
 
             // Filter by year, fill in the data
@@ -116,21 +132,19 @@ public class ViewHistogramFragment extends Fragment {
             });
 
             // Set the choice of data to view
-            yAxisSpinnerView.setSelection(yaxisChoices.indexOf(initYAxis));
+            yAxisSpinnerView.setSelection(yAxisChoices.indexOf(initYAxis));
 
             // Get whether user wants to see contaminationData or virus level
-            String yaxis = (String) yAxisSpinnerView.getSelectedItem();
+            String yAxis = (String) yAxisSpinnerView.getSelectedItem();
 
             // Set Title based on y axis
-            String titleToShow = reportYear + " " + yaxis + " PPM Histogram";
+            String titleToShow = reportYear + " " + yAxis + " PPM Histogram";
             histogramTitleView.setText(titleToShow);
 
             // Update the graph
             this.updateGraph();
         };
-        reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
-
-        return view;
+        return onReportsReceived;
     }
 
     /**

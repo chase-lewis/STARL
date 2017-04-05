@@ -22,6 +22,11 @@ public class WaterReport {
     private WaterCondition condition;
     private List<Integer> purityReportIds;
 
+    /**
+     * Constructor that takes in a report name and location
+     * @param reporterName name of user creating report
+     * @param location location of report
+     */
     public WaterReport(String reporterName, Location location) {
         this.reporterName = reporterName;
         this.latitude = location.getLatitude();
@@ -34,6 +39,9 @@ public class WaterReport {
         this.purityReportIds = new ArrayList<>();
     }
 
+    /**
+     * Default no arg constructor
+     */
     public WaterReport() {
         // Don't remove this firebase needs a no-arg constructor!
     }
@@ -162,7 +170,7 @@ public class WaterReport {
     }
 
     /**
-     * Getter for the waterConditon
+     * Getter for the waterCondition
      *
      * @return The water condition
      */

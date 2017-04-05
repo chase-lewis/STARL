@@ -48,6 +48,9 @@ public class CreateWaterReportFragment extends Fragment {
     private Spinner waterCondSpinner;
     private WaterReport report;
 
+    /**
+     * Default constructor with no args
+     */
     public CreateWaterReportFragment() {
         // Required empty public constructor
     }
@@ -202,15 +205,15 @@ public class CreateWaterReportFragment extends Fragment {
         if (!edit) {
             contentProvider.setNextWaterReportId(report.getReportNumber());
         }
-        Activity acti = getActivity();
-        acti.onBackPressed();
+        Activity activity = getActivity();
+        activity.onBackPressed();
     }
 
     /**
      * Method to exit the activity back to caller.
      */
     private void onCancelPressed() {
-        Activity activ = getActivity();
-        activ.onBackPressed();
+        Activity active = getActivity();
+        active.onBackPressed();
     }
 }

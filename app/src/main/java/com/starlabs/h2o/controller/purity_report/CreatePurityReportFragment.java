@@ -36,6 +36,9 @@ public class CreatePurityReportFragment extends Fragment {
     private EditText contPPMText;
     private PurityReport report;
 
+    /**
+     * Default constructor with no args
+     */
     public CreatePurityReportFragment() {
         // Required empty public constructor
     }
@@ -68,7 +71,6 @@ public class CreatePurityReportFragment extends Fragment {
         Bundle bundle = getArguments();
         if ((bundle != null) && (bundle.getParcelable("PR_EDIT") != null)) {
             report = bundle.getParcelable("PR_EDIT");
-            boolean edit = true;
         } else {
             // Create a new report
             report = new PurityReport(user.getName());

@@ -27,6 +27,9 @@ public class ViewWaterReportsFragment extends Fragment {
     private RecyclerView mRecycler;
     private ViewWaterReportsAdapter adapter;
 
+    /**
+     * Default no arg constructor
+     */
     public ViewWaterReportsFragment() {
         // Required empty public constructor
     }

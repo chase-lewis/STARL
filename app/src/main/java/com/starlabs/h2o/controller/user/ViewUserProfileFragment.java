@@ -34,6 +34,9 @@ public class ViewUserProfileFragment extends Fragment {
     // User passed into this activity
     private User user;
 
+    /**
+     * Default constructor with no args
+     */
     public ViewUserProfileFragment() {
         // Required empty public constructor
     }

@@ -86,6 +86,13 @@ public class HomeActivity extends AppCompatActivity
 
         this.setHeaderInfo(user);
 
+        HomeActivityTransition();
+    }
+
+    /**
+     * Transitions to right fragment
+     */
+    public void HomeActivityTransition() {
         Fragment mapFragment = new ViewMapFragment();
         Fragment profileFragment = new ViewUserProfileFragment();
         int id;
@@ -133,26 +140,12 @@ public class HomeActivity extends AppCompatActivity
         Fragment newFragment;
         Fragment current = fragmentManager.findFragmentById(R.id.fragment_home_container);
 
-        if (id == R.id.nav_map) {
-            newFragment = new ViewMapFragment();
-        } else if (id == R.id.nav_create_water_report) {
-            newFragment = new CreateWaterReportFragment();
-        } else if (id == R.id.nav_view_water_reports) {
-            newFragment = new ViewWaterReportsFragment();
-        } else if (id == R.id.nav_create_purity_report) {
-            newFragment = new CreatePurityReportFragment();
-        } else if (id == R.id.nav_view_purity_reports) {
-            newFragment = new ViewPurityReportsFragment();
-        } else if (id == R.id.nav_view_histogram) {
-            newFragment = new SetupHistogramFragment();
-        } else if (id == R.id.nav_profile) {
-            newFragment = new ViewUserProfileFragment();
-        } else if (id == R.id.nav_log_out) {
+        if (id == R.id.nav_log_out) {
             newFragment = current;
             // Logout!
             finish();
         } else {
-            newFragment = current;
+            newFragment = fragmentCheck(id, current);
         }
 
         // Only switch fragments if not currently accessing that one
@@ -174,6 +167,31 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+
+    public Fragment fragmentCheck(int id, Fragment current) {
+        Fragment newFragment;
+
+        if (id == R.id.nav_map) {
+            newFragment = new ViewMapFragment();
+        } else if (id == R.id.nav_create_water_report) {
+            newFragment = new CreateWaterReportFragment();
+        } else if (id == R.id.nav_view_water_reports) {
+            newFragment = new ViewWaterReportsFragment();
+        } else if (id == R.id.nav_create_purity_report) {
+            newFragment = new CreatePurityReportFragment();
+        } else if (id == R.id.nav_view_purity_reports) {
+            newFragment = new ViewPurityReportsFragment();
+        } else if (id == R.id.nav_view_histogram) {
+            newFragment = new SetupHistogramFragment();
+        } else if (id == R.id.nav_profile) {
+            newFragment = new ViewUserProfileFragment();
+        } else {
+            newFragment = current;
+        }
+
+        return newFragment;
     }
 
     /**
@@ -214,6 +232,7 @@ public class HomeActivity extends AppCompatActivity
      * Method that switches the fragment to the histogram
      *
      * @param bundle A bundle containing water report id, virus or contaminant, and year
+     * @param waterReport A water report to display on histogram
      */
     public void switchToHistogram(Bundle bundle, WaterReport waterReport) {
         ViewHistogramFragment frag = new ViewHistogramFragment();

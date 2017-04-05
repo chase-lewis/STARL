@@ -34,6 +34,9 @@ public class SetupHistogramFragment extends Fragment {
     private EditText yearText;
     private EditText reportNum;
 
+    /**
+     * Default constructor with no args
+     */
     public SetupHistogramFragment() {
         // required empty constructor
     }
@@ -52,10 +55,10 @@ public class SetupHistogramFragment extends Fragment {
         List<String> yAxisChoices = new ArrayList<>();
         yAxisChoices.add("Virus");
         yAxisChoices.add("Contaminant");
-        ArrayAdapter<String> yaxisAdapter = new ArrayAdapter(getActivity(),
+        ArrayAdapter<String> yAxisAdapter = new ArrayAdapter(getActivity(),
                 android.R.layout.simple_spinner_item, yAxisChoices);
-        yaxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yAxisSpinner.setAdapter(yaxisAdapter);
+        yAxisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yAxisSpinner.setAdapter(yAxisAdapter);
 
         // View button setup
         Button reportViewButton = (Button) view.findViewById(R.id.view_histogram_button);

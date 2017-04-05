@@ -18,6 +18,10 @@ public class PurityReport {
     private int contPPM;
     private int linkedWaterReportId;
 
+    /**
+     * Constructor that takes a worker's name and creates a purity report
+     * @param  workerName worker to create purity report
+     */
     public PurityReport(String workerName) {
         this.workerName = workerName;
         this.condition = PurityCondition.SAFE;
@@ -29,6 +33,9 @@ public class PurityReport {
         this.linkedWaterReportId = -1;
     }
 
+    /**
+     * Default constructor with no args
+     */
     public PurityReport() {
         // Don't remove this firebase needs a no-arg constructor!
     }
@@ -93,7 +100,7 @@ public class PurityReport {
     }
 
     /**
-     * Getter for the waterConditon
+     * Getter for the waterCondition
      *
      * @return The water condition
      */
