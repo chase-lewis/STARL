@@ -68,21 +68,7 @@ public class CreatePurityReportFragment extends Fragment {
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         purityCondSpinner.setAdapter(condAdapter);
 
-        Bundle bundle = getArguments();
-        if ((bundle != null) && (bundle.getParcelable("PR_EDIT") != null)) {
-            report = bundle.getParcelable("PR_EDIT");
-        } else {
-            // Create a new report
-            report = new PurityReport(user.getName());
-
-            // Get the correct id for the new report from the content provider
-            Consumer<Integer> onNextIdFound = id -> {
-                // Set the report number
-                report.setReportNumber(id + 1);
-                reportNumText.setText(Integer.toString(report.getReportNumber()));
-            };
-            contentProvider.getNextPurityReportId(onNextIdFound);
-        }
+        bundleItUp(user, contentProvider);
 
         // Set all the text views
         reportReporterName.setText(user.getName());
@@ -105,6 +91,29 @@ public class CreatePurityReportFragment extends Fragment {
         reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
 
         return view;
+    }
+
+    /**
+     * Creates a bundle for fragment
+     * @param user user creating report
+     * @param contentProvider firebase object
+     */
+    public void bundleItUp(User user, ContentProvider contentProvider) {
+        Bundle bundle = getArguments();
+        if ((bundle != null) && (bundle.getParcelable("PR_EDIT") != null)) {
+            report = bundle.getParcelable("PR_EDIT");
+        } else {
+            // Create a new report
+            report = new PurityReport(user.getName());
+
+            // Get the correct id for the new report from the content provider
+            Consumer<Integer> onNextIdFound = id -> {
+                // Set the report number
+                report.setReportNumber(id + 1);
+                reportNumText.setText(Integer.toString(report.getReportNumber()));
+            };
+            contentProvider.getNextPurityReportId(onNextIdFound);
+        }
     }
 
     /**

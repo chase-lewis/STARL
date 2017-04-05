@@ -86,6 +86,36 @@ public class CreateWaterReportFragment extends Fragment {
         condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         waterCondSpinner.setAdapter(condAdapter);
 
+        bundleItUp(user, contentProvider);
+
+        // Set all the text views
+        reportReporterName.setText(user.getName());
+        Date date = report.getCreationDate();
+        reportDateText.setText(date.toString());
+        reportNumText.setText(Integer.toString(report.getReportNumber()));
+        reportLocLatEditText.setText(Double.toString(report.getLatitude()));
+        reportLocLongEditText.setText(Double.toString(report.getLongitude()));
+        WaterType wType = report.getType();
+        waterTypeSpinner.setSelection(wType.ordinal());
+        WaterCondition wCondition = report.getCondition();
+        waterCondSpinner.setSelection(wCondition.ordinal());
+
+        // Create button setup
+        Button reportCreateButton = (Button) view.findViewById(R.id.create_water_report_create);
+        reportCreateButton.setOnClickListener((view2) -> onReportCreatePressed());
+
+        // Cancel button setup
+        Button reportCancelButton = (Button) view.findViewById(R.id.create_water_report_cancel);
+        reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
+        return view;
+    }
+
+    /**
+     * Creates a bundle for fragment
+     * @param user user creating report
+     * @param contentProvider firebase object
+     */
+    public void bundleItUp(User user, ContentProvider contentProvider) {
         Bundle bundle = getArguments();
         if ((bundle != null) && (bundle.getParcelable("WR_EDIT") != null)) {
             report = bundle.getParcelable("WR_EDIT");
@@ -134,27 +164,6 @@ public class CreateWaterReportFragment extends Fragment {
                 }
             }
         }
-
-        // Set all the text views
-        reportReporterName.setText(user.getName());
-        Date date = report.getCreationDate();
-        reportDateText.setText(date.toString());
-        reportNumText.setText(Integer.toString(report.getReportNumber()));
-        reportLocLatEditText.setText(Double.toString(report.getLatitude()));
-        reportLocLongEditText.setText(Double.toString(report.getLongitude()));
-        WaterType wType = report.getType();
-        waterTypeSpinner.setSelection(wType.ordinal());
-        WaterCondition wCondition = report.getCondition();
-        waterCondSpinner.setSelection(wCondition.ordinal());
-
-        // Create button setup
-        Button reportCreateButton = (Button) view.findViewById(R.id.create_water_report_create);
-        reportCreateButton.setOnClickListener((view2) -> onReportCreatePressed());
-
-        // Cancel button setup
-        Button reportCancelButton = (Button) view.findViewById(R.id.create_water_report_cancel);
-        reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
-        return view;
     }
 
     /**
