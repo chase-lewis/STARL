@@ -72,14 +72,17 @@ public class UserTest {
         assertFalse(User.isEmailValid(null));
 
         //check for white space
-        assertFalse(User.isEmailValid("dark knight"));
-
-        //missing digit check
-        assertFalse(User.isEmailValid("user"));
+        assertFalse(User.isEmailValid("dark knight@gmail.com"));
 
         //valid check
-        assertTrue(User.isEmailValid("user101"));
-        assertTrue(User.isEmailValid("manager1"));
+        assertTrue(User.isEmailValid("user101@gmail.com"));
+        assertTrue(User.isEmailValid("manager1@gmail.com"));
+
+        //missing @ check
+        assertFalse(User.isEmailValid("avey23gmail.com"));
+
+        //missing dot check
+        assertFalse(User.isEmailValid("avey23@gmailcom"));
 
         //check for boundaries
         assertFalse(User.isEmailValid("averyfantasy3324@gmail.com")); //26 chars
