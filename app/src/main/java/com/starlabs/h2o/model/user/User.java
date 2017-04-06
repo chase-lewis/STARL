@@ -140,6 +140,7 @@ public class User implements Parcelable {
         boolean containsLower = false;
         boolean containsDigit = false;
         boolean containsAt = false;
+        boolean containsDot = false;
         for (int i = 0; i <  email.length(); i++) {
             char charTest =  email.charAt(i);
             if (Character.isDigit(charTest)) {
@@ -148,11 +149,15 @@ public class User implements Parcelable {
                 containsUpper = true;
             } else if (Character.isLowerCase(charTest)) {
                 containsLower = true;
+            } else if (Character.toString(charTest).equals("@")) {
+                containsAt = true;
+            } else if (Character.toString(charTest).equals(".")) {
+                containsDot = true;
             } else if (Character.isWhitespace(charTest)) {
                 return false;
             }
         }
-        return (containsDigit || containsLower || containsUpper) && containsAt;
+        return (containsDigit || containsLower || containsUpper) && containsAt && containsDot;
     }
 
     /**
