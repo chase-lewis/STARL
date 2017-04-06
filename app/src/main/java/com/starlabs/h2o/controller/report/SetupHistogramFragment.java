@@ -71,11 +71,10 @@ public class SetupHistogramFragment extends Fragment {
         return view;
     }
 
-    /*
-    * Method is called when reportViewButton is pressed.
-    * Gathers setup info for the histogram and transfers it to the switchHistogram() method.
-    * @author: Rishi
-    * */
+    /**
+     * Method is called when reportViewButton is pressed.
+     * Gathers setup info for the histogram and transfers it to the switchHistogram() method.
+     */
     private void onHistogramViewPressed() {
         // Get input from ui
         Object spinItem = yAxisSpinner.getSelectedItem();

@@ -78,17 +78,17 @@ public class User implements Parcelable {
      * @return true if valid
      */
     public static boolean isUsernameValid(CharSequence username) {
-        if (username == null || username.length() > MAX_USER_LENGTH
-                || username.length() < MIN_USER_LENGTH){
+        if ((username == null) || (username.length() > MAX_USER_LENGTH)
+                || (username.length() < MIN_USER_LENGTH)) {
             return false;
         }
         boolean containsDigit = false;
-        for (int i = 0; i < username.length(); i++){
+        for (int i = 0; i < username.length(); i++) {
             char currentChar = username.charAt(i);
-            if (Character.isDigit(currentChar)){
+            if (Character.isDigit(currentChar)) {
                 containsDigit = true;
             }
-            if (Character.isWhitespace(currentChar)){
+            if (Character.isWhitespace(currentChar)) {
                 return false;
             }
         }
@@ -103,8 +103,8 @@ public class User implements Parcelable {
      * @return true if valid
      */
     public static boolean isPasswordValid(CharSequence password) {
-        if (password == null || password.length() < MIN_PASS_LENGTH
-                || password.length() > MAX_PASS_LENGTH) {
+        if ((password == null) || (password.length() < MIN_PASS_LENGTH)
+                || (password.length() > MAX_PASS_LENGTH)) {
             return false;
         }
         boolean containsUpper = false;
@@ -141,17 +141,17 @@ public class User implements Parcelable {
         boolean containsDigit = false;
         boolean containsAt = false;
         boolean containsDot = false;
-        for (int i = 0; i <  email.length(); i++) {
-            char charTest =  email.charAt(i);
+        for (int i = 0; i < email.length(); i++) {
+            char charTest = email.charAt(i);
             if (Character.isDigit(charTest)) {
                 containsDigit = true;
             } else if (Character.isUpperCase(charTest)) {
                 containsUpper = true;
             } else if (Character.isLowerCase(charTest)) {
                 containsLower = true;
-            } else if (Character.toString(charTest).equals("@")) {
+            } else if (charTest == '@') {
                 containsAt = true;
-            } else if (Character.toString(charTest).equals(".")) {
+            } else if (charTest == '.') {
                 containsDot = true;
             } else if (Character.isWhitespace(charTest)) {
                 return false;

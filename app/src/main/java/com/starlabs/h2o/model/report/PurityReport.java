@@ -20,7 +20,8 @@ public class PurityReport {
 
     /**
      * Constructor that takes a worker's name and creates a purity report
-     * @param  workerName worker to create purity report
+     *
+     * @param workerName worker to create purity report
      */
     public PurityReport(String workerName) {
         this.workerName = workerName;

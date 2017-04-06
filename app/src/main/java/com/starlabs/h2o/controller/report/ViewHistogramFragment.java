@@ -112,8 +112,9 @@ public class ViewHistogramFragment extends Fragment {
 
     /**
      * Obtains filtered water reports
+     *
      * @param yAxisChoices array of possible y axis choices
-     * @param  initYAxis initial y axis choice for histogram
+     * @param initYAxis    initial y axis choice for histogram
      * @return a Consumer<List<PurityReport> object
      */
     private Consumer<List<PurityReport>> getFilteredWaterReports(

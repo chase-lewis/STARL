@@ -31,19 +31,17 @@ import java.util.function.Consumer;
  */
 public class LoginUserActivity extends AppCompatActivity {
 
+    private static final int MAX_USER_LENGTH = 20;
+    private static final int MIN_USER_LENGTH = 3;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     @Nullable
     private UserLoginTask mAuthTask = null;
-
     // UI references
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private ProgressBar mProgressView;
-
-    private static final int MAX_USER_LENGTH = 20;
-    private static final int MIN_USER_LENGTH = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +102,8 @@ public class LoginUserActivity extends AppCompatActivity {
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if (username.length() > MAX_USER_LENGTH
-                || username.length() < MIN_USER_LENGTH) {
+        } else if ((username.length() > MAX_USER_LENGTH)
+                || (username.length() < MIN_USER_LENGTH)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be 3-20 characters");
             focusView = mUsernameView;
@@ -116,12 +114,6 @@ public class LoginUserActivity extends AppCompatActivity {
             focusView = mPasswordView;
             cancel = true;
         }
-//        else if (!User.isPasswordValid(password)) {
-//            // Check if the password is not valid
-//            mPasswordView.setError("The password must be at least 4 characters");
-//            focusView = mPasswordView;
-//            cancel = true;
-//        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first

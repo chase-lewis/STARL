@@ -154,7 +154,7 @@ public class HomeActivity extends AppCompatActivity
             transaction.replace(R.id.fragment_home_container, newFragment);
             transaction.commit();
 
-            // Uncheck and recheck the proper menu items
+            // Un-check and recheck the proper menu items
             Menu navMenu1 = navigationView.getMenu();
             MenuItem menItemOld = navMenu1.findItem(oldId);
             menItemOld.setChecked(false);
@@ -172,7 +172,7 @@ public class HomeActivity extends AppCompatActivity
     /**
      * Initializes the proper fragment based on the id that is passed in.
      *
-     * @param id the id to transition to
+     * @param id      the id to transition to
      * @param current the current fragment
      * @return a fragment to transition to
      */
@@ -224,7 +224,7 @@ public class HomeActivity extends AppCompatActivity
         transaction.replace(R.id.fragment_home_container, newReport);
         transaction.commit();
 
-        // Uncheck and recheck the proper menu items
+        // Un-check and recheck the proper menu items
         int id = R.id.nav_create_water_report;
         Menu navMenu = navigationView.getMenu();
         MenuItem menuItem1 = navMenu.findItem(oldId);
@@ -237,7 +237,7 @@ public class HomeActivity extends AppCompatActivity
     /**
      * Method that switches the fragment to the histogram
      *
-     * @param bundle A bundle containing water report id, virus or contaminant, and year
+     * @param bundle      A bundle containing water report id, virus or contaminant, and year
      * @param waterReport A water report to display on histogram
      */
     public void switchToHistogram(Bundle bundle, WaterReport waterReport) {

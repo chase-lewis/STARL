@@ -25,6 +25,7 @@ public class ViewWaterReportsAdapter
 
     /**
      * Constructor for viewing water purity reports
+     *
      * @param waterReports list of water reports to view
      */
     public ViewWaterReportsAdapter(List<WaterReport> waterReports) {
@@ -77,6 +78,7 @@ public class ViewWaterReportsAdapter
 
         /**
          * Custom view holder for viewing water reports adapter
+         *
          * @param view view to hold
          */
         public CustomViewHolder(View view) {

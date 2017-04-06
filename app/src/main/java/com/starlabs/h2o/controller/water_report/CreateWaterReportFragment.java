@@ -112,7 +112,8 @@ public class CreateWaterReportFragment extends Fragment {
 
     /**
      * Creates a bundle for fragment
-     * @param user user creating report
+     *
+     * @param user            user creating report
      * @param contentProvider firebase object
      */
     public void bundleItUp(User user, ContentProvider contentProvider) {

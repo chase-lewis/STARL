@@ -44,7 +44,7 @@ public class UserTest {
     }
 
     @Test
-    public void isUsernameValidTest(){
+    public void isUsernameValidTest() {
         //null check
         assertFalse(User.isUsernameValid(null));
 
@@ -67,7 +67,7 @@ public class UserTest {
     }
 
     @Test
-    public void isEmailValidTest(){
+    public void isEmailValidTest() {
         //null check
         assertFalse(User.isEmailValid(null));
 

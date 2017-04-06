@@ -83,6 +83,7 @@ public class ViewUserProfileFragment extends Fragment {
         Editable usName = nameField.getText();
         user.setName(usName.toString());
         Editable emailText = emailField.getText();
+
         user.setEmail(emailText.toString());
         Editable addField = addressField.getText();
         user.setAddress(addField.toString());

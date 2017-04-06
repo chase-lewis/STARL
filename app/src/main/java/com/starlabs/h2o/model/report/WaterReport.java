@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * POJO for a Water Report
+ * Plain old java object for a Water Report
  *
  * @author chase, tejun
  */
@@ -24,8 +24,9 @@ public class WaterReport {
 
     /**
      * Constructor that takes in a report name and location
+     *
      * @param reporterName name of user creating report
-     * @param location location of report
+     * @param location     location of report
      */
     public WaterReport(String reporterName, Location location) {
         this.reporterName = reporterName;
