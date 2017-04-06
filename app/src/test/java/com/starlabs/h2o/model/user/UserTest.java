@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for the User Plain Old Java Object
  *
- * @author Chase, Rishi
+ * @author Chase, Rishi, Sungjae
  */
 public class UserTest {
     @Test
@@ -64,5 +64,26 @@ public class UserTest {
         assertTrue(User.isUsernameValid("ba1")); //3 chars
         assertFalse(User.isUsernameValid("ba")); //2 chars
         assertTrue(User.isUsernameValid("jackets1")); //8 chars
+    }
+
+    @Test
+    public void isEmailValidTest(){
+        //null check
+        assertFalse(User.isEmailValid(null));
+
+        //check for white space
+        assertFalse(User.isEmailValid("dark knight"));
+
+        //missing digit check
+        assertFalse(User.isEmailValid("user"));
+
+        //valid check
+        assertTrue(User.isEmailValid("user101"));
+        assertTrue(User.isEmailValid("manager1"));
+
+        //check for boundaries
+        assertFalse(User.isEmailValid("averyfantasy3324@gmail.com")); //26 chars
+        assertTrue(User.isEmailValid("avey23@gmail.com")); //16 chars
+
     }
 }

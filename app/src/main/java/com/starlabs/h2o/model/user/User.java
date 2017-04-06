@@ -24,6 +24,8 @@ public class User implements Parcelable {
     private static final int MIN_PASS_LENGTH = 5;
     private static final int MAX_USER_LENGTH = 20;
     private static final int MIN_USER_LENGTH = 3;
+    private static final int MAX_EMAIL_LENGTH = 25;
+    private static final int MIN_EMAIL_LENGTH = 10;
     private String username;
     private String password;
     private String name;
@@ -121,6 +123,36 @@ public class User implements Parcelable {
             }
         }
         return containsDigit && containsLower && containsUpper;
+    }
+
+    /**
+     * Checks if a email is valid
+     *
+     * @param email the email to check
+     * @return true if valid
+     */
+    public static boolean isEmailValid(CharSequence email) {
+        if (email == null || email.length() < MIN_EMAIL_LENGTH
+                || email.length() > MAX_EMAIL_LENGTH) {
+            return false;
+        }
+        boolean containsUpper = false;
+        boolean containsLower = false;
+        boolean containsDigit = false;
+        boolean containsAt = false;
+        for (int i = 0; i <  email.length(); i++) {
+            char charTest =  email.charAt(i);
+            if (Character.isDigit(charTest)) {
+                containsDigit = true;
+            } else if (Character.isUpperCase(charTest)) {
+                containsUpper = true;
+            } else if (Character.isLowerCase(charTest)) {
+                containsLower = true;
+            } else if (Character.isWhitespace(charTest)) {
+                return false;
+            }
+        }
+        return (containsDigit || containsLower || containsUpper) && containsAt;
     }
 
     /**
