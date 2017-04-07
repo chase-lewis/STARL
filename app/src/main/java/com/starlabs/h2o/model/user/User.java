@@ -3,6 +3,9 @@ package com.starlabs.h2o.model.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 /**
  * @author chase
  */
@@ -161,6 +164,17 @@ public class User implements Parcelable {
     }
 
     /**
+     * Resets the user's password with a new randomly generated one.
+     */
+    public void resetPassword() {
+        Random random = new Random();
+
+        // Alphanumeric password generation
+        String randomPass = new BigInteger(130, random).toString(32);
+        this.password = randomPass;
+    }
+
+    /**
      * Checks if the given password matches this user's password.
      *
      * @param password the password to check
@@ -269,7 +283,7 @@ public class User implements Parcelable {
      *
      * @return email of user
      */
-    public CharSequence getEmail() {
+    public String getEmail() {
         return email;
     }
 
