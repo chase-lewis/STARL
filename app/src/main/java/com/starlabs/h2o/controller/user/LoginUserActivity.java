@@ -63,7 +63,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
         // Set up the forgot password text
         mForgotPasswordView = (TextView) findViewById(R.id.login_forgot_password);
-        mForgotPasswordView.setOnTouchListener((v, event) -> openForgotPassword());
+        mForgotPasswordView.setOnClickListener(view -> openForgotPassword());
 
         // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);

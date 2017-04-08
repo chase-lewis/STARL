@@ -74,6 +74,7 @@ public class PasswordRecoveryActivity extends AppCompatActivity {
                     // Do password reset
                     RecoveryManager recoveryManager = RecoveryManager.getInstance(contentProvider);
                     recoveryManager.resetUserPassword(user);
+                    finish();
                 } else {
                     // User does not exist
                     usernameView.setError("User does not exist");

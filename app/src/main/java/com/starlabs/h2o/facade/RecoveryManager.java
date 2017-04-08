@@ -1,5 +1,7 @@
 package com.starlabs.h2o.facade;
 
+import android.os.AsyncTask;
+
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.model.user.User;
 
@@ -57,12 +59,8 @@ public class RecoveryManager {
         contentProvider.setUser(user);
 
         // Send out email notification
-        Mail.using(configuration)
-                .to(userEmail)
-                .subject("H20 Password Reset")
-                .text("Here is your new password: " + newPass)
-                .build()
-                .send();
+        String[] args = {userEmail, newPass};
+        new EmailTask().execute(args);
     }
 
     /**
@@ -72,5 +70,22 @@ public class RecoveryManager {
      */
     public ContentProvider getContentProvider() {
         return contentProvider;
+    }
+
+    /**
+     * Async task to send email in the background.
+     */
+    private class EmailTask extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... args) {
+            Mail.using(configuration)
+                    .to(args[0])
+                    .subject("H20 Password Reset")
+                    .text("Here is your new password: " + args[1])
+                    .build()
+                    .send();
+
+            return true;
+        }
     }
 }
