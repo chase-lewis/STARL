@@ -3,7 +3,9 @@
     package="com.starlabs.h2o">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -23,6 +25,7 @@
             android:label="StarLabs H20">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,6 +38,7 @@
             android:name=".controller.HomeActivity"
             android:label="StarLabs H20"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".controller.user.PasswordRecoveryActivity"></activity>
     </application>
 
 </manifest>

@@ -9,12 +9,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.controller.HomeActivity;
@@ -42,6 +44,7 @@ public class LoginUserActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private ProgressBar mProgressView;
+    private TextView mForgotPasswordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,10 @@ public class LoginUserActivity extends AppCompatActivity {
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> (id == R.id.login)
                 || (id == EditorInfo.IME_NULL));
 
+        // Set up the forgot password text
+        mForgotPasswordView = (TextView) findViewById(R.id.login_forgot_password);
+        mForgotPasswordView.setOnTouchListener((v, event) -> openForgotPassword());
+
         // Set up the sign in button
         Button mSignInButton = (Button) findViewById(R.id.login_sign_in);
         mSignInButton.setOnClickListener(view -> attemptLogin());
@@ -71,6 +78,17 @@ public class LoginUserActivity extends AppCompatActivity {
         // Set up the progress bar that shows logging in
         // Note: This is hidden on startup
         mProgressView = (ProgressBar) findViewById(R.id.login_progress);
+    }
+
+    /**
+     * Transitions user to the forgot password activity.
+     *
+     * @return always true (always consumed event)
+     */
+    private boolean openForgotPassword() {
+        Intent intent = new Intent(LoginUserActivity.this, PasswordRecoveryActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     /**
