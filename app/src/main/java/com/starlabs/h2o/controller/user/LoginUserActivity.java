@@ -33,8 +33,6 @@ import java.util.function.Consumer;
  */
 public class LoginUserActivity extends AppCompatActivity {
 
-    private static final int MAX_USER_LENGTH = 20;
-    private static final int MIN_USER_LENGTH = 3;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -120,8 +118,8 @@ public class LoginUserActivity extends AppCompatActivity {
             mUsernameView.setError("A username is required");
             focusView = mUsernameView;
             cancel = true;
-        } else if ((username.length() > MAX_USER_LENGTH)
-                || (username.length() < MIN_USER_LENGTH)) {
+        } else if ((username.length() > User.MAX_USER_LENGTH)
+                || (username.length() < User.MIN_USER_LENGTH)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be 3-20 characters");
             focusView = mUsernameView;
@@ -147,7 +145,7 @@ public class LoginUserActivity extends AppCompatActivity {
             // Check if the user exists in the content provider
             ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
-                if (user.isCorrectPassword(password)) {
+                if (user != null && user.isCorrectPassword(password)) {
                     // Password matches!
                     // Call the async success method
                     mAuthTask.setUser(user);

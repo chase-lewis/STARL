@@ -23,12 +23,12 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-    private static final int MAX_PASS_LENGTH = 15;
-    private static final int MIN_PASS_LENGTH = 5;
-    private static final int MAX_USER_LENGTH = 20;
-    private static final int MIN_USER_LENGTH = 3;
-    private static final int MAX_EMAIL_LENGTH = 25;
-    private static final int MIN_EMAIL_LENGTH = 10;
+    public static final int MAX_PASS_LENGTH = 15;
+    public static final int MIN_PASS_LENGTH = 5;
+    public static final int MAX_USER_LENGTH = 20;
+    public static final int MIN_USER_LENGTH = 3;
+    public static final int MAX_EMAIL_LENGTH = 25;
+    public static final int MIN_EMAIL_LENGTH = 10;
     private String username;
     private String password;
     private String name;

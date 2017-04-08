@@ -66,6 +66,8 @@ class FirebaseContentProvider extends SessionContentProvider implements ContentP
 
                     // Call the provided callback
                     callback.accept(user);
+                } else {
+                    callback.accept(null);
                 }
             }
 
