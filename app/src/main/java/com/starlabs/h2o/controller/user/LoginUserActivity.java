@@ -2,14 +2,11 @@ package com.starlabs.h2o.controller.user;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
@@ -33,11 +30,6 @@ import java.util.function.Consumer;
  */
 public class LoginUserActivity extends AppCompatActivity {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    @Nullable
-    private UserLoginTask mAuthTask = null;
     // UI references
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
@@ -95,10 +87,6 @@ public class LoginUserActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -136,22 +124,31 @@ public class LoginUserActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner and wait for 2 seconds for the user to be logged in.
+            // Show a progress spinner and wait for the user to be logged in.
             // Happens in the background
             showProgress(true);
-            mAuthTask = new UserLoginTask();
-            mAuthTask.execute((Void) null);
 
             // Check if the user exists in the content provider
             ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
+                // Turn off the progress bar
+                showProgress(false);
+
                 if (user != null && user.isCorrectPassword(password)) {
                     // Password matches!
-                    // Call the async success method
-                    mAuthTask.setUser(user);
-                    mAuthTask.onPostExecute(true);
+                    contentProvider.setLoggedInUser(user);
+
+                    // Transition to the Map fragment in the Home Activity
+                    Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
+                    startActivity(profileIntent);
+                    finish();
+                } else if (user == null) {
+                    // No user found
+                    mPasswordView.setError("The username does not exist!");
+                    mPasswordView.requestFocus();
                 } else {
-                    mAuthTask.onPostExecute(false);
+                    mPasswordView.setError("The username and password combination was incorrect!");
+                    mPasswordView.requestFocus();
                 }
             };
             contentProvider.getSingleUser(onUserFound, username);
@@ -165,70 +162,6 @@ public class LoginUserActivity extends AppCompatActivity {
     private void showProgress(final boolean show) {
         mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
         mProgressView.setIndeterminate(show);
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final int WAIT = 3000;
-        private User mUser;
-
-        UserLoginTask() {
-            // Do nothing
-        }
-
-        /**
-         * Sets the user
-         *
-         * @param user the user
-         */
-        void setUser(User user) {
-            this.mUser = user;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // Sleep for 2 seconds while attempting to login with the content provider
-            try {
-                Thread.sleep(WAIT);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            // Login failed
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                // Save the user for the session
-                ContentProvider contentProvider =
-                        ContentProviderFactory.getDefaultContentProvider();
-                contentProvider.setLoggedInUser(mUser);
-
-                // Transition to the Map fragment in the Home Activity
-                Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
-                startActivity(profileIntent);
-                finish();
-            } else {
-                // Login failed due to invalid username or a network connection
-                mPasswordView.setError("The username and password combination was incorrect!");
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
 }
 

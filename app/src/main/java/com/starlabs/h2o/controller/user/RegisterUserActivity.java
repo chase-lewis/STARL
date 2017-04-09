@@ -2,10 +2,8 @@ package com.starlabs.h2o.controller.user;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -33,12 +31,6 @@ import java.util.function.Consumer;
  * @author tejun, chase
  */
 public class RegisterUserActivity extends AppCompatActivity {
-    public static final String REG_INTENT = "USER_TEMP";
-
-    // Keep track of the login task to ensure we can cancel it if requested
-    @Nullable
-    private UserLoginTask mAuthTask = null;
-
     // UI references
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
@@ -81,10 +73,6 @@ public class RegisterUserActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptRegister() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -128,14 +116,6 @@ public class RegisterUserActivity extends AppCompatActivity {
             mPasswordRetypeView.setError("Passwords do not match");
             focusView = mPasswordRetypeView;
             cancel = true;
-        } else {
-            // Create new AsyncTask for user being registered
-            mAuthTask = new UserLoginTask(username, password);
-
-            // Check if username already exists in our content provider
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-            Consumer<User> onUserFound = user -> mAuthTask.setFoundUser(true);
-            contentProvider.getSingleUser(onUserFound, username);
         }
 
         if (cancel) {
@@ -146,7 +126,34 @@ public class RegisterUserActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask.execute((Void) null);
+
+
+            // Check if username already exists in our content provider
+            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            Consumer<User> onUserFound = user -> {
+                // Turn off the progress bar
+                showProgress(false);
+
+                if (user == null) {
+                    // Good, username does not exist
+                    UserType userType = (UserType) mUserTypeView.getSelectedItem();
+                    user = new User(username, password, userType);
+
+                    // Set the user in the current session
+                    contentProvider.setLoggedInUser(user);
+
+                    // Transition to the Profile fragment in the Home Activity
+                    Intent intent = new Intent(RegisterUserActivity.this, HomeActivity.class);
+                    intent.putExtra(HomeActivity.TO_PROFILE, "From register");
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // Bad, username has been taken
+                    mUsernameView.setError("This username is already taken");
+                    mUsernameView.requestFocus();
+                }
+            };
+            contentProvider.getSingleUser(onUserFound, username);
         }
     }
 
@@ -158,79 +165,5 @@ public class RegisterUserActivity extends AppCompatActivity {
         mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
         mProgressView.setIndeterminate(show);
     }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mUsername;
-        private final String mPassword;
-        private final int WAIT = 2000;
-        private boolean foundUser;
-
-        UserLoginTask(String userName, String password) {
-            mUsername = userName;
-            mPassword = password;
-            setFoundUser(false);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                // Simulate network access.
-                Thread.sleep(WAIT);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            User user;
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success && !foundUser) {
-                // Create the new user from the fields
-                UserType userType = (UserType) mUserTypeView.getSelectedItem();
-                user = new User(mUsername, mPassword, userType);
-
-                // Set the user in the current session
-                ContentProvider contentProvider
-                        = ContentProviderFactory.getDefaultContentProvider();
-                contentProvider.setLoggedInUser(user);
-
-                // Transition to the Profile fragment in the Home Activity
-                Intent intent = new Intent(RegisterUserActivity.this, HomeActivity.class);
-                intent.putExtra(HomeActivity.TO_PROFILE, "From register");
-                startActivity(intent);
-                finish();
-            } else if (foundUser) {
-                // Username is already taken
-                mUsernameView.setError("This username is already taken");
-                mUsernameView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-
-        /**
-         * Setter for the found user boolean
-         *
-         * @param foundUser whether the username already exists
-         */
-        void setFoundUser(boolean foundUser) {
-            this.foundUser = foundUser;
-        }
-    }
-
 }
 
