@@ -166,7 +166,7 @@ public class ViewHistogramFragment extends Fragment {
 
         // Add the correct data points
         String newYAxis = (String) yAxisSpinnerView.getSelectedItem();
-        if ("Virus".equals(newYAxis)) {
+        if ("Virus" .equals(newYAxis)) {
             histogramView.addSeries(virusData);
         } else {
             histogramView.addSeries(contaminationData);

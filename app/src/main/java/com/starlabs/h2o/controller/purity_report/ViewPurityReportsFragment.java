@@ -26,6 +26,11 @@ public class ViewPurityReportsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private ViewPurityReportsAdapter adapter;
+    private Consumer<List<PurityReport>> onWaterReportsReceived = waterPurityReports -> {
+        adapter = new ViewPurityReportsAdapter(waterPurityReports);
+        mRecycler.setAdapter(adapter);
+    };
+
 
     /**
      * Default constructor with no args
@@ -33,7 +38,6 @@ public class ViewPurityReportsFragment extends Fragment {
     public ViewPurityReportsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,9 +53,4 @@ public class ViewPurityReportsFragment extends Fragment {
 
         return view;
     }
-
-    private Consumer<List<PurityReport>> onWaterReportsReceived = waterPurityReports -> {
-        adapter = new ViewPurityReportsAdapter(waterPurityReports);
-        mRecycler.setAdapter(adapter);
-    };
 }

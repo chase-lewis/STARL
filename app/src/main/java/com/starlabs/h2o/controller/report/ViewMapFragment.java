@@ -38,6 +38,16 @@ import java.util.function.Consumer;
 public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
     private final float ZOOM = 4f;
     private GoogleMap mMap;
+    private Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
+        for (WaterReport waterReport : waterReports) {
+            double latitude = waterReport.getLatitude();
+            double longitude = waterReport.getLongitude();
+            LatLng markLocation = new LatLng(latitude, longitude);
+            MarkerOptions markOpts = new MarkerOptions();
+            MarkerOptions markPosition = markOpts.position(markLocation);
+            mMap.addMarker(markPosition.title(waterReport.toString()));
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -90,15 +100,4 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
             ((HomeActivity) getActivity()).switchToWaterReportCreate(bundle);
         });
     }
-
-    private Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
-        for (WaterReport waterReport : waterReports) {
-            double latitude = waterReport.getLatitude();
-            double longitude = waterReport.getLongitude();
-            LatLng markLocation = new LatLng(latitude, longitude);
-            MarkerOptions markOpts = new MarkerOptions();
-            MarkerOptions markPosition = markOpts.position(markLocation);
-            mMap.addMarker(markPosition.title(waterReport.toString()));
-        }
-    };
 }

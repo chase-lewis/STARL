@@ -35,6 +35,7 @@ public class CreatePurityReportFragment extends Fragment {
     private EditText virusPPMText;
     private EditText contPPMText;
     private PurityReport report;
+    private Runnable onFinish = this::onCancelPressed;
 
     /**
      * Default constructor with no args
@@ -143,8 +144,6 @@ public class CreatePurityReportFragment extends Fragment {
 
         // Note that the activity exits in the callback above
     }
-
-    private Runnable onFinish = this::onCancelPressed;
 
     /**
      * Method to exit the activity back to caller.

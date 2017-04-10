@@ -21,6 +21,29 @@ public class PasswordRecoveryActivity extends AppCompatActivity {
 
     private AutoCompleteTextView usernameView;
     private ContentProvider contentProvider;
+    private Consumer<User> onUserFound = user -> {
+        if (user != null) {
+            // Do password reset
+            RecoveryManager recoveryManager = RecoveryManager.getInstance(contentProvider);
+            recoveryManager.resetUserPassword(user);
+
+            // Create and show a dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Please check your email for your new password")
+                    .setTitle("Password Reset!")
+                    .setPositiveButton("Ok", (dialog, id) -> {
+                        // User clicked OK button, finish the activity
+                        finish();
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else {
+            // User does not exist
+            usernameView.setError("User does not exist");
+            usernameView.requestFocus();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,28 +100,4 @@ public class PasswordRecoveryActivity extends AppCompatActivity {
             contentProvider.getSingleUser(onUserFound, username);
         }
     }
-
-    private Consumer<User> onUserFound = user -> {
-        if (user != null) {
-            // Do password reset
-            RecoveryManager recoveryManager = RecoveryManager.getInstance(contentProvider);
-            recoveryManager.resetUserPassword(user);
-
-            // Create and show a dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Please check your email for your new password")
-                    .setTitle("Password Reset!")
-                    .setPositiveButton("Ok", (dialog, id) -> {
-                        // User clicked OK button, finish the activity
-                        finish();
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-        } else {
-            // User does not exist
-            usernameView.setError("User does not exist");
-            usernameView.requestFocus();
-        }
-    };
 }

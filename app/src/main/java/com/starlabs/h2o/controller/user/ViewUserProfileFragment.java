@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,13 +81,33 @@ public class ViewUserProfileFragment extends Fragment {
      */
     private void onProfileDonePressed() {
         // Update the user model from the fields
-        Editable usName = nameField.getText();
-        user.setName(usName.toString());
-        Editable emailText = emailField.getText();
+        Editable nameText = nameField.getText();
+        if (TextUtils.isEmpty(nameText)) {
+            nameField.setError("Must enter a name!");
+            nameField.requestFocus();
+            return;
+        }
+        user.setName(nameText.toString());
 
+        Editable emailText = emailField.getText();
+        if (TextUtils.isEmpty(emailText)) {
+            emailField.setError("Must enter a email!");
+            emailField.requestFocus();
+            return;
+        } else if (User.isEmailValid(emailText)) {
+            emailField.setError("Email is valid!");
+            emailField.requestFocus();
+            return;
+        }
         user.setEmail(emailText.toString());
-        Editable addField = addressField.getText();
-        user.setAddress(addField.toString());
+
+        Editable addressText = addressField.getText();
+        if (TextUtils.isEmpty(addressText)) {
+            addressField.setError("Must enter an address!");
+            addressField.requestFocus();
+            return;
+        }
+        user.setAddress(addressText.toString());
 
         // Store the user in our content provider, overriding all previous data for that user
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();

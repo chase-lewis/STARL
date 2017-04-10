@@ -26,6 +26,11 @@ public class ViewWaterReportsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private ViewWaterReportsAdapter adapter;
+    private Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
+        adapter = new ViewWaterReportsAdapter(waterReports);
+        mRecycler.setAdapter(adapter);
+    };
+
 
     /**
      * Default no arg constructor
@@ -33,7 +38,6 @@ public class ViewWaterReportsFragment extends Fragment {
     public ViewWaterReportsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,9 +53,4 @@ public class ViewWaterReportsFragment extends Fragment {
 
         return view;
     }
-
-    private Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
-        adapter = new ViewWaterReportsAdapter(waterReports);
-        mRecycler.setAdapter(adapter);
-    };
 }
