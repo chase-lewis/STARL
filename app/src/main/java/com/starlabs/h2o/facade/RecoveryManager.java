@@ -25,9 +25,9 @@ public class RecoveryManager {
     private RecoveryManager(ContentProvider contentProvider) {
         this.contentProvider = contentProvider;
         configuration = new Configuration()
-                        .domain(DOMAIN)
-                        .apiKey(API_KEY)
-                        .from(FROM_EMAIL);
+                .domain(DOMAIN)
+                .apiKey(API_KEY)
+                .from(FROM_EMAIL);
     }
 
     /**

@@ -26,7 +26,7 @@
         <activity
             android:name=".controller.HomeActivity"
             android:label="StarLabs H20"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".controller.InitialActivity"
             android:label="StarLabs H20">

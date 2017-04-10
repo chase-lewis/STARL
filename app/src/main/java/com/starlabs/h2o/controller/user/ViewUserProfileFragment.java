@@ -3,7 +3,6 @@ package com.starlabs.h2o.controller.user;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;

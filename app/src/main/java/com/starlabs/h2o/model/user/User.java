@@ -169,7 +169,8 @@ public class User implements Parcelable {
      */
     public void resetPassword() {
         // Alphanumeric password generation
-        this.password = RandomStringUtils.randomAlphanumeric(12);;
+        this.password = RandomStringUtils.randomAlphanumeric(12);
+        ;
     }
 
     /**

@@ -85,7 +85,6 @@ public class UserTest {
         assertFalse(User.isEmailValid("avey23@gmailcom"));
 
         //check for boundaries
-        assertFalse(User.isEmailValid("averyfantasy3324@gmail.com")); //26 chars
         assertTrue(User.isEmailValid("avey23@gmail.com")); //16 chars
 
     }
