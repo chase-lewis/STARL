@@ -123,8 +123,7 @@ public class CreateWaterReportFragment extends Fragment {
             edit = true;
         } else {
             // Create a new report
-            report = new WaterReport(user.getName(), new Location("H20")
-            );
+            report = new WaterReport(user.getName(), new Location("H20"));
 
             // Get the correct id for the new report from the content provider
             Consumer<Integer> onNextIdFound = id -> {

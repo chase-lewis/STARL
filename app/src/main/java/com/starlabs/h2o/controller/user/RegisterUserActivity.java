@@ -37,6 +37,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     private EditText mPasswordRetypeView;
     private ProgressBar mProgressView;
     private Spinner mUserTypeView;
+    private ContentProvider contentProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
 
             // Check if username already exists in our content provider
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
                 // Turn off the progress bar
                 showProgress(false);

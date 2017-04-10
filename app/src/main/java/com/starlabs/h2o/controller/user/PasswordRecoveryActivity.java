@@ -1,6 +1,7 @@
 package com.starlabs.h2o.controller.user;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import java.util.function.Consumer;
 public class PasswordRecoveryActivity extends AppCompatActivity {
 
     private AutoCompleteTextView usernameView;
+    private ContentProvider contentProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class PasswordRecoveryActivity extends AppCompatActivity {
         // Setup the button
         Button onReset = (Button) findViewById(R.id.password_reset_button);
         onReset.setOnClickListener(v -> attemptReset());
+
+        Button onCancel = (Button) findViewById(R.id.password_reset_cancel_button);
+        onCancel.setOnClickListener(v -> finish());
     }
 
     /**
@@ -68,20 +73,32 @@ public class PasswordRecoveryActivity extends AppCompatActivity {
         } else {
 
             // Check if the user exists in the content provider
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-            Consumer<User> onUserFound = user -> {
-                if (user != null) {
-                    // Do password reset
-                    RecoveryManager recoveryManager = RecoveryManager.getInstance(contentProvider);
-                    recoveryManager.resetUserPassword(user);
-                    finish();
-                } else {
-                    // User does not exist
-                    usernameView.setError("User does not exist");
-                    usernameView.requestFocus();
-                }
-            };
+            contentProvider = ContentProviderFactory.getDefaultContentProvider();
             contentProvider.getSingleUser(onUserFound, username);
         }
     }
+
+    private Consumer<User> onUserFound = user -> {
+        if (user != null) {
+            // Do password reset
+            RecoveryManager recoveryManager = RecoveryManager.getInstance(contentProvider);
+            recoveryManager.resetUserPassword(user);
+
+            // Create and show a dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Please check your email for your new password")
+                    .setTitle("Password Reset!")
+                    .setPositiveButton("Ok", (dialog, id) -> {
+                        // User clicked OK button, finish the activity
+                        finish();
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else {
+            // User does not exist
+            usernameView.setError("User does not exist");
+            usernameView.requestFocus();
+        }
+    };
 }

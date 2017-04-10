@@ -81,16 +81,6 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
 
         // Get all the water reports from the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
-            for (WaterReport waterReport : waterReports) {
-                double latitude = waterReport.getLatitude();
-                double longitude = waterReport.getLongitude();
-                LatLng markLocation = new LatLng(latitude, longitude);
-                MarkerOptions markOpts = new MarkerOptions();
-                MarkerOptions markPosition = markOpts.position(markLocation);
-                mMap.addMarker(markPosition.title(waterReport.toString()));
-            }
-        };
         contentProvider.getAllWaterReports(onWaterReportsReceived);
 
         // Listens for a tap gesture on the map and then proceeds to the screen for report creation.
@@ -100,4 +90,15 @@ public class ViewMapFragment extends Fragment implements OnMapReadyCallback {
             ((HomeActivity) getActivity()).switchToWaterReportCreate(bundle);
         });
     }
+
+    private Consumer<List<WaterReport>> onWaterReportsReceived = waterReports -> {
+        for (WaterReport waterReport : waterReports) {
+            double latitude = waterReport.getLatitude();
+            double longitude = waterReport.getLongitude();
+            LatLng markLocation = new LatLng(latitude, longitude);
+            MarkerOptions markOpts = new MarkerOptions();
+            MarkerOptions markPosition = markOpts.position(markLocation);
+            mMap.addMarker(markPosition.title(waterReport.toString()));
+        }
+    };
 }

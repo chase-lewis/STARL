@@ -35,6 +35,7 @@ public class LoginUserActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private ProgressBar mProgressView;
     private TextView mForgotPasswordView;
+    private ContentProvider contentProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class LoginUserActivity extends AppCompatActivity {
             showProgress(true);
 
             // Check if the user exists in the content provider
-            ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+            contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
                 // Turn off the progress bar
                 showProgress(false);

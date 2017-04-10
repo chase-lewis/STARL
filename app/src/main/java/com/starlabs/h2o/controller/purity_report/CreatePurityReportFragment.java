@@ -138,22 +138,18 @@ public class CreatePurityReportFragment extends Fragment {
         contentProvider.setNextPurityReportId(report.getReportNumber());
 
         // Store association in the water report
-        Runnable onFinish = () -> {
-            // Exit this fragment here
-            //noinspection ChainedMethodCall
-            getActivity().onBackPressed();
-        };
         ReportManager reportManager = ReportManager.getInstance(contentProvider);
         reportManager.linkPurityReport(report.getReportNumber(), linkedWaterReportId, onFinish);
 
         // Note that the activity exits in the callback above
     }
 
+    private Runnable onFinish = this::onCancelPressed;
+
     /**
      * Method to exit the activity back to caller.
      */
     private void onCancelPressed() {
-        //noinspection ChainedMethodCall
         getActivity().onBackPressed();
     }
 
