@@ -94,8 +94,9 @@ public class ViewUserProfileFragment extends Fragment {
             emailField.setError("Must enter a email!");
             emailField.requestFocus();
             return;
-        } else if (User.isEmailValid(emailText)) {
-            emailField.setError("Email is valid!");
+        }
+        if (!User.isEmailValid(emailText)) {
+            emailField.setError("Email is not valid!");
             emailField.requestFocus();
             return;
         }

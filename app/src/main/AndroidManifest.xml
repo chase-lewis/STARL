@@ -18,14 +18,20 @@
             android:name=".controller.user.LoginUserActivity"
             android:label="Login" />
         <activity
+            android:name=".controller.user.PasswordRecoveryActivity"
+            android:label="Password Reset" />
+        <activity
             android:name=".controller.user.RegisterUserActivity"
             android:label="Register" />
+        <activity
+            android:name=".controller.HomeActivity"
+            android:label="StarLabs H20"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".controller.InitialActivity"
             android:label="StarLabs H20">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,11 +40,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".controller.HomeActivity"
-            android:label="StarLabs H20"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".controller.user.PasswordRecoveryActivity"></activity>
     </application>
 
 </manifest>
