@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import java.math.BigInteger;
-import java.util.Random;
-
 /**
  * User POJO
  *

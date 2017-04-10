@@ -81,15 +81,15 @@ public class ViewUserProfileFragment extends Fragment {
      */
     private void onProfileDonePressed() {
         // Update the user model from the fields
-        Editable nameText = nameField.getText();
+        String nameText = nameField.getText().toString();
         if (TextUtils.isEmpty(nameText)) {
             nameField.setError("Must enter a name!");
             nameField.requestFocus();
             return;
         }
-        user.setName(nameText.toString());
+        user.setName(nameText);
 
-        Editable emailText = emailField.getText();
+        String emailText = emailField.getText().toString();
         if (TextUtils.isEmpty(emailText)) {
             emailField.setError("Must enter a email!");
             emailField.requestFocus();
@@ -99,15 +99,15 @@ public class ViewUserProfileFragment extends Fragment {
             emailField.requestFocus();
             return;
         }
-        user.setEmail(emailText.toString());
+        user.setEmail(emailText);
 
-        Editable addressText = addressField.getText();
+        String addressText = addressField.getText().toString();
         if (TextUtils.isEmpty(addressText)) {
             addressField.setError("Must enter an address!");
             addressField.requestFocus();
             return;
         }
-        user.setAddress(addressText.toString());
+        user.setAddress(addressText);
 
         // Store the user in our content provider, overriding all previous data for that user
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
