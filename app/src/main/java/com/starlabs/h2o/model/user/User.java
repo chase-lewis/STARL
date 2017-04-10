@@ -3,11 +3,15 @@ package com.starlabs.h2o.model.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.math.BigInteger;
 import java.util.Random;
 
 /**
- * @author chase
+ * User POJO
+ *
+ * @author teju, chase, rishi, sangjue
  */
 public class User implements Parcelable {
     public static final Parcelable.Creator<User> CREATOR
@@ -27,8 +31,8 @@ public class User implements Parcelable {
     public static final int MIN_PASS_LENGTH = 5;
     public static final int MAX_USER_LENGTH = 20;
     public static final int MIN_USER_LENGTH = 3;
-    public static final int MAX_EMAIL_LENGTH = 25;
-    public static final int MIN_EMAIL_LENGTH = 10;
+    public static final int MAX_EMAIL_LENGTH = 120;
+    public static final int MIN_EMAIL_LENGTH = 4;
     private String username;
     private String password;
     private String name;
@@ -80,7 +84,7 @@ public class User implements Parcelable {
      * @param username the username to check
      * @return true if valid
      */
-    public static boolean isUsernameValid(CharSequence username) {
+    public static boolean isUsernameValid(String username) {
         if ((username == null) || (username.length() > MAX_USER_LENGTH)
                 || (username.length() < MIN_USER_LENGTH)) {
             return false;
@@ -105,7 +109,7 @@ public class User implements Parcelable {
      * @param password the password to check
      * @return true if valid
      */
-    public static boolean isPasswordValid(CharSequence password) {
+    public static boolean isPasswordValid(String password) {
         if ((password == null) || (password.length() < MIN_PASS_LENGTH)
                 || (password.length() > MAX_PASS_LENGTH)) {
             return false;
@@ -134,7 +138,7 @@ public class User implements Parcelable {
      * @param email the email to check
      * @return true if valid
      */
-    public static boolean isEmailValid(CharSequence email) {
+    public static boolean isEmailValid(String email) {
         if (email == null || email.length() < MIN_EMAIL_LENGTH
                 || email.length() > MAX_EMAIL_LENGTH) {
             return false;
@@ -167,11 +171,8 @@ public class User implements Parcelable {
      * Resets the user's password with a new randomly generated one.
      */
     public void resetPassword() {
-        Random random = new Random();
-
         // Alphanumeric password generation
-        String randomPass = new BigInteger(130, random).toString(32);
-        this.password = randomPass;
+        this.password = RandomStringUtils.randomAlphanumeric(12);;
     }
 
     /**
