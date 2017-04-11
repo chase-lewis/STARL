@@ -33,7 +33,6 @@ import java.util.stream.Stream;
  * @author tejun, rishi, kavin
  */
 public class ViewHistogramFragment extends Fragment {
-    private final int YEAR_GAP = 1900;
     private final int MAX_DATA = 500;
     private Spinner yAxisSpinnerView;
     private TextView histogramTitleView;
@@ -105,7 +104,7 @@ public class ViewHistogramFragment extends Fragment {
         // Obtain list of Purity Reports from the Report Manager
         Consumer<List<PurityReport>> onReportsReceived =
                 getFilteredWaterReports(yAxisChoices, initYAxis);
-        reportManager.getLinkedPurityReports(waterReport, onReportsReceived);
+        reportManager.getLinkedPurityReportsWithYear(waterReport, reportYear, onReportsReceived);
 
         return view;
     }
@@ -121,10 +120,8 @@ public class ViewHistogramFragment extends Fragment {
             List<String> yAxisChoices, String initYAxis) {
         return allPurityReports -> {
 
-            // Filter by year, fill in the data
-            Stream<PurityReport> reportsStream = allPurityReports.stream();
-            reportsStream.filter(current -> (reportYear - YEAR_GAP)
-                    == current.getCreationDate().getYear()).forEach(current -> {
+            // Fill in the data
+            for (PurityReport current : allPurityReports) {
                 int currRepNum = current.getReportNumber();
                 int currVirNum = current.getVirusPPM();
                 int currContNum = current.getContPPM();
@@ -132,7 +129,7 @@ public class ViewHistogramFragment extends Fragment {
                 virusData.appendData(new DataPoint(currRepNum, currVirNum), true, MAX_DATA);
                 contaminationData.appendData(new DataPoint(currRepNum, currContNum),
                         true, MAX_DATA);
-            });
+            }
 
             // Set the choice of data to view
             yAxisSpinnerView.setSelection(yAxisChoices.indexOf(initYAxis));

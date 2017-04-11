@@ -1,6 +1,7 @@
 package com.starlabs.h2o.model.report;
 
 import android.location.Location;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.Random;
  *
  * @author chase, tejun
  */
-public class WaterReport {
+public class WaterReport implements Comparable<WaterReport> {
     private String reporterName;
     private Date creationDate;
     private int reportNumber;
@@ -224,5 +225,26 @@ public class WaterReport {
      */
     public void resetLinkedPurityReports() {
         this.purityReportIds = new ArrayList<>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WaterReport that = (WaterReport) o;
+
+        return reportNumber == that.reportNumber;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return reportNumber;
+    }
+
+    @Override
+    public int compareTo(@NonNull WaterReport o) {
+        return this.reportNumber - o.reportNumber;
     }
 }

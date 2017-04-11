@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * @author tejun
  */
 public final class ReportManager {
+    private static final int YEAR_GAP = 1900;
     private static ReportManager reportManager;
     private final ContentProvider contentProvider;
 
@@ -52,14 +53,40 @@ public final class ReportManager {
 
             // Filter out the purity reports and only use the ones with the matching ids
             List<PurityReport> filteredPurityReports = allPurityReports.stream()
-                    .filter(purityReport -> waterReport.getLinkedPurityReports()
-                            .contains(purityReport.getReportNumber()))
+                    .filter(purityReport ->
+                            waterReport.getLinkedPurityReports()
+                                    .contains(purityReport.getReportNumber())
+                    )
                     .collect(Collectors.toList());
 
             // Call the callback
             onReportsReceived.accept(filteredPurityReports);
         };
         contentProvider.getAllPurityReports(onPurityReports);
+    }
+
+    /**
+     * Gets all linked purity reports associated with a water report and with a given year
+     *
+     * @param waterReport       the water report with purity reports
+     * @param year              the year to filter by
+     * @param onReportsReceived called when purity reports are downloaded
+     */
+    public void getLinkedPurityReportsWithYear(WaterReport waterReport, int year,
+                                       Consumer<List<PurityReport>> onReportsReceived) {
+        Consumer<List<PurityReport>> onPurityReports = allPurityReports -> {
+
+            // Filter out the purity reports and only use the ones with matching years
+            List<PurityReport> filteredPurityReports = allPurityReports.stream()
+                    .filter(purityReport ->
+                            (year - YEAR_GAP) == purityReport.getCreationDate().getYear()
+                    )
+                    .collect(Collectors.toList());
+
+            // Call the callback
+            onReportsReceived.accept(filteredPurityReports);
+        };
+        this.getLinkedPurityReports(waterReport, onPurityReports);
     }
 
     /**

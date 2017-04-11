@@ -2,6 +2,7 @@ package com.starlabs.h2o.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -10,10 +11,8 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * @author teju, chase, rishi, sangjue
  */
-public class User implements Parcelable {
-    public static final Parcelable.Creator<User> CREATOR
-            = new Parcelable.Creator<User>() {
-
+public class User implements Parcelable, Comparable<User> {
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
         @Override
         public User createFromParcel(Parcel in) {
             return new User(in);
@@ -24,12 +23,16 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    // Class constants
     public static final int MAX_PASS_LENGTH = 15;
     public static final int MIN_PASS_LENGTH = 5;
     public static final int MAX_USER_LENGTH = 20;
     public static final int MIN_USER_LENGTH = 3;
     public static final int MAX_EMAIL_LENGTH = 120;
     public static final int MIN_EMAIL_LENGTH = 4;
+
+    // Member variables
     private String username;
     private String password;
     private String name;
@@ -52,7 +55,6 @@ public class User implements Parcelable {
         this.email = "";
         this.userType = userType;
     }
-
 
     /**
      * Default constructor for firebase
@@ -162,6 +164,22 @@ public class User implements Parcelable {
             }
         }
         return (containsDigit || containsLower || containsUpper) && containsAt && containsDot;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return username.equals(user.username);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
     }
 
     /**
@@ -309,5 +327,10 @@ public class User implements Parcelable {
         dest.writeString(address);
         dest.writeString(email);
         dest.writeString(userType.toString());
+    }
+
+    @Override
+    public int compareTo(@NonNull User o) {
+        return this.username.compareTo(o.username);
     }
 }
