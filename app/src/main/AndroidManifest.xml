@@ -15,21 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".controller.user.LoginUserActivity"
-            android:label="Login" />
-        <activity
-            android:name=".controller.user.PasswordRecoveryActivity"
-            android:label="Password Reset" />
-        <activity
-            android:name=".controller.user.RegisterUserActivity"
-            android:label="Register" />
-        <activity
             android:name=".controller.HomeActivity"
             android:label="StarLabs H20"
+            android:theme="@style/AppTheme.Navigation" />
+        <activity
+            android:name=".controller.user.LoginUserActivity"
+            android:label="Login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controller.user.PasswordRecoveryActivity"
+            android:label="Password Reset"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controller.user.RegisterUserActivity"
+            android:label="Register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".controller.InitialActivity"
-            android:label="StarLabs H20">
+            android:label="StarLabs H20"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
