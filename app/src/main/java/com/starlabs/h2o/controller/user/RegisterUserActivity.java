@@ -35,7 +35,6 @@ public class RegisterUserActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private EditText mPasswordRetypeView;
-    private ProgressBar mProgressView;
     private Spinner mUserTypeView;
     private ContentProvider contentProvider;
 
@@ -56,9 +55,6 @@ public class RegisterUserActivity extends AppCompatActivity {
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.register_cancel_button);
         cancelSignInButton.setOnClickListener(view -> finish());
-
-        // Set up the progress bar for registration
-        mProgressView = (ProgressBar) findViewById(R.id.register_progress);
 
         // Set up the user type spinner
         mUserTypeView = (Spinner) findViewById(R.id.register_user_type);
@@ -124,17 +120,9 @@ public class RegisterUserActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-
-
             // Check if username already exists in our content provider
             contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
-                // Turn off the progress bar
-                showProgress(false);
-
                 if (user == null) {
                     // Good, username does not exist
                     UserType userType = (UserType) mUserTypeView.getSelectedItem();
@@ -156,15 +144,6 @@ public class RegisterUserActivity extends AppCompatActivity {
             };
             contentProvider.getSingleUser(onUserFound, username);
         }
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-        mProgressView.setIndeterminate(show);
     }
 }
 

@@ -33,7 +33,6 @@ public class LoginUserActivity extends AppCompatActivity {
     // UI references
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
-    private ProgressBar mProgressView;
     private TextView mForgotPasswordView;
     private ContentProvider contentProvider;
 
@@ -65,10 +64,6 @@ public class LoginUserActivity extends AppCompatActivity {
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.login_cancel);
         cancelSignInButton.setOnClickListener(view -> finish());
-
-        // Set up the progress bar that shows logging in
-        // Note: This is hidden on startup
-        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
     }
 
     /**
@@ -77,7 +72,7 @@ public class LoginUserActivity extends AppCompatActivity {
      * @return always true (always consumed event)
      */
     private boolean openForgotPassword() {
-        Intent intent = new Intent(LoginUserActivity.this, PasswordRecoveryActivity.class);
+        Intent intent = new Intent(LoginUserActivity.this, PasswordRecoveryDialogActivity.class);
         startActivity(intent);
         return true;
     }
@@ -125,15 +120,10 @@ public class LoginUserActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner and wait for the user to be logged in.
-            // Happens in the background
-            showProgress(true);
-
             // Check if the user exists in the content provider
             contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
                 // Turn off the progress bar
-                showProgress(false);
 
                 if (user != null && user.isCorrectPassword(password)) {
                     // Password matches!
@@ -154,15 +144,6 @@ public class LoginUserActivity extends AppCompatActivity {
             };
             contentProvider.getSingleUser(onUserFound, username);
         }
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-        mProgressView.setIndeterminate(show);
     }
 }
 

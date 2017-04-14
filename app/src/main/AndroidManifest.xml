@@ -23,9 +23,9 @@
             android:label="Login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".controller.user.PasswordRecoveryActivity"
+            android:name=".controller.user.PasswordRecoveryDialogActivity"
             android:label="Password Reset"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Dialog" />
         <activity
             android:name=".controller.user.RegisterUserActivity"
             android:label="Register"
