@@ -32,7 +32,7 @@ import java.util.function.Consumer;
 public class LoginUserActivity extends AppCompatActivity {
 
     // UI references
-    private AutoCompleteTextView mUsernameView;
+    private EditText mUsernameView;
     private EditText mPasswordView;
     private TextView mForgotPasswordView;
     private ContentProvider contentProvider;
@@ -46,7 +46,7 @@ public class LoginUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Set up the username form
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.login_username);
+        mUsernameView = (EditText) findViewById(R.id.login_username);
         mUsernameView.setText("");
 
         // Set up the password form
