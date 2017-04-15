@@ -1,6 +1,7 @@
 package com.starlabs.h2o.controller.user;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     private EditText mPasswordRetypeView;
     private Spinner mUserTypeView;
     private ContentProvider contentProvider;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,9 @@ public class RegisterUserActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
+            // Show loading screen
+            progressDialog = ProgressDialog.show(this, "Loading", "Registering...");
+
             // Check if username already exists in our content provider
             contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
@@ -132,12 +137,14 @@ public class RegisterUserActivity extends AppCompatActivity {
                     contentProvider.setLoggedInUser(user);
 
                     // Transition to the Profile fragment in the Home Activity
+                    progressDialog.dismiss();
                     Intent intent = new Intent(RegisterUserActivity.this, HomeActivity.class);
                     intent.putExtra(HomeActivity.TO_PROFILE, "From register");
                     startActivity(intent);
                     finish();
                 } else {
                     // Bad, username has been taken
+                    progressDialog.dismiss();
                     mUsernameView.setError("This username is already taken");
                     mUsernameView.requestFocus();
                 }

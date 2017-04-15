@@ -1,6 +1,7 @@
 package com.starlabs.h2o.controller.user;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import java.util.function.Consumer;
 public class PasswordRecoveryDialogActivity extends Activity {
 
     private EditText usernameView;
+    private ProgressDialog progressDialog;
     private ContentProvider contentProvider;
     private Consumer<User> onUserFound = user -> {
         if (user != null) {
@@ -28,6 +30,7 @@ public class PasswordRecoveryDialogActivity extends Activity {
             recoveryManager.resetUserPassword(user);
 
             // Create and show a dialog
+            progressDialog.dismiss();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Please check your email for your new password")
                     .setTitle("Password Reset!")
@@ -40,6 +43,7 @@ public class PasswordRecoveryDialogActivity extends Activity {
 
         } else {
             // User does not exist
+            progressDialog.dismiss();
             usernameView.setError("User does not exist");
             usernameView.requestFocus();
         }
@@ -94,6 +98,8 @@ public class PasswordRecoveryDialogActivity extends Activity {
             // form field with an error.
             focusView.requestFocus();
         } else {
+            // Show the loading dialog
+            progressDialog = ProgressDialog.show(this, "Loading", "Sending email...");
 
             // Check if the user exists in the content provider
             contentProvider = ContentProviderFactory.getDefaultContentProvider();

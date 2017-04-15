@@ -1,6 +1,7 @@
 package com.starlabs.h2o.controller.user;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class LoginUserActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private TextView mForgotPasswordView;
     private ContentProvider contentProvider;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,9 @@ public class LoginUserActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
+            // Show spinner
+            progressDialog = ProgressDialog.show(this, "Loading", "Logging in...");
+
             // Check if the user exists in the content provider
             contentProvider = ContentProviderFactory.getDefaultContentProvider();
             Consumer<User> onUserFound = user -> {
@@ -130,14 +135,18 @@ public class LoginUserActivity extends AppCompatActivity {
                     contentProvider.setLoggedInUser(user);
 
                     // Transition to the Map fragment in the Home Activity
+                    progressDialog.dismiss();
                     Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
                     startActivity(profileIntent);
                     finish();
                 } else if (user == null) {
                     // No user found
+                    progressDialog.dismiss();
                     mPasswordView.setError("The username does not exist!");
                     mPasswordView.requestFocus();
                 } else {
+                    // Incorrect username / password
+                    progressDialog.dismiss();
                     mPasswordView.setError("The username and password combination was incorrect!");
                     mPasswordView.requestFocus();
                 }
