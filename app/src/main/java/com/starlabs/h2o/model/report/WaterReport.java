@@ -14,38 +14,55 @@ import java.util.Random;
  * @author chase, tejun
  */
 public class WaterReport implements Comparable<WaterReport> {
-    private String reporterName;
-    private Date creationDate;
+
     private int reportNumber;
+    private Date creationDate;
+    private String reporterId;
     private double latitude;
     private double longitude;
     private WaterType type;
     private WaterCondition condition;
     private List<Integer> purityReportIds;
-
     /**
      * Constructor that takes in a report name and location
      *
-     * @param reporterName name of user creating report
-     * @param location     location of report
+     * @param reporterId user id of the user creating report
+     * @param location   location of report
      */
-    public WaterReport(String reporterName, Location location) {
-        this.reporterName = reporterName;
+    public WaterReport(String reporterId, Location location) {
+        Random rand = new Random();
+        this.reportNumber = rand.nextInt();
+        this.creationDate = new Date();
+        this.reporterId = reporterId;
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
         this.type = WaterType.BOTTLED;
         this.condition = WaterCondition.POTABLE;
-        this.creationDate = new Date();
-        Random rand = new Random();
-        this.reportNumber = rand.nextInt();
         this.purityReportIds = new ArrayList<>();
     }
-
     /**
      * Default no arg constructor
      */
     public WaterReport() {
         // Don't remove this firebase needs a no-arg constructor!
+    }
+
+    /**
+     * Getter for the reporting user
+     *
+     * @return the user id
+     */
+    public String getReporterId() {
+        return reporterId;
+    }
+
+    /**
+     * Getter for the reporting user
+     *
+     * @param reporterId the user id of the reporting user
+     */
+    public void setReporterId(String reporterId) {
+        this.reporterId = reporterId;
     }
 
     @Override
@@ -87,24 +104,6 @@ public class WaterReport implements Comparable<WaterReport> {
      */
     public void setReportNumber(int reportNumber) {
         this.reportNumber = reportNumber;
-    }
-
-    /**
-     * Getter for the reporterName
-     *
-     * @return The name of the user who created the report
-     */
-    public String getReporterName() {
-        return reporterName;
-    }
-
-    /**
-     * Setter for the reporterName
-     *
-     * @param reporterName The name of the user who created the report
-     */
-    public void setReporterName(String reporterName) {
-        this.reporterName = reporterName;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.starlabs.h2o.model.user;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -39,6 +40,7 @@ public class User implements Parcelable, Comparable<User> {
     private String address;
     private String email;
     private UserType userType;
+    private Bitmap profilePicture;
 
     /**
      * Two parameter constructor for User object
@@ -54,6 +56,7 @@ public class User implements Parcelable, Comparable<User> {
         this.address = "";
         this.email = "";
         this.userType = userType;
+        this.profilePicture = null;
     }
 
     /**
@@ -164,6 +167,24 @@ public class User implements Parcelable, Comparable<User> {
             }
         }
         return (containsDigit || containsLower || containsUpper) && containsAt && containsDot;
+    }
+
+    /**
+     * Getter for the profile picture
+     *
+     * @return the bitmap picture, or null if it has not been set
+     */
+    public Bitmap getProfilePicture() {
+        return profilePicture;
+    }
+
+    /**
+     * Setter for the profile picture
+     *
+     * @param profilePicture the bitmap picture
+     */
+    public void setProfilePicture(Bitmap profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     @Override

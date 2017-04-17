@@ -37,10 +37,10 @@
                 android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:hint="username"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:textColor="@color/white"/>
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
@@ -70,10 +70,10 @@
                 android:hint="password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="Sign In"
-                android:textColor="@color/white"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:textColor="@color/white"/>
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_alignParentTop="true"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:layout_gravity="center"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".controller.HomeActivity">
 
     <LinearLayout
@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/create_water_report_num"
                     android:layout_width="match_parent"
@@ -43,9 +44,9 @@
                     android:id="@+id/create_water_report_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Creation Date: ##/##/####"
-                    android:textSize="14sp"
-                    android:layout_marginTop="8dp"/>
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/create_water_report_username"
@@ -56,12 +57,12 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/create_water_report_profile_picture"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@android:drawable/ic_dialog_alert"
                 android:layout_weight="1"
-                android:id="@+id/create_water_report_profile_picture"
-                android:scaleType="center"/>
+                android:scaleType="center"
+                android:src="@android:mipmap/sym_def_app_icon"/>
 
         </LinearLayout>
 
@@ -79,9 +80,9 @@
             <EditText
                 android:id="@+id/create_water_report_lat"
                 android:layout_width="match_parent"
-                android:inputType="numberDecimal|numberSigned"
                 android:layout_height="wrap_content"
                 android:hint="Latitude"
+                android:inputType="numberDecimal|numberSigned"
                 android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -93,9 +94,9 @@
             <EditText
                 android:id="@+id/create_water_report_long"
                 android:layout_width="match_parent"
-                android:inputType="numberDecimal|numberSigned"
                 android:layout_height="wrap_content"
                 android:hint="Longitude"
+                android:inputType="numberDecimal|numberSigned"
                 android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -103,8 +104,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Water Type"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:text="Water Type"/>
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/create_water_report_type"
@@ -123,17 +124,17 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/create_water_report_create"
+            style="@style/AppTheme.Button.Normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/AppTheme.Button.Normal"
-            android:text="Create"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:text="Create"/>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/create_water_report_cancel"
+            style="@style/AppTheme.Button.Normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/AppTheme.Button.Normal"
             android:text="Cancel"/>
 
     </LinearLayout>

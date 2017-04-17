@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -34,19 +35,26 @@ import java.util.function.Consumer;
 /**
  * A fragment for creating water reports
  *
- * @author chase
+ * @author tejun, chase
  */
 public class CreateWaterReportFragment extends Fragment {
 
     private final int LAT_BOUND = 90;
     private final int LONG_BOUND = 180;
-    private boolean edit = false;
+
+    // Views
     private TextView reportNumText;
+    private TextView reportDateText;
+    private TextView userNameText;
+    private ImageView userPictureImage;
     private EditText reportLocLatEditText;
     private EditText reportLocLongEditText;
     private Spinner waterTypeSpinner;
     private Spinner waterCondSpinner;
+
+    // Member variables
     private WaterReport report;
+    private ContentProvider contentProvider;
 
     /**
      * Default constructor with no args
@@ -61,44 +69,85 @@ public class CreateWaterReportFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_water_report, container, false);
 
+        // Get the content provider
+        contentProvider = ContentProviderFactory.getDefaultContentProvider();
+
         // Set up the fields for the user profile
-        TextView reportDateText = (TextView) view.findViewById(R.id.create_water_report_date);
         reportNumText = (TextView) view.findViewById(R.id.create_water_report_num);
+        reportDateText = (TextView) view.findViewById(R.id.create_water_report_date);
+        userNameText = (TextView) view.findViewById(R.id.create_water_report_username);
+        userPictureImage = (ImageView) view.findViewById(R.id.create_water_report_profile_picture);
         reportLocLatEditText = (EditText) view.findViewById(R.id.create_water_report_lat);
         reportLocLongEditText = (EditText) view.findViewById(R.id.create_water_report_long);
-        TextView reportReporterName = (TextView)
-                view.findViewById(R.id.create_water_report_username);
         waterTypeSpinner = (Spinner) view.findViewById(R.id.create_water_report_type);
         waterCondSpinner = (Spinner) view.findViewById(R.id.create_water_report_condition);
 
-        // Get the user from the session
-        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        User user = contentProvider.getLoggedInUser();
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, WaterType.values());
+        // Create a new report with the correct values
+        User currentUser = contentProvider.getLoggedInUser();
+        report = new WaterReport(currentUser.getUsername(), new Location("H20"));
 
+        // Get the correct id for the new report from the content provider
+        Consumer<Integer> onNextIdFound = id -> {
+            // Set the report number
+            report.setReportNumber(id + 1);
+            reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
+        };
+        contentProvider.getNextWaterReportId(onNextIdFound);
 
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterTypeSpinner.setAdapter(typeAdapter);
+        // Check if report's latLong is being generated due to Map Tap or user's location
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            LatLng latLng = bundle.getParcelable("LOC");
+            if (latLng != null) {
+                report.setLatitude(latLng.latitude);
+                report.setLongitude(latLng.longitude);
+            }
+        } else {
+            // Set up the location of the report
+            // Check if we have location access permission first.
+            // Note we are using Network Location, not GPS
+            if (ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Activity act = getActivity();
+                LocationManager locationManager = (LocationManager)
+                        act.getSystemService(Context.LOCATION_SERVICE);
+                String locationProvider = LocationManager.NETWORK_PROVIDER;
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, WaterCondition.values());
-        condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        waterCondSpinner.setAdapter(condAdapter);
+                // Get rough location very synchronously
+                Location lastKnownLocation =
+                        locationManager.getLastKnownLocation(locationProvider);
 
-        bundleItUp(user, contentProvider);
+                if (lastKnownLocation != null) {
+                    // Set the location in the plain old java object
+                    report.setLatitude(lastKnownLocation.getLatitude());
+                    report.setLongitude(lastKnownLocation.getLongitude());
+                }
+            }
+        }
 
-        // Set all the text views
-        reportReporterName.setText("Created By: " + user.getUsername());
+        // Set all the text views' content
+        reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
+        userNameText.setText("Created By: " + currentUser.getUsername());
+        if (currentUser.getProfilePicture() != null) {
+            userPictureImage.setImageBitmap(currentUser.getProfilePicture());
+        }
         Date date = report.getCreationDate();
         reportDateText.setText("Created On: " + date.toString());
-        reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
         WaterType wType = report.getType();
         waterTypeSpinner.setSelection(wType.ordinal());
         WaterCondition wCondition = report.getCondition();
         waterCondSpinner.setSelection(wCondition.ordinal());
+
+        // Set up spinner content
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterType.values());
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        waterTypeSpinner.setAdapter(typeAdapter);
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, WaterCondition.values());
+        condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        waterCondSpinner.setAdapter(condAdapter);
 
         // Create button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.create_water_report_create);
@@ -107,63 +156,8 @@ public class CreateWaterReportFragment extends Fragment {
         // Cancel button setup
         Button reportCancelButton = (Button) view.findViewById(R.id.create_water_report_cancel);
         reportCancelButton.setOnClickListener((view1) -> onCancelPressed());
+
         return view;
-    }
-
-    /**
-     * Creates a bundle for fragment
-     *
-     * @param user            user creating report
-     * @param contentProvider firebase object
-     */
-    public void bundleItUp(User user, ContentProvider contentProvider) {
-        Bundle bundle = getArguments();
-        if ((bundle != null) && (bundle.getParcelable("WR_EDIT") != null)) {
-            report = bundle.getParcelable("WR_EDIT");
-            edit = true;
-        } else {
-            // Create a new report
-            report = new WaterReport(user.getName(), new Location("H20"));
-
-            // Get the correct id for the new report from the content provider
-            Consumer<Integer> onNextIdFound = id -> {
-                // Set the report number
-                report.setReportNumber(id + 1);
-                reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
-            };
-            contentProvider.getNextWaterReportId(onNextIdFound);
-
-            // Check if report's latLong is being generated due to Map Tap or user's location
-            if (bundle != null) {
-                LatLng latLng = bundle.getParcelable("LOC");
-                if (latLng != null) {
-                    report.setLatitude(latLng.latitude);
-                    report.setLongitude(latLng.longitude);
-                }
-            } else {
-                // Set up the location of the report
-                // Check if we have location access permission first.
-                // Note we are using Network Location, not GPS
-                if (ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    Activity act = getActivity();
-                    LocationManager locationManager = (LocationManager)
-                            act.getSystemService(Context.LOCATION_SERVICE);
-                    String locationProvider = LocationManager.NETWORK_PROVIDER;
-
-                    // Get rough location very synchronously
-                    Location lastKnownLocation =
-                            locationManager.getLastKnownLocation(locationProvider);
-
-                    if (lastKnownLocation != null) {
-                        // Set the location in the plain old java object
-                        report.setLatitude(lastKnownLocation.getLatitude());
-                        report.setLongitude(lastKnownLocation.getLongitude());
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -209,11 +203,12 @@ public class CreateWaterReportFragment extends Fragment {
         }
 
         // Store data
-        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         contentProvider.setWaterReport(report);
-        if (!edit) {
-            contentProvider.setNextWaterReportId(report.getReportNumber());
-        }
+
+        // Increment the next report id if a new one was created
+        contentProvider.setNextWaterReportId(report.getReportNumber());
+
+        // Go back
         Activity activity = getActivity();
         activity.onBackPressed();
     }
