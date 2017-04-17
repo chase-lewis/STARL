@@ -73,7 +73,7 @@ public final class ReportManager {
      * @param onReportsReceived called when purity reports are downloaded
      */
     public void getLinkedPurityReportsWithYear(WaterReport waterReport, int year,
-                                       Consumer<List<PurityReport>> onReportsReceived) {
+                                               Consumer<List<PurityReport>> onReportsReceived) {
         Consumer<List<PurityReport>> onPurityReports = allPurityReports -> {
 
             // Filter out the purity reports and only use the ones with matching years

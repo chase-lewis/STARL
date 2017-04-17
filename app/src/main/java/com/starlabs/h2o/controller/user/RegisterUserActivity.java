@@ -1,19 +1,14 @@
 package com.starlabs.h2o.controller.user;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.starlabs.h2o.R;
@@ -84,73 +79,64 @@ public class RegisterUserActivity extends AppCompatActivity {
         Editable rePassName = mPasswordRetypeView.getText();
         final String retypePassword = rePassName.toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
         // Check for valid fields
         if (TextUtils.isEmpty(username)) {
             // Check if the username is empty
             mUsernameView.setError("A username is required");
-            focusView = mUsernameView;
-            cancel = true;
+            mUsernameView.requestFocus();
+            return;
         } else if (!User.isUsernameValid(username)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be 3-20 characters " +
                     "and contain a digit");
-            focusView = mUsernameView;
-            cancel = true;
+            mUsernameView.requestFocus();
+            return;
         } else if (TextUtils.isEmpty(password)) {
             // Check if the password is not empty
             mPasswordView.setError("A password is required");
-            focusView = mPasswordView;
-            cancel = true;
+            mPasswordView.requestFocus();
+            return;
         } else if (!User.isPasswordValid(password)) {
             // Check if the password is not valid
             mPasswordView.setError("The password must be: 4-15 characters," +
                     "1 digit, 1 uppercase, 1 lowercase");
-            focusView = mPasswordView;
-            cancel = true;
+            mPasswordView.requestFocus();
+            return;
         } else if (!password.equals(retypePassword)) {
             // Check if retype password does not match
             mPasswordRetypeView.setError("Passwords do not match");
-            focusView = mPasswordRetypeView;
-            cancel = true;
+            mPasswordRetypeView.requestFocus();
+            return;
         }
 
-        if (cancel) {
-            // There was an error; don't attempt registration and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show loading screen
-            progressDialog = ProgressDialog.show(this, "Loading", "Registering...");
+        // Show loading screen
+        progressDialog = ProgressDialog.show(this, "Loading", "Registering...");
 
-            // Check if username already exists in our content provider
-            contentProvider = ContentProviderFactory.getDefaultContentProvider();
-            Consumer<User> onUserFound = user -> {
-                if (user == null) {
-                    // Good, username does not exist
-                    UserType userType = (UserType) mUserTypeView.getSelectedItem();
-                    user = new User(username, password, userType);
+        // Check if username already exists in our content provider
+        contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        Consumer<User> onUserFound = user -> {
+            if (user == null) {
+                // Good, username does not exist
+                UserType userType = (UserType) mUserTypeView.getSelectedItem();
+                user = new User(username, password, userType);
 
-                    // Set the user in the current session
-                    contentProvider.setLoggedInUser(user);
+                // Set the user in the current session
+                contentProvider.setLoggedInUser(user);
 
-                    // Transition to the Profile fragment in the Home Activity
-                    progressDialog.dismiss();
-                    Intent intent = new Intent(RegisterUserActivity.this, HomeActivity.class);
-                    intent.putExtra(HomeActivity.TO_PROFILE, "From register");
-                    startActivity(intent);
-                    finish();
-                } else {
-                    // Bad, username has been taken
-                    progressDialog.dismiss();
-                    mUsernameView.setError("This username is already taken");
-                    mUsernameView.requestFocus();
-                }
-            };
-            contentProvider.getSingleUser(onUserFound, username);
-        }
+                // Transition to the Profile fragment in the Home Activity
+                progressDialog.dismiss();
+                Intent intent = new Intent(RegisterUserActivity.this, HomeActivity.class);
+                intent.putExtra(HomeActivity.TO_PROFILE, "From register");
+                startActivity(intent);
+                finish();
+            } else {
+                // Bad, username has been taken
+                progressDialog.dismiss();
+                mUsernameView.setError("This username is already taken");
+                mUsernameView.requestFocus();
+            }
+        };
+        contentProvider.getSingleUser(onUserFound, username);
     }
 }
 

@@ -25,7 +25,6 @@ import com.starlabs.h2o.model.report.WaterReport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * Displays the histogram
@@ -163,7 +162,7 @@ public class ViewHistogramFragment extends Fragment {
 
         // Add the correct data points
         String newYAxis = (String) yAxisSpinnerView.getSelectedItem();
-        if ("Virus" .equals(newYAxis)) {
+        if ("Virus".equals(newYAxis)) {
             histogramView.addSeries(virusData);
         } else {
             histogramView.addSeries(contaminationData);

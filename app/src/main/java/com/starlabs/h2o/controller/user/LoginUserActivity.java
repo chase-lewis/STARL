@@ -1,19 +1,14 @@
 package com.starlabs.h2o.controller.user;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
@@ -95,64 +90,54 @@ public class LoginUserActivity extends AppCompatActivity {
         Editable passName = mPasswordView.getText();
         final String password = passName.toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
         // Check for valid fields
         if (TextUtils.isEmpty(username)) {
             // Check if the username is empty
             mUsernameView.setError("A username is required");
-            focusView = mUsernameView;
-            cancel = true;
-        } else if ((username.length() > User.MAX_USER_LENGTH)
-                || (username.length() < User.MIN_USER_LENGTH)) {
+            mUsernameView.requestFocus();
+            return;
+        } else if ((username.length() > User.MAX_USER_LENGTH) || (username.length() < User.MIN_USER_LENGTH)) {
             // Check if the username is not valid
             mUsernameView.setError("The username must be 3-20 characters");
-            focusView = mUsernameView;
-            cancel = true;
+            mUsernameView.requestFocus();
+            return;
         } else if (TextUtils.isEmpty(password)) {
             // Check if the password is not empty
             mPasswordView.setError("A password is required");
-            focusView = mPasswordView;
-            cancel = true;
+            mPasswordView.requestFocus();
+            return;
         }
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show spinner
-            progressDialog = ProgressDialog.show(this, "Loading", "Logging in...");
+        // Show spinner
+        progressDialog = ProgressDialog.show(this, "Loading", "Logging in...");
 
-            // Check if the user exists in the content provider
-            contentProvider = ContentProviderFactory.getDefaultContentProvider();
-            Consumer<User> onUserFound = user -> {
-                // Turn off the progress bar
+        // Check if the user exists in the content provider
+        contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        Consumer<User> onUserFound = user -> {
+            // Turn off the progress bar
 
-                if (user != null && user.isCorrectPassword(password)) {
-                    // Password matches!
-                    contentProvider.setLoggedInUser(user);
+            if (user != null && user.isCorrectPassword(password)) {
+                // Password matches!
+                contentProvider.setLoggedInUser(user);
 
-                    // Transition to the Map fragment in the Home Activity
-                    progressDialog.dismiss();
-                    Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
-                    startActivity(profileIntent);
-                    finish();
-                } else if (user == null) {
-                    // No user found
-                    progressDialog.dismiss();
-                    mPasswordView.setError("The username does not exist!");
-                    mPasswordView.requestFocus();
-                } else {
-                    // Incorrect username / password
-                    progressDialog.dismiss();
-                    mPasswordView.setError("The username and password combination was incorrect!");
-                    mPasswordView.requestFocus();
-                }
-            };
-            contentProvider.getSingleUser(onUserFound, username);
-        }
+                // Transition to the Map fragment in the Home Activity
+                progressDialog.dismiss();
+                Intent profileIntent = new Intent(LoginUserActivity.this, HomeActivity.class);
+                startActivity(profileIntent);
+                finish();
+            } else if (user == null) {
+                // No user found
+                progressDialog.dismiss();
+                mPasswordView.setError("The username does not exist!");
+                mPasswordView.requestFocus();
+            } else {
+                // Incorrect username / password
+                progressDialog.dismiss();
+                mPasswordView.setError("The username and password combination was incorrect!");
+                mPasswordView.requestFocus();
+            }
+        };
+        contentProvider.getSingleUser(onUserFound, username);
     }
 }
 
