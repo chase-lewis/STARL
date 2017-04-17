@@ -36,8 +36,8 @@ public class UserTest {
         assertFalse(User.isPasswordValid("not valid11"));
 
         //boundary tests for length
-        assertFalse(User.isPasswordValid("aAA4"));
-        assertTrue(User.isPasswordValid("aAAA5"));
+        assertFalse(User.isPasswordValid("aA1"));
+        assertTrue(User.isPasswordValid("aAA1"));
         assertTrue(User.isPasswordValid("aAAAAAAA10"));
         assertTrue(User.isPasswordValid("aAAAAAAAAAAAA15"));
         assertFalse(User.isPasswordValid("aAAAAAAAAAAAAA16"));
@@ -61,7 +61,7 @@ public class UserTest {
         //check for boundaries
         assertFalse(User.isUsernameValid("averyfantasticuser123")); //21 chars
         assertTrue(User.isUsernameValid("averyfantasticuser12")); //20 chars
-        assertTrue(User.isUsernameValid("ba1")); //3 chars
+        assertTrue(User.isUsernameValid("ba13")); //3 chars
         assertFalse(User.isUsernameValid("ba")); //2 chars
         assertTrue(User.isUsernameValid("jackets1")); //8 chars
     }
