@@ -89,10 +89,10 @@ public class CreateWaterReportFragment extends Fragment {
         bundleItUp(user, contentProvider);
 
         // Set all the text views
-        reportReporterName.setText(user.getName());
+        reportReporterName.setText("Created By: " + user.getUsername());
         Date date = report.getCreationDate();
-        reportDateText.setText(date.toString());
-        reportNumText.setText(Integer.toString(report.getReportNumber()));
+        reportDateText.setText("Created On: " + date.toString());
+        reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
         WaterType wType = report.getType();
@@ -129,7 +129,7 @@ public class CreateWaterReportFragment extends Fragment {
             Consumer<Integer> onNextIdFound = id -> {
                 // Set the report number
                 report.setReportNumber(id + 1);
-                reportNumText.setText(Integer.toString(report.getReportNumber()));
+                reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
             };
             contentProvider.getNextWaterReportId(onNextIdFound);
 
