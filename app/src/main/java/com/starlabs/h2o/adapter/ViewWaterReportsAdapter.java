@@ -42,7 +42,7 @@ public class ViewWaterReportsAdapter
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         WaterReport waterReport = waterReports.get(position);
 
-        holder.reporterName.setText("Reported by " + waterReport.getReporterName());
+        holder.reporterName.setText("Reported by " + waterReport.getReporterId());
         holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
         Date createDate = waterReport.getCreationDate();
         holder.reportDate.setText(createDate.toString());

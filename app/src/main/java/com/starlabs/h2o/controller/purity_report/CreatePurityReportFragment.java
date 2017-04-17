@@ -52,10 +52,8 @@ public class CreatePurityReportFragment extends Fragment {
         // Set up the fields for the user profile
         TextView reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
         reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
-        linkedWaterReportEditText = (EditText)
-                view.findViewById(R.id.create_purity_linked_water_report);
-        TextView reportReporterName = (TextView)
-                view.findViewById(R.id.create_purity_report_username);
+        linkedWaterReportEditText = (EditText) view.findViewById(R.id.create_purity_linked_water_report);
+        TextView reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
         purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
         virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
         contPPMText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);

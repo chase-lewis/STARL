@@ -103,7 +103,7 @@ public final class ReportManager {
             waterReport.linkPurityReport(purityReportId);
             contentProvider.setWaterReport(waterReport);
 
-            // Do the next peace of code
+            // Do the next piece of code
             onFinish.run();
         };
         contentProvider.getSingleWaterReport(waterReportConsumer, waterReportId);

@@ -87,8 +87,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             return;
         } else if (!User.isUsernameValid(username)) {
             // Check if the username is not valid
-            mUsernameView.setError("The username must be 3-20 characters " +
-                    "and contain a digit");
+            mUsernameView.setError("The username must be 3-20 characters and contain a digit");
             mUsernameView.requestFocus();
             return;
         } else if (TextUtils.isEmpty(password)) {
@@ -98,8 +97,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             return;
         } else if (!User.isPasswordValid(password)) {
             // Check if the password is not valid
-            mPasswordView.setError("The password must be: 4-15 characters," +
-                    "1 digit, 1 uppercase, 1 lowercase");
+            mPasswordView.setError("The password must be: 4-15 characters, 1 digit, 1 uppercase, 1 lowercase");
             mPasswordView.requestFocus();
             return;
         } else if (!password.equals(retypePassword)) {
@@ -118,10 +116,10 @@ public class RegisterUserActivity extends AppCompatActivity {
             if (user == null) {
                 // Good, username does not exist
                 UserType userType = (UserType) mUserTypeView.getSelectedItem();
-                user = new User(username, password, userType);
+                User newUser = new User(username, password, userType);
 
                 // Set the user in the current session
-                contentProvider.setLoggedInUser(user);
+                contentProvider.setLoggedInUser(newUser);
 
                 // Transition to the Profile fragment in the Home Activity
                 progressDialog.dismiss();

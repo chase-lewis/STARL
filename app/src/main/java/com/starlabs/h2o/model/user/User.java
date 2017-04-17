@@ -27,7 +27,7 @@ public class User implements Parcelable, Comparable<User> {
 
     // Class constants
     public static final int MAX_PASS_LENGTH = 15;
-    public static final int MIN_PASS_LENGTH = 5;
+    public static final int MIN_PASS_LENGTH = 4;
     public static final int MAX_USER_LENGTH = 20;
     public static final int MIN_USER_LENGTH = 3;
     public static final int MAX_EMAIL_LENGTH = 120;
