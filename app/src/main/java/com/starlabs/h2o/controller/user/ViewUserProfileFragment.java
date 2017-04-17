@@ -45,7 +45,7 @@ public class ViewUserProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         // Set up the fields for the user profile
         nameField = (EditText) view.findViewById(R.id.user_profile_name_field);
