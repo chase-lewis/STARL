@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 /**
  * A fragment for creating purity reports
  *
- * @author chase
+ * @author tejun, chase
  */
 public class CreatePurityReportFragment extends Fragment {
 

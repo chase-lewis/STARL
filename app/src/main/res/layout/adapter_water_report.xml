@@ -22,51 +22,83 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/report_title"
-            android:layout_width="match_parent"
+            android:id="@+id/water_report_adapter_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/report_date"
+            android:text="Report Number "
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/report_date"
+            android:id="@+id/water_report_adapter_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/water_report_adapter_id"
+            android:text="##/##/####"
+            android:textColor="@color/lightGrey"/>
+
+        <TextView
+            android:id="@+id/water_report_adapter_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/water_report_adapter_date"
+            android:text="Reported by $$$$"
+            android:textColor="@color/lightGrey"/>
+
+        <TextView
+            android:id="@+id/water_report_adapter_spacer1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/water_report_adapter_username"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/water_report_adapter_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/water_report_adapter_spacer1"
+            android:layout_marginTop="8dp"
+            android:text="Type"/>
+
+        <TextView
+            android:id="@+id/water_report_adapter_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/water_report_adapter_type"
+            android:text="Condition"/>
+
+        <TextView
+            android:id="@+id/water_report_adapter_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/water_report_adapter_type"
+            android:layout_alignBottom="@+id/water_report_adapter_type"
+            android:layout_below="@id/water_report_adapter_spacer1"
             android:layout_alignParentEnd="true"
-            android:textColor="@android:color/darker_gray"/>
+            android:gravity="end"
+            android:lines="2"
+            android:text="Latitude: ##.#### \nLongitude: ##.####"/>
 
         <TextView
-            android:id="@+id/reporter_name"
+            android:id="@+id/water_report_adapter_linked_purity_reports"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/report_title"/>
+            android:layout_below="@id/water_report_adapter_location"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Linked Purity Reports: [##, ####, ###]"/>
 
-        <TextView
-            android:id="@+id/water_type"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/water_report_adapter_profile_picture"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reporter_name"/>
-
-        <TextView
-            android:id="@+id/water_condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/water_type"/>
-
-        <TextView
-            android:id="@+id/water_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/water_condition"/>
-
-        <TextView
-            android:id="@+id/water_linked_purity_reports"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/water_location"/>
+            android:layout_alignParentTop="true"
+            card_view:srcCompat="@android:drawable/sym_def_app_icon"
+            android:layout_alignBottom="@+id/water_report_adapter_username"
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

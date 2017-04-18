@@ -3,6 +3,7 @@ package com.starlabs.h2o.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
@@ -16,11 +17,10 @@ import java.util.List;
 /**
  * Class for representing water reports in views
  *
- * @author Rishi
+ * @author tejun, Rishi
  */
 
-public class ViewWaterReportsAdapter
-        extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
+public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
     private final List<WaterReport> waterReports;
 
     /**
@@ -42,10 +42,11 @@ public class ViewWaterReportsAdapter
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         WaterReport waterReport = waterReports.get(position);
 
-        holder.reporterName.setText("Reported by " + waterReport.getReporterId());
-        holder.reportNumber.setText("Report # " + waterReport.getReportNumber());
+        holder.reportNumber.setText("Report Number " + waterReport.getReportNumber());
         Date createDate = waterReport.getCreationDate();
         holder.reportDate.setText(createDate.toString());
+        holder.reporterUsername.setText("Reported by " + waterReport.getReporterId());
+        // TODO get user and set picture
         holder.waterLocation.setText("Latitude: " + waterReport.getLatitude()
                 + "\nLongitude: " + waterReport.getLongitude());
         WaterType watType = waterReport.getType();
@@ -67,13 +68,14 @@ public class ViewWaterReportsAdapter
         return waterReports.size();
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
-        private final TextView reporterName;
+    class CustomViewHolder extends RecyclerView.ViewHolder {
         private final TextView reportNumber;
         private final TextView reportDate;
-        private final TextView waterLocation;
+        private final TextView reporterUsername;
+        private final ImageView reporterPicture;
         private final TextView waterType;
         private final TextView waterCondition;
+        private final TextView waterLocation;
         private final TextView linkedPurityReports;
 
         /**
@@ -81,15 +83,16 @@ public class ViewWaterReportsAdapter
          *
          * @param view view to hold
          */
-        public CustomViewHolder(View view) {
+        CustomViewHolder(View view) {
             super(view);
-            reporterName = (TextView) view.findViewById(R.id.reporter_name);
-            reportNumber = (TextView) view.findViewById(R.id.report_title);
-            reportDate = (TextView) view.findViewById(R.id.report_date);
-            waterLocation = (TextView) view.findViewById(R.id.water_location);
-            waterType = (TextView) view.findViewById(R.id.water_type);
-            waterCondition = (TextView) view.findViewById(R.id.water_condition);
-            linkedPurityReports = (TextView) view.findViewById(R.id.water_linked_purity_reports);
+            reporterUsername = (TextView) view.findViewById(R.id.water_report_adapter_username);
+            reporterPicture = (ImageView) view.findViewById(R.id.water_report_adapter_profile_picture);
+            reportNumber = (TextView) view.findViewById(R.id.water_report_adapter_id);
+            reportDate = (TextView) view.findViewById(R.id.water_report_adapter_date);
+            waterLocation = (TextView) view.findViewById(R.id.water_report_adapter_location);
+            waterType = (TextView) view.findViewById(R.id.water_report_adapter_type);
+            waterCondition = (TextView) view.findViewById(R.id.water_report_adapter_condition);
+            linkedPurityReports = (TextView) view.findViewById(R.id.water_report_adapter_linked_purity_reports);
         }
     }
 }
