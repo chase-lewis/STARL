@@ -128,12 +128,12 @@ public class CreateWaterReportFragment extends Fragment {
 
         // Set all the text views' content
         reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
+        Date date = report.getCreationDate();
+        reportDateText.setText("Created On: " + date.toString());
         userNameText.setText("Created By: " + currentUser.getUsername());
         if (currentUser.getProfilePicture() != null) {
             userPictureImage.setImageBitmap(currentUser.getProfilePicture());
         }
-        Date date = report.getCreationDate();
-        reportDateText.setText("Created On: " + date.toString());
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));
         WaterType wType = report.getType();

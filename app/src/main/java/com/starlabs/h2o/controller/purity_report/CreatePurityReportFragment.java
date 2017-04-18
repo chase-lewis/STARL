@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,11 +30,17 @@ import java.util.function.Consumer;
  */
 public class CreatePurityReportFragment extends Fragment {
 
+    // Views
     private TextView reportNumText;
+    private TextView reportDateText;
+    private TextView userNameText;
+    private ImageView userPictureImage;
     private EditText linkedWaterReportEditText;
+    private EditText virusPPMEditText;
+    private EditText contPPMEditText;
     private Spinner purityCondSpinner;
-    private EditText virusPPMText;
-    private EditText contPPMText;
+
+    // Member variables
     private PurityReport report;
     private Runnable onFinish = this::onCancelPressed;
 
@@ -49,37 +56,48 @@ public class CreatePurityReportFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_purity_report, container, false);
 
-        // Set up the fields for the user profile
-        TextView reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
-        reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
-        linkedWaterReportEditText = (EditText) view.findViewById(R.id.create_purity_linked_water_report);
-        TextView reportReporterName = (TextView) view.findViewById(R.id.create_purity_report_username);
-        purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
-        virusPPMText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
-        contPPMText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);
-
-        // Get the user from session
+        // Get the content provider
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
-        User user = contentProvider.getLoggedInUser();
 
-        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, PurityCondition.values());
-        condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        purityCondSpinner.setAdapter(condAdapter);
+        // Set up the fields for the user profile
+        reportDateText = (TextView) view.findViewById(R.id.create_purity_report_date);
+        reportNumText = (TextView) view.findViewById(R.id.create_purity_report_num);
+        userNameText = (TextView) view.findViewById(R.id.create_purity_report_username);
+        userPictureImage = (ImageView) view.findViewById(R.id.create_purity_report_profile_picture);
+        linkedWaterReportEditText = (EditText) view.findViewById(R.id.create_purity_linked_water_report);
+        virusPPMEditText = (EditText) view.findViewById(R.id.create_purity_report_virus_ppm);
+        contPPMEditText = (EditText) view.findViewById(R.id.create_purity_report_cont_ppm);
+        purityCondSpinner = (Spinner) view.findViewById(R.id.create_purity_report_condition);
 
-        bundleItUp(user, contentProvider);
+        // Create a new report
+        User currentUser = contentProvider.getLoggedInUser();
+        report = new PurityReport(currentUser.getName());
+
+        // Get the correct id for the new report from the content provider
+        Consumer<Integer> onNextIdFound = id -> {
+            // Set the report number
+            report.setReportNumber(id + 1);
+            reportNumText.setText(Integer.toString(report.getReportNumber()));
+        };
+        contentProvider.getNextPurityReportId(onNextIdFound);
 
         // Set all the text views
-        reportReporterName.setText(user.getName());
-        //noinspection ChainedMethodCall
+        reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
         Date date = report.getCreationDate();
-        reportDateText.setText(date.toString());
-        reportNumText.setText(Integer.toString(report.getReportNumber()));
+        reportDateText.setText("Created On: " + date.toString());
+        userNameText.setText("Created By: " + currentUser.getUsername());
+        if (currentUser.getProfilePicture() != null) {
+            userPictureImage.setImageBitmap(currentUser.getProfilePicture());
+        }
         linkedWaterReportEditText.setText(Integer.toString(report.getLinkedWaterReportId()));
-        //noinspection ChainedMethodCall
+        virusPPMEditText.setText(report.getVirusPPM() + "");
+        contPPMEditText.setText(report.getContPPM() + "");
         purityCondSpinner.setSelection(report.getCondition().ordinal());
-        virusPPMText.setText(report.getVirusPPM() + "");
-        contPPMText.setText(report.getContPPM() + "");
+
+        // Set up spinner
+        ArrayAdapter<String> condAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, PurityCondition.values());
+        condAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        purityCondSpinner.setAdapter(condAdapter);
 
         // Create button setup
         Button reportCreateButton = (Button) view.findViewById(R.id.create_purity_report_create);
@@ -93,30 +111,6 @@ public class CreatePurityReportFragment extends Fragment {
     }
 
     /**
-     * Creates a bundle for fragment
-     *
-     * @param user            user creating report
-     * @param contentProvider firebase object
-     */
-    public void bundleItUp(User user, ContentProvider contentProvider) {
-        Bundle bundle = getArguments();
-        if ((bundle != null) && (bundle.getParcelable("PR_EDIT") != null)) {
-            report = bundle.getParcelable("PR_EDIT");
-        } else {
-            // Create a new report
-            report = new PurityReport(user.getName());
-
-            // Get the correct id for the new report from the content provider
-            Consumer<Integer> onNextIdFound = id -> {
-                // Set the report number
-                report.setReportNumber(id + 1);
-                reportNumText.setText(Integer.toString(report.getReportNumber()));
-            };
-            contentProvider.getNextPurityReportId(onNextIdFound);
-        }
-    }
-
-    /**
      * Method to create/finalize edit on report
      */
     private void onReportCreatePressed() {
@@ -125,10 +119,8 @@ public class CreatePurityReportFragment extends Fragment {
 
         // Update the values in the model from the UI
         report.setCondition((PurityCondition) purityCondSpinner.getSelectedItem());
-        //noinspection ChainedMethodCall
-        report.setVirusPPM(Integer.parseInt(virusPPMText.getText().toString()));
-        //noinspection ChainedMethodCall
-        report.setContPPM(Integer.parseInt(contPPMText.getText().toString()));
+        report.setVirusPPM(Integer.parseInt(virusPPMEditText.getText().toString()));
+        report.setContPPM(Integer.parseInt(contPPMEditText.getText().toString()));
         report.setLinkedWaterReportId(linkedWaterReportId);
 
         // Store purity report

@@ -23,6 +23,7 @@ public class WaterReport implements Comparable<WaterReport> {
     private WaterType type;
     private WaterCondition condition;
     private List<Integer> purityReportIds;
+
     /**
      * Constructor that takes in a report name and location
      *
@@ -40,6 +41,7 @@ public class WaterReport implements Comparable<WaterReport> {
         this.condition = WaterCondition.POTABLE;
         this.purityReportIds = new ArrayList<>();
     }
+
     /**
      * Default no arg constructor
      */
