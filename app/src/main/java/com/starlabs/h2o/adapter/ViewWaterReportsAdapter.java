@@ -50,9 +50,9 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
         holder.waterLocation.setText("Latitude: " + waterReport.getLatitude()
                 + "\nLongitude: " + waterReport.getLongitude());
         WaterType watType = waterReport.getType();
-        holder.waterType.setText(watType.toString());
+        holder.waterType.setText("Type: " + watType.toString());
         WaterCondition watCondition = waterReport.getCondition();
-        holder.waterCondition.setText(watCondition.toString());
+        holder.waterCondition.setText("Condition: " + watCondition.toString());
 
         List<Integer> linkedWater = waterReport.getLinkedPurityReports();
         if (linkedWater.isEmpty()) {

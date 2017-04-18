@@ -22,52 +22,83 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/purity_report_title"
-            android:layout_width="match_parent"
+            android:id="@+id/purity_report_adapter_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/purity_report_date"
+            android:text="Report Number "
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/purity_report_date"
+            android:id="@+id/purity_report_adapter_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/purity_report_adapter_id"
+            android:text="##/##/####"
+            android:textColor="@color/lightGrey"/>
+
+        <TextView
+            android:id="@+id/purity_report_adapter_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/purity_report_adapter_date"
+            android:text="Reported by $$$$"
+            android:textColor="@color/lightGrey"/>
+
+        <TextView
+            android:id="@+id/purity_report_adapter_spacer1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/purity_report_adapter_username"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/purity_report_adapter_virus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/purity_report_adapter_spacer1"
+            android:layout_marginTop="8dp"
+            android:text="Virus PPM: ##"/>
+
+        <TextView
+            android:id="@+id/purity_report_adapter_contaminant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/purity_report_adapter_virus"
+            android:text="Contaminant PPM: ##"/>
+
+        <TextView
+            android:id="@+id/purity_report_adapter_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/purity_report_adapter_virus"
+            android:layout_alignBottom="@+id/purity_report_adapter_virus"
+            android:layout_below="@id/purity_report_adapter_spacer1"
             android:layout_alignParentEnd="true"
-            android:textColor="@android:color/darker_gray"/>
+            android:gravity="end"
+            android:lines="2"
+            android:text="Condition\n$$$$"/>
 
         <TextView
-            android:id="@+id/worker_name"
+            android:id="@+id/purity_report_adapter_linked_water_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/purity_report_title"/>
+            android:layout_below="@id/purity_report_adapter_condition"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Linked Water Report: ####"/>
 
-        <TextView
-            android:id="@+id/purity_condition"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/purity_report_adapter_profile_picture"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/worker_name"/>
-
-        <TextView
-            android:id="@+id/purity_linked_water_report"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/purity_condition"/>
-
-        <TextView
-            android:id="@+id/virus_PPM"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/purity_linked_water_report"/>
-
-        <TextView
-            android:id="@+id/cont_PPM"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/virus_PPM"/>
+            android:layout_alignParentTop="true"
+            card_view:srcCompat="@android:drawable/sym_def_app_icon"
+            android:layout_alignBottom="@+id/purity_report_adapter_username"
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

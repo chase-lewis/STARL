@@ -12,7 +12,7 @@ import java.util.Random;
  */
 
 public class PurityReport implements Comparable<PurityReport> {
-    private String workerName;
+    private String reporterId;
     private Date creationDate;
     private int reportNumber;
     private PurityCondition condition;
@@ -23,10 +23,10 @@ public class PurityReport implements Comparable<PurityReport> {
     /**
      * Constructor that takes a worker's name and creates a purity report
      *
-     * @param workerName worker to create purity report
+     * @param reporterId worker to create purity report
      */
-    public PurityReport(String workerName) {
-        this.workerName = workerName;
+    public PurityReport(String reporterId) {
+        this.reporterId = reporterId;
         this.condition = PurityCondition.SAFE;
         this.creationDate = new Date();
         Random randObject = new Random();
@@ -85,21 +85,21 @@ public class PurityReport implements Comparable<PurityReport> {
     }
 
     /**
-     * Getter for the workerName
+     * Getter for the reporterId
      *
      * @return The name of the user who created the report
      */
-    public String getWorkerName() {
-        return workerName;
+    public String getReporterId() {
+        return reporterId;
     }
 
     /**
-     * Setter for the workerName
+     * Setter for the reporterId
      *
      * @param workerName The name of the user who created the report
      */
     public void setReporterName(String workerName) {
-        this.workerName = workerName;
+        this.reporterId = workerName;
     }
 
     /**

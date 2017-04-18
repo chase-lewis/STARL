@@ -84,7 +84,7 @@ public class CreatePurityReportFragment extends Fragment {
         // Set all the text views
         reportNumText.setText("Report Number: " + Integer.toString(report.getReportNumber()));
         Date date = report.getCreationDate();
-        reportDateText.setText("Created On: " + date.toString());
+        reportDateText.setText(date.toString());
         userNameText.setText("Created By: " + currentUser.getUsername());
         if (currentUser.getProfilePicture() != null) {
             userPictureImage.setImageBitmap(currentUser.getProfilePicture());

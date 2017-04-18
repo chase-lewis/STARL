@@ -3,6 +3,7 @@ package com.starlabs.h2o.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
@@ -18,15 +19,15 @@ import java.util.List;
 
 public class ViewPurityReportsAdapter
         extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
-    private final List<PurityReport> waterPurityReports;
+    private final List<PurityReport> purityReports;
 
     /**
      * Constructor that takes in a list of purity reports to view
      *
-     * @param waterPurityReports water purity reports to view
+     * @param purityReports water purity reports to view
      */
-    public ViewPurityReportsAdapter(List<PurityReport> waterPurityReports) {
-        this.waterPurityReports = waterPurityReports;
+    public ViewPurityReportsAdapter(List<PurityReport> purityReports) {
+        this.purityReports = purityReports;
     }
 
     @Override
@@ -37,48 +38,51 @@ public class ViewPurityReportsAdapter
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        PurityReport purityReport = waterPurityReports.get(position);
+        PurityReport purityReport = purityReports.get(position);
 
-        holder.workerName.setText("Reported by " + purityReport.getWorkerName());
-        holder.reportNumber.setText("Report # " + purityReport.getReportNumber());
+        holder.reportNumber.setText("Report Number " + purityReport.getReportNumber());
         Date createDate = purityReport.getCreationDate();
         holder.creationDate.setText(createDate.toString());
-        holder.linkedWaterReport.setText("Linked Water Report: " +
-                purityReport.getLinkedWaterReportId());
+        holder.reporterUsername.setText("Reported by " + purityReport.getReporterId());
+        // TODO picture
         PurityCondition purCondition = purityReport.getCondition();
-        holder.purityCondition.setText("Condition: " + purCondition.toString());
-        holder.virusPPM.setText("virusPPM: " + purityReport.getVirusPPM());
-        holder.contPPM.setText("contPPM: " + purityReport.getContPPM());
+        holder.purityCondition.setText("Condition:\n" + purCondition.toString());
+        holder.virusPPM.setText("Virus PPM: " + purityReport.getVirusPPM());
+        holder.contPPM.setText("Contaminant PPM: " + purityReport.getContPPM());
+        holder.linkedWaterReport.setText("Linked Water Report: " + purityReport.getLinkedWaterReportId());
     }
 
     @Override
     public int getItemCount() {
-        return waterPurityReports.size();
+        return purityReports.size();
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
-        private final TextView workerName;
+    class CustomViewHolder extends RecyclerView.ViewHolder {
         private final TextView reportNumber;
         private final TextView creationDate;
-        private final TextView linkedWaterReport;
+        private final TextView reporterUsername;
+        private final ImageView reporterPicture;
         private final TextView purityCondition;
         private final TextView virusPPM;
         private final TextView contPPM;
+        private final TextView linkedWaterReport;
 
         /**
          * Custom view holder for viewing purity reports
          *
          * @param view view to hold
          */
-        public CustomViewHolder(View view) {
+        CustomViewHolder(View view) {
             super(view);
-            workerName = (TextView) view.findViewById(R.id.worker_name);
-            reportNumber = (TextView) view.findViewById(R.id.purity_report_title);
-            creationDate = (TextView) view.findViewById(R.id.purity_report_date);
-            linkedWaterReport = (TextView) view.findViewById(R.id.purity_linked_water_report);
-            purityCondition = (TextView) view.findViewById(R.id.purity_condition);
-            virusPPM = (TextView) view.findViewById(R.id.virus_PPM);
-            contPPM = (TextView) view.findViewById(R.id.cont_PPM);
+
+            reportNumber = (TextView) view.findViewById(R.id.purity_report_adapter_id);
+            creationDate = (TextView) view.findViewById(R.id.purity_report_adapter_date);
+            reporterUsername = (TextView) view.findViewById(R.id.purity_report_adapter_username);
+            reporterPicture = (ImageView) view.findViewById(R.id.purity_report_adapter_profile_picture);
+            purityCondition = (TextView) view.findViewById(R.id.purity_report_adapter_condition);
+            virusPPM = (TextView) view.findViewById(R.id.purity_report_adapter_virus);
+            contPPM = (TextView) view.findViewById(R.id.purity_report_adapter_contaminant);
+            linkedWaterReport = (TextView) view.findViewById(R.id.purity_report_adapter_linked_water_report);
         }
     }
 }
