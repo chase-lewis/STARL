@@ -38,12 +38,16 @@ import com.starlabs.h2o.model.user.UserType;
  *
  * @author chase
  */
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TO_PROFILE = "HOME_TO_PROFILE";
-    private final FragmentManager fragmentManager = getFragmentManager();
+
+    // Set up views
     private NavigationView navigationView = null;
+    private Toolbar toolbar;
+
+    // Other instance data
+    private final FragmentManager fragmentManager = getFragmentManager();
     private int oldId;
 
     @Override
@@ -54,7 +58,7 @@ public class HomeActivity extends AppCompatActivity
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         User user = contentProvider.getLoggedInUser();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -115,6 +119,7 @@ public class HomeActivity extends AppCompatActivity
         MenuItem menuItem1 = menu1.findItem(id);
         menuItem1.setChecked(true);
         oldId = id;
+        determineTitle(id);
     }
 
     @Override
@@ -161,6 +166,7 @@ public class HomeActivity extends AppCompatActivity
             MenuItem menItemCurr = navMenu1.findItem(id);
             menItemCurr.setChecked(true);
             oldId = id;
+            determineTitle(id);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -181,6 +187,7 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_map) {
             newFragment = new ViewMapFragment();
+
         } else if (id == R.id.nav_create_water_report) {
             newFragment = new CreateWaterReportFragment();
         } else if (id == R.id.nav_view_water_reports) {
@@ -207,6 +214,7 @@ public class HomeActivity extends AppCompatActivity
     private void switchToMap() {
         Menu navMenu = navigationView.getMenu();
         onNavigationItemSelected(navMenu.findItem(R.id.nav_map));
+        determineTitle(R.id.nav_map);
     }
 
     /**
@@ -218,7 +226,6 @@ public class HomeActivity extends AppCompatActivity
     public void switchToWaterReportCreate(Bundle bundle) {
         CreateWaterReportFragment newReport = new CreateWaterReportFragment();
         newReport.setArguments(bundle);
-
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_home_container, newReport);
@@ -232,6 +239,7 @@ public class HomeActivity extends AppCompatActivity
         MenuItem menuItem2 = navMenu.findItem(id);
         menuItem2.setChecked(true);
         oldId = id;
+        determineTitle(id);
     }
 
     /**
@@ -248,6 +256,7 @@ public class HomeActivity extends AppCompatActivity
         transaction.replace(R.id.fragment_home_container, frag);
         transaction.addToBackStack(null);
         transaction.commit();
+        determineTitle(R.id.nav_view_histogram);
     }
 
     /**
@@ -262,5 +271,30 @@ public class HomeActivity extends AppCompatActivity
         name.setText(user.getName());
         TextView username = (TextView) header.findViewById(R.id.header_username);
         username.setText(user.getUsername());
+    }
+
+    /**
+     * Sets the toolbar's title based on the fragment being shown.
+     *
+     * @param id the menu item id
+     */
+    private void determineTitle(int id) {
+        if (id == R.id.nav_map) {
+            toolbar.setTitle("Nearby Water");
+        } else if (id == R.id.nav_create_water_report) {
+            toolbar.setTitle("Create Water Report");
+        } else if (id == R.id.nav_view_water_reports) {
+            toolbar.setTitle("View Water Reports");
+        } else if (id == R.id.nav_create_purity_report) {
+            toolbar.setTitle("Create Purity Report");
+        } else if (id == R.id.nav_view_purity_reports) {
+            toolbar.setTitle("View Purity Reports");
+        } else if (id == R.id.nav_view_histogram) {
+            toolbar.setTitle("History Report");
+        } else if (id == R.id.nav_profile) {
+            toolbar.setTitle("Edit Your Profile");
+        } else {
+            toolbar.setTitle("STARLabs H20");
+        }
     }
 }
