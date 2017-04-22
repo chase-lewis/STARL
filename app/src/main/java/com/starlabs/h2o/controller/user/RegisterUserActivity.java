@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.transition.Fade;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,7 +54,10 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.register_cancel_button);
-        cancelSignInButton.setOnClickListener(view -> finish());
+        cancelSignInButton.setOnClickListener(view -> {
+            finish();
+            this.overridePendingTransition(0, R.anim.fade_out);
+        });
 
         // Set up the user type spinner
         mUserTypeView = (Spinner) findViewById(R.id.register_user_type);
@@ -64,6 +68,10 @@ public class RegisterUserActivity extends AppCompatActivity {
         // Animations
         getWindow().setEnterTransition(new Fade(Fade.IN));
         getWindow().setExitTransition(new Fade(Fade.OUT));
+
+        // Softkey coloring
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
     /**

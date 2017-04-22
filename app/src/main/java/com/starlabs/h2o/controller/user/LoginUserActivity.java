@@ -11,6 +11,7 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,11 +67,18 @@ public class LoginUserActivity extends AppCompatActivity {
 
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.login_cancel);
-        cancelSignInButton.setOnClickListener(view -> finish());
+        cancelSignInButton.setOnClickListener(view -> {
+            finish();
+            this.overridePendingTransition(0, R.anim.fade_out);
+        });
 
         // Animations
         getWindow().setEnterTransition(new Fade(Fade.IN));
         getWindow().setExitTransition(new Fade(Fade.OUT));
+
+        // Softkey coloring
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
     /**
