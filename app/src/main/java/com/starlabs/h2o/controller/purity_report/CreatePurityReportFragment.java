@@ -87,7 +87,7 @@ public class CreatePurityReportFragment extends Fragment {
         reportDateText.setText(date.toString());
         userNameText.setText("Created By: " + currentUser.getUsername());
         if (currentUser.getProfilePicture() != null) {
-            userPictureImage.setImageBitmap(currentUser.getProfilePicture());
+            userPictureImage.setImageBitmap(User.stringToBitmap(currentUser.getProfilePicture()));
         }
         linkedWaterReportEditText.setText(Integer.toString(report.getLinkedWaterReportId()));
         virusPPMEditText.setText(report.getVirusPPM() + "");

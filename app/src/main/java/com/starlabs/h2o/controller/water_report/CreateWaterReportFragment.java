@@ -132,7 +132,7 @@ public class CreateWaterReportFragment extends Fragment {
         reportDateText.setText(date.toString());
         userNameText.setText("Created By: " + currentUser.getUsername());
         if (currentUser.getProfilePicture() != null) {
-            userPictureImage.setImageBitmap(currentUser.getProfilePicture());
+            userPictureImage.setImageBitmap(User.stringToBitmap(currentUser.getProfilePicture()));
         }
         reportLocLatEditText.setText(Double.toString(report.getLatitude()));
         reportLocLongEditText.setText(Double.toString(report.getLongitude()));

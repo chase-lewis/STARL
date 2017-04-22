@@ -1,11 +1,15 @@
 package com.starlabs.h2o.model.user;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Base64;
 
 import org.apache.commons.lang3.RandomStringUtils;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * User POJO
@@ -40,7 +44,7 @@ public class User implements Parcelable, Comparable<User> {
     private String address;
     private String email;
     private UserType userType;
-    private Bitmap profilePicture;
+    private String profilePicture;
 
     /**
      * Two parameter constructor for User object
@@ -174,8 +178,8 @@ public class User implements Parcelable, Comparable<User> {
      *
      * @return the bitmap picture, or null if it has not been set
      */
-    public Bitmap getProfilePicture() {
-        return profilePicture;
+    public String getProfilePicture() {
+        return this.profilePicture;
     }
 
     /**
@@ -183,7 +187,7 @@ public class User implements Parcelable, Comparable<User> {
      *
      * @param profilePicture the bitmap picture
      */
-    public void setProfilePicture(Bitmap profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 
@@ -353,5 +357,17 @@ public class User implements Parcelable, Comparable<User> {
     @Override
     public int compareTo(@NonNull User o) {
         return this.username.compareTo(o.username);
+    }
+
+    public static Bitmap stringToBitmap(String picture) {
+        byte [] encodeByte = Base64.decode(picture ,Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+    }
+
+    public static String bitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
+        byte[] byteArray = bYtE.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

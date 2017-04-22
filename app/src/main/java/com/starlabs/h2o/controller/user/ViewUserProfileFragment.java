@@ -2,19 +2,31 @@ package com.starlabs.h2o.controller.user;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Base64OutputStream;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.controller.HomeActivity;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 /**
  * Activity to edit the user profile
@@ -30,6 +42,7 @@ public class ViewUserProfileFragment extends Fragment {
     private EditText nameField;
     private EditText emailField;
     private EditText addressField;
+    private ImageView profilePicture;
 
     // User passed into this activity
     private User user;
@@ -51,6 +64,7 @@ public class ViewUserProfileFragment extends Fragment {
         nameField = (EditText) view.findViewById(R.id.user_profile_name_field);
         emailField = (EditText) view.findViewById(R.id.user_profile_email);
         addressField = (EditText) view.findViewById(R.id.user_profile_address);
+        profilePicture = (ImageView) view.findViewById(R.id.profile_picture);
 
         // Get the user from the session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -61,8 +75,11 @@ public class ViewUserProfileFragment extends Fragment {
         emailField.setText(user.getEmail());
         addressField.setText(user.getAddress());
 
-        // Focus
-        nameField.requestFocus();
+        // Populate the profile picture
+        String picture = user.getProfilePicture();
+        if (picture != null) {
+            profilePicture.setImageBitmap(User.stringToBitmap(picture));
+        }
 
         // Done button setup
         Button profileDoneButton = (Button) view.findViewById(R.id.profile_done_button);
@@ -108,6 +125,14 @@ public class ViewUserProfileFragment extends Fragment {
             return;
         }
         user.setAddress(addressText);
+
+        // Set the profile picture
+        Drawable drawable = profilePicture.getDrawable();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        user.setProfilePicture(User.bitmapToString(bitmap));
 
         // Store the user in our content provider, overriding all previous data for that user
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
