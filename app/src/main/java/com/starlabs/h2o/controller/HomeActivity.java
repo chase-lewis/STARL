@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapFragment;
@@ -269,6 +270,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         name.setText(user.getName());
         TextView username = (TextView) header.findViewById(R.id.header_username);
         username.setText(user.getUsername());
+        ImageView picture = (ImageView) header.findViewById(R.id.header_picture);
+        picture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
     }
 
     /**

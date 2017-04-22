@@ -58,10 +58,9 @@
 
             <ImageView
                 android:id="@+id/create_purity_report_profile_picture"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
-                android:scaleType="center"
                 android:src="@android:mipmap/sym_def_app_icon"/>
 
         </LinearLayout>

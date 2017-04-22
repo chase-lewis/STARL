@@ -2,9 +2,12 @@ package com.starlabs.h2o.controller.user;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +23,11 @@ import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Activity to edit the user profile
  *
@@ -28,7 +36,7 @@ import com.starlabs.h2o.model.user.User;
 public class ViewUserProfileFragment extends Fragment {
 
     // Intent message ids
-    public static final String TO_MAIN = "TO_MAIN";
+    private static final int SELECT_PHOTO = 1;
 
     // Field views
     private EditText nameField;
@@ -57,6 +65,11 @@ public class ViewUserProfileFragment extends Fragment {
         emailField = (EditText) view.findViewById(R.id.user_profile_email);
         addressField = (EditText) view.findViewById(R.id.user_profile_address);
         profilePicture = (ImageView) view.findViewById(R.id.profile_picture);
+        profilePicture.setOnClickListener(v -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+        });
 
         // Get the user from the session
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
@@ -147,6 +160,25 @@ public class ViewUserProfileFragment extends Fragment {
         act.onBackPressed();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch (requestCode) {
+            case SELECT_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        final Uri imageUri = imageReturnedIntent.getData();
+                        final InputStream imageStream = this.getActivity().getContentResolver().openInputStream(imageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        profilePicture.setImageBitmap(Bitmap.createScaledBitmap(selectedImage, 100, 100, false));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+        }
+    }
 }
 
 

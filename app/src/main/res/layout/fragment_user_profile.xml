@@ -15,13 +15,25 @@
 
     <ImageView
         android:id="@+id/profile_picture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="8dp"
-        android:minHeight="100dp"
-        android:minWidth="100dp"
         android:src="@android:drawable/sym_def_app_icon"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Tap image to set a new profile picture"
+        android:textColor="@color/lightGray"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorAccent"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

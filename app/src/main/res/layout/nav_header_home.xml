@@ -14,6 +14,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/header_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Profile Picture"
