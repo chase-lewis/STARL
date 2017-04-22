@@ -2,10 +2,15 @@ package com.starlabs.h2o.controller.user;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +44,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
         // Set the layout
         setContentView(R.layout.activity_login);
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
         // Set up the username form
         mUsernameView = (EditText) findViewById(R.id.login_username);
@@ -61,6 +67,10 @@ public class LoginUserActivity extends AppCompatActivity {
         // Set up the cancel button
         Button cancelSignInButton = (Button) findViewById(R.id.login_cancel);
         cancelSignInButton.setOnClickListener(view -> finish());
+
+        // Animations
+        getWindow().setEnterTransition(new Fade(Fade.IN));
+        getWindow().setExitTransition(new Fade(Fade.OUT));
     }
 
     /**

@@ -1,11 +1,16 @@
 package com.starlabs.h2o.controller;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.widget.Button;
 
 import com.starlabs.h2o.R;
@@ -26,6 +31,7 @@ public class InitialActivity extends AppCompatActivity {
 
         // Set the layout
         setContentView(R.layout.activity_initial);
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
         // Set up the login button
         Button goToLogin = (Button) findViewById(R.id.initial_sign_in);
@@ -45,6 +51,10 @@ public class InitialActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
+
+        // Animations
+        getWindow().setEnterTransition(new Fade(Fade.IN));
+        getWindow().setExitTransition(new Fade(Fade.OUT));
     }
 
     /**
@@ -52,7 +62,7 @@ public class InitialActivity extends AppCompatActivity {
      */
     private void launchLogin() {
         Intent intent = new Intent(this, LoginUserActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     /**
@@ -60,6 +70,6 @@ public class InitialActivity extends AppCompatActivity {
      */
     private void launchRegister() {
         Intent intent = new Intent(this, RegisterUserActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

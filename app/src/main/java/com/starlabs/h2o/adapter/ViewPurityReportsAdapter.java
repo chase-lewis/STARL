@@ -1,7 +1,9 @@
 package com.starlabs.h2o.adapter;
 
+import android.animation.Animator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import java.util.function.Consumer;
 
 public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
     private final List<PurityReport> purityReports;
+    private boolean detached = false;
 
     /**
      * Constructor that takes in a list of purity reports to view
@@ -31,6 +34,11 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
      */
     public ViewPurityReportsAdapter(List<PurityReport> purityReports) {
         this.purityReports = purityReports;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        this.detached = true;
     }
 
     @Override
@@ -59,6 +67,16 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
             if (user != null) {
                 // Set the profile picture
                 holder.reporterPicture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
+            }
+
+            // Reveal effect!
+            if (!this.detached) {
+                int cx = holder.reporterPicture.getWidth() / 2;
+                int cy = holder.reporterPicture.getHeight() / 2;
+                float finalRadius = (float) Math.hypot(cx, cy);
+                Animator anim = ViewAnimationUtils.createCircularReveal(holder.reporterPicture, cx, cy, 0, finalRadius);
+                holder.reporterPicture.setVisibility(View.VISIBLE);
+                anim.start();
             }
         };
         contentProvider.getSingleUser(onUserFound, purityReport.getReporterId());
@@ -95,6 +113,8 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
             virusPPM = (TextView) view.findViewById(R.id.purity_report_adapter_virus);
             contPPM = (TextView) view.findViewById(R.id.purity_report_adapter_contaminant);
             linkedWaterReport = (TextView) view.findViewById(R.id.purity_report_adapter_linked_water_report);
+
+            reporterPicture.setVisibility(View.INVISIBLE);
         }
     }
 }

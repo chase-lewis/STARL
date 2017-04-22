@@ -71,7 +71,7 @@ public class CreatePurityReportFragment extends Fragment {
 
         // Create a new report
         User currentUser = contentProvider.getLoggedInUser();
-        report = new PurityReport(currentUser.getName());
+        report = new PurityReport(currentUser.getUsername());
 
         // Get the correct id for the new report from the content provider
         Consumer<Integer> onNextIdFound = id -> {

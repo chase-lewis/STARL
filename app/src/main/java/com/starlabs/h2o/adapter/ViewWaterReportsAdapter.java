@@ -1,7 +1,9 @@
 package com.starlabs.h2o.adapter;
 
+import android.animation.Animator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import java.util.function.Consumer;
 
 public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterReportsAdapter.CustomViewHolder> {
     private final List<WaterReport> waterReports;
+    private boolean detached = false;
 
     /**
      * Constructor for viewing water purity reports
@@ -37,8 +40,14 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
     }
 
     @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        this.detached = true;
+    }
+
+    @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = View.inflate(viewGroup.getContext(), R.layout.adapter_water_report, null);
+
         return new CustomViewHolder(view);
     }
 
@@ -70,6 +79,16 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
             if (user != null) {
                 // Set the profile picture
                 holder.reporterPicture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
+            }
+
+            // Reveal effect!
+            if (!this.detached) {
+                int cx = holder.reporterPicture.getWidth() / 2;
+                int cy = holder.reporterPicture.getHeight() / 2;
+                float finalRadius = (float) Math.hypot(cx, cy);
+                Animator anim = ViewAnimationUtils.createCircularReveal(holder.reporterPicture, cx, cy, 0, finalRadius);
+                holder.reporterPicture.setVisibility(View.VISIBLE);
+                anim.start();
             }
         };
         contentProvider.getSingleUser(onUserFound, waterReport.getReporterId());
@@ -105,6 +124,8 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
             waterType = (TextView) view.findViewById(R.id.water_report_adapter_type);
             waterCondition = (TextView) view.findViewById(R.id.water_report_adapter_condition);
             linkedPurityReports = (TextView) view.findViewById(R.id.water_report_adapter_linked_purity_reports);
+
+            reporterPicture.setVisibility(View.INVISIBLE);
         }
     }
 }

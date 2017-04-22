@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.transition.Fade;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.register_username);
@@ -58,6 +60,10 @@ public class RegisterUserActivity extends AppCompatActivity {
         ArrayAdapter<UserType> adapter = new ArrayAdapter<>(this, R.layout.activity_register_spinner, UserType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserTypeView.setAdapter(adapter);
+
+        // Animations
+        getWindow().setEnterTransition(new Fade(Fade.IN));
+        getWindow().setExitTransition(new Fade(Fade.OUT));
     }
 
     /**
