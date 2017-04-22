@@ -76,8 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/water_report_adapter_type"
             android:layout_alignBottom="@+id/water_report_adapter_type"
-            android:layout_below="@id/water_report_adapter_spacer1"
             android:layout_alignParentEnd="true"
+            android:layout_below="@id/water_report_adapter_spacer1"
             android:gravity="end"
             android:lines="2"
             android:text="Latitude: ##.#### \nLongitude: ##.####"/>
@@ -95,10 +95,10 @@
             android:id="@+id/water_report_adapter_profile_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            card_view:srcCompat="@android:drawable/sym_def_app_icon"
             android:layout_alignBottom="@+id/water_report_adapter_username"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            card_view:srcCompat="@android:drawable/sym_def_app_icon"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

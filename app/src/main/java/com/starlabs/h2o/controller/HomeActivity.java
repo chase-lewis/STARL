@@ -41,13 +41,11 @@ import com.starlabs.h2o.model.user.UserType;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TO_PROFILE = "HOME_TO_PROFILE";
-
+    // Other instance data
+    private final FragmentManager fragmentManager = getFragmentManager();
     // Set up views
     private NavigationView navigationView = null;
     private Toolbar toolbar;
-
-    // Other instance data
-    private final FragmentManager fragmentManager = getFragmentManager();
     private int oldId;
 
     @Override

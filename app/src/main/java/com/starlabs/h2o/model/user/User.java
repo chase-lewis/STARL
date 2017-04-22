@@ -173,6 +173,18 @@ public class User implements Parcelable, Comparable<User> {
         return (containsDigit || containsLower || containsUpper) && containsAt && containsDot;
     }
 
+    public static Bitmap stringToBitmap(String picture) {
+        byte[] encodeByte = Base64.decode(picture, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+    }
+
+    public static String bitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
+        byte[] byteArray = bYtE.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
     /**
      * Getter for the profile picture
      *
@@ -281,6 +293,9 @@ public class User implements Parcelable, Comparable<User> {
         this.password = password;
     }
 
+
+    //Allows User to be parcelable
+
     /**
      * Getter for full name of User
      *
@@ -298,9 +313,6 @@ public class User implements Parcelable, Comparable<User> {
     public void setName(String name) {
         this.name = name;
     }
-
-
-    //Allows User to be parcelable
 
     /**
      * Getter for address of User
@@ -357,17 +369,5 @@ public class User implements Parcelable, Comparable<User> {
     @Override
     public int compareTo(@NonNull User o) {
         return this.username.compareTo(o.username);
-    }
-
-    public static Bitmap stringToBitmap(String picture) {
-        byte [] encodeByte = Base64.decode(picture ,Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-    }
-
-    public static String bitmapToString(Bitmap bitmap) {
-        ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
-        byte[] byteArray = bYtE.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

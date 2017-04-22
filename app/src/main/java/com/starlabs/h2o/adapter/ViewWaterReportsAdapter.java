@@ -7,12 +7,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.starlabs.h2o.R;
+import com.starlabs.h2o.dao.ContentProvider;
+import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.report.WaterCondition;
 import com.starlabs.h2o.model.report.WaterReport;
 import com.starlabs.h2o.model.report.WaterType;
+import com.starlabs.h2o.model.user.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Class for representing water reports in views
@@ -46,7 +50,6 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
         Date createDate = waterReport.getCreationDate();
         holder.reportDate.setText(createDate.toString());
         holder.reporterUsername.setText("Reported by " + waterReport.getReporterId());
-        // TODO get user and set picture
         holder.waterLocation.setText("Latitude: " + waterReport.getLatitude()
                 + "\nLongitude: " + waterReport.getLongitude());
         WaterType watType = waterReport.getType();
@@ -61,6 +64,16 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
             holder.linkedPurityReports.setText("Linked Purity Reports: "
                     + linkedWater.toString());
         }
+
+        // Get the user associated with the report
+        ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
+        Consumer<User> onUserFound = user -> {
+            if (user != null) {
+                // Set the profile picture
+                holder.reporterPicture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
+            }
+        };
+        contentProvider.getSingleUser(onUserFound, waterReport.getReporterId());
     }
 
     @Override

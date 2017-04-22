@@ -3,15 +3,10 @@ package com.starlabs.h2o.controller.user;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Base64OutputStream;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +19,6 @@ import com.starlabs.h2o.controller.HomeActivity;
 import com.starlabs.h2o.dao.ContentProvider;
 import com.starlabs.h2o.dao.ContentProviderFactory;
 import com.starlabs.h2o.model.user.User;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 
 /**
  * Activity to edit the user profile

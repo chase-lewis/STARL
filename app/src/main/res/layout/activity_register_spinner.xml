@@ -5,5 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/colorPrimaryDark"
-    android:textColor="@color/white"
-    android:hint="Choose User Type"/>
+    android:hint="Choose User Type"
+    android:textColor="@color/white"/>
