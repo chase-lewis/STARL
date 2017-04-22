@@ -61,8 +61,7 @@ public class ViewWaterReportsAdapter extends RecyclerView.Adapter<ViewWaterRepor
         if (linkedWater.isEmpty()) {
             holder.linkedPurityReports.setText("No Linked Purity Reports");
         } else {
-            holder.linkedPurityReports.setText("Linked Purity Reports: "
-                    + linkedWater.toString());
+            holder.linkedPurityReports.setText("Linked Purity Reports: " + linkedWater.toString());
         }
 
         // Get the user associated with the report
