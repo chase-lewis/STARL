@@ -21,8 +21,7 @@ import java.util.function.Consumer;
  * @author Rishi
  */
 
-public class ViewPurityReportsAdapter
-        extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
+public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
     private final List<PurityReport> purityReports;
 
     /**
