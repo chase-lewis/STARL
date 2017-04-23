@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * Represents a Purity Report.
  *
- * @author Sungjae Hyun
+ * @author tejun, Sungjae Hyun
  */
 
 public class PurityReport implements Comparable<PurityReport> {

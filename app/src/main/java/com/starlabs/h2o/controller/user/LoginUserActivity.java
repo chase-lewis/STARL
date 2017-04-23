@@ -1,16 +1,14 @@
 package com.starlabs.h2o.controller.user;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.transition.Explode;
 import android.transition.Fade;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -31,6 +29,9 @@ import java.util.function.Consumer;
  * @author tejun, chase
  */
 public class LoginUserActivity extends AppCompatActivity {
+
+    // Member variables
+    private int tries = -1;
 
     // UI references
     private EditText mUsernameView;
@@ -99,8 +100,23 @@ public class LoginUserActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
         // Reset errors
+        tries++;
         mUsernameView.setError(null);
         mPasswordView.setError(null);
+
+        // Check for too many login attempts
+        if (tries >= 3) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("You have tried to login too many times")
+                    .setTitle("Locked Out!")
+                    .setNegativeButton("OK", (dialog, id) -> {
+                        // User cancelled the dialog
+                    });
+            // Create the AlertDialog object and return it
+            Dialog dialog = builder.create();
+            dialog.show();
+            return;
+        }
 
         // Store values at the time of the login attempt.
         Editable usName = mUsernameView.getText();
@@ -137,6 +153,7 @@ public class LoginUserActivity extends AppCompatActivity {
             if (user != null && user.isCorrectPassword(password)) {
                 // Password matches!
                 contentProvider.setLoggedInUser(user);
+                tries--;
 
                 // Transition to the Map fragment in the Home Activity
                 progressDialog.dismiss();

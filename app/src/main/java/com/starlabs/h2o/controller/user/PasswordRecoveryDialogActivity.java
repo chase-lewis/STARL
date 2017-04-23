@@ -18,6 +18,11 @@ import com.starlabs.h2o.model.user.User;
 
 import java.util.function.Consumer;
 
+/**
+ * Dialog activity to recover a user's password
+ *
+ * @author tejun
+ */
 public class PasswordRecoveryDialogActivity extends Activity {
 
     private EditText usernameView;

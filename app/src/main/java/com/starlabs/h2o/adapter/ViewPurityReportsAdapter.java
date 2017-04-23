@@ -1,6 +1,7 @@
 package com.starlabs.h2o.adapter;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -20,7 +21,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * @author Rishi
+ * Adapter to view a purity report
+ *
+ * @author tejun, Rishi
  */
 
 public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityReportsAdapter.CustomViewHolder> {
@@ -64,7 +67,7 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
         // Get the user associated with the report
         ContentProvider contentProvider = ContentProviderFactory.getDefaultContentProvider();
         Consumer<User> onUserFound = user -> {
-            if (user != null) {
+            if (user != null && user.getProfilePicture() != null) {
                 // Set the profile picture
                 holder.reporterPicture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
             }
@@ -75,6 +78,13 @@ public class ViewPurityReportsAdapter extends RecyclerView.Adapter<ViewPurityRep
                 int cy = holder.reporterPicture.getHeight() / 2;
                 float finalRadius = (float) Math.hypot(cx, cy);
                 Animator anim = ViewAnimationUtils.createCircularReveal(holder.reporterPicture, cx, cy, 0, finalRadius);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        holder.reporterPicture.setHasTransientState(false);
+                    }
+                });
+                holder.reporterPicture.setHasTransientState(true);
                 holder.reporterPicture.setVisibility(View.VISIBLE);
                 anim.start();
             }

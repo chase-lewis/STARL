@@ -32,7 +32,7 @@ import java.util.function.Consumer;
 /**
  * Fragment for displaying google map in the HomeActivity
  *
- * @author chase
+ * @author tejun, chase
  */
 
 public class ViewMapFragment extends Fragment implements OnMapReadyCallback {

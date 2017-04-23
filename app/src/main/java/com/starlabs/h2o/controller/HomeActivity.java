@@ -271,7 +271,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView username = (TextView) header.findViewById(R.id.header_username);
         username.setText(user.getUsername());
         ImageView picture = (ImageView) header.findViewById(R.id.header_picture);
-        picture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
+        if (user.getProfilePicture() != null) {
+            picture.setImageBitmap(User.stringToBitmap(user.getProfilePicture()));
+        }
     }
 
     /**
