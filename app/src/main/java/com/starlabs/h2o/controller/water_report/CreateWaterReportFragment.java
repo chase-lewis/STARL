@@ -74,7 +74,6 @@ public class CreateWaterReportFragment extends Fragment {
     private WaterReport report;
     private ContentProvider contentProvider;
     private ShareDialog shareDialog;
-    private Bitmap image;
 
     /**
      * Default constructor with no args
@@ -89,7 +88,6 @@ public class CreateWaterReportFragment extends Fragment {
 
         //Creates share Dialog instance
         shareDialog = new ShareDialog(getActivity());
-        image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_web);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_water_report, container, false);
@@ -244,15 +242,14 @@ public class CreateWaterReportFragment extends Fragment {
         builder.setTitle("Would you like to share  your report creation on Facebook?")
                 .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
                 .setPositiveButton("Yes", (dialog, id) -> {
-                    SharePhoto photo = new SharePhoto.Builder()
-                            .setBitmap(image)
-                            .build();
-
-                    ShareContent shareContent = new ShareMediaContent.Builder()
-                            .addMedium(photo)
-                            .build();
-
-                    shareDialog.show(shareContent);
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                .setContentDescription("Made a Water Report")
+                                .setContentTitle("Made a Water Report")
+                                .setContentUrl(Uri.parse("http://imgur.com/a/Fq1Ne"))
+                                .build();
+                        shareDialog.show(linkContent);
+                    }
                     dialog.dismiss();
                 });
 
