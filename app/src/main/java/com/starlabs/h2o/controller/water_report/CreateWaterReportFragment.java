@@ -6,11 +6,14 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +30,11 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.share.ShareApi;
 import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareMediaContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.model.LatLng;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
@@ -66,6 +73,8 @@ public class CreateWaterReportFragment extends Fragment {
     // Member variables
     private WaterReport report;
     private ContentProvider contentProvider;
+    private ShareDialog shareDialog;
+    private Bitmap image;
 
     /**
      * Default constructor with no args
@@ -77,6 +86,11 @@ public class CreateWaterReportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //Creates share Dialog instance
+        shareDialog = new ShareDialog(getActivity());
+        image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_web);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_water_report, container, false);
 
@@ -230,29 +244,15 @@ public class CreateWaterReportFragment extends Fragment {
         builder.setTitle("Would you like to share  your report creation on Facebook?")
                 .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
                 .setPositiveButton("Yes", (dialog, id) -> {
-                    ShareLinkContent content = new ShareLinkContent.Builder()
-                            .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                    SharePhoto photo = new SharePhoto.Builder()
+                            .setBitmap(image)
                             .build();
-                    ShareApi api = new ShareApi(content);
-                    api.setMessage("Test");
-                    api.share(new FacebookCallback<Sharer.Result>() {
 
-                        @Override
-                        public void onSuccess(Sharer.Result result) {
-                            Log.d("kavin", result.toString());
-                        }
+                    ShareContent shareContent = new ShareMediaContent.Builder()
+                            .addMedium(photo)
+                            .build();
 
-                        @Override
-                        public void onCancel() {
-                            Log.d("kavin", "Cancel");
-                        }
-
-                        @Override
-                        public void onError(FacebookException error) {
-                            Log.d("kavin", error.toString());
-                        }
-                    });
-
+                    shareDialog.show(shareContent);
                     dialog.dismiss();
                 });
 
