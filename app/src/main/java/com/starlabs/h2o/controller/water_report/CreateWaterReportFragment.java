@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,6 @@ import java.util.Date;
 import java.util.function.Consumer;
 
 //For Facebook Extra Credit
-import com.facebook.FacebookSdk;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.util.Log;
 
 
 /**
@@ -120,9 +117,7 @@ public class CreateWaterReportFragment extends Fragment {
             // Set up the location of the report
             // Check if we have location access permission first.
             // Note we are using Network Location, not GPS
-            if (ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Activity act = getActivity();
                 LocationManager locationManager = (LocationManager)
                         act.getSystemService(Context.LOCATION_SERVICE);
@@ -222,7 +217,7 @@ public class CreateWaterReportFragment extends Fragment {
         // Increment the next report id if a new one was created
         contentProvider.setNextWaterReportId(report.getReportNumber());
 
-        //Post to facebook dialong
+        //Post to facebook dialog
         facebookAlertDialog();
 
         // Go back
@@ -232,47 +227,39 @@ public class CreateWaterReportFragment extends Fragment {
 
     private void facebookAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Would you like to share  your report creation on Facebook?");
+        builder.setTitle("Would you like to share  your report creation on Facebook?")
+                .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    ShareLinkContent content = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                            .build();
+                    ShareApi api = new ShareApi(content);
+                    api.setMessage("Test");
+                    api.share(new FacebookCallback<Sharer.Result>() {
 
-        //Do not do anything
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
+                        @Override
+                        public void onSuccess(Sharer.Result result) {
+                            Log.d("kavin", result.toString());
+                        }
 
-        //Share to facebook
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                        .build();
-                ShareApi api = new ShareApi(content);
-                api.setMessage("Test");
-                api.share(new FacebookCallback<Sharer.Result>() {
+                        @Override
+                        public void onCancel() {
+                            Log.d("kavin", "Cancel");
+                        }
 
-                    @Override
-                    public void onSuccess(Sharer.Result result) {
-                    }
+                        @Override
+                        public void onError(FacebookException error) {
+                            Log.d("kavin", error.toString());
+                        }
+                    });
 
-                    @Override
-                    public void onCancel() {
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                    }
+                    dialog.dismiss();
                 });
-
-                dialog.dismiss();
-            }
-        });
 
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 
 
     /**
