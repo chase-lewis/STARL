@@ -2,11 +2,13 @@ package com.starlabs.h2o.controller.water_report;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
@@ -20,6 +22,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.ShareApi;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
 import com.google.android.gms.maps.model.LatLng;
 import com.starlabs.h2o.R;
 import com.starlabs.h2o.dao.ContentProvider;
@@ -31,6 +38,13 @@ import com.starlabs.h2o.model.user.User;
 
 import java.util.Date;
 import java.util.function.Consumer;
+
+//For Facebook Extra Credit
+import com.facebook.FacebookSdk;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.util.Log;
+
 
 /**
  * A fragment for creating water reports
@@ -208,10 +222,58 @@ public class CreateWaterReportFragment extends Fragment {
         // Increment the next report id if a new one was created
         contentProvider.setNextWaterReportId(report.getReportNumber());
 
+        //Post to facebook dialong
+        facebookAlertDialog();
+
         // Go back
         Activity activity = getActivity();
         activity.onBackPressed();
     }
+
+    private void facebookAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Would you like to share  your report creation on Facebook?");
+
+        //Do not do anything
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        //Share to facebook
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .build();
+                ShareApi api = new ShareApi(content);
+                api.setMessage("Test");
+                api.share(new FacebookCallback<Sharer.Result>() {
+
+                    @Override
+                    public void onSuccess(Sharer.Result result) {
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                    }
+                });
+
+                dialog.dismiss();
+            }
+        });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 
     /**
      * Method to exit the activity back to caller.
