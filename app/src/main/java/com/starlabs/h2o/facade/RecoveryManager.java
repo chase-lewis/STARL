@@ -16,7 +16,7 @@ import net.sargue.mailgun.Mail;
 public class RecoveryManager {
     private static final String DOMAIN = "mg.tejunareddy.com";
     private static final String FROM_EMAIL = "h20@tejunareddy.com";
-    private static final String API_KEY = "key-c4bd9679a394292a3ba07ed55eeaf428";
+    private static final String API_KEY = "NOT_STORED_ON_GITHUB";
 
     private static RecoveryManager recoveryManager;
     private final ContentProvider contentProvider;
